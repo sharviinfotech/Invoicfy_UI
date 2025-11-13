@@ -1,0 +1,172 @@
+<!-- <div class="container-fluid p-0">
+    <div class="row m-0 vh-100">
+        
+        <div class="col-md-8 col-lg-9 p-0">
+            <div class="auth-full-bg">
+                <img [src]="images[currentIndex]" alt="Image Slide" class="background-img">
+            </div>
+        </div>
+
+      
+        <div class="col-md-4 col-lg-3 d-flex align-items-center justify-content-center rightCard">
+            <div class="auth-full-page-content p-1">
+                <div class="w-100">
+                    <div class="d-flex flex-column heightAdjuest">
+                        <div class="my-auto">
+                            
+                                <div class="d-flex justify-content-center mb-4">
+                                    <img src="assets/images/AircraftFlight.png" alt="Aircraft Logo" height="100" width="100" class="aircraft-logo">
+                                </div>
+
+                                
+                                <form *ngIf="!isForgotPassword" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                    <div class="mb-3">
+                                        <label for="userName" style="color: white !important;">User Name</label>
+                                        <input type="text" class="form-control" formControlName="userName" placeholder="Enter User Name">
+                                        <div class="text-danger" *ngIf="submitted && f['userName'].errors">
+                                            User Name is required.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="password" style="color: white !important;">Password</label>
+                                        <div class="input-group auth-pass-inputgroup">
+                                            <input [type]="fieldTextType ? 'text' : 'password'" class="form-control"
+                                                formControlName="password" placeholder="Enter password">
+                                            <button class="btn btn-light ms-0" type="button" id="password-addon"
+                                                (click)="toggleFieldTextType()">
+                                                <i class="mdi mdi-eye-outline"
+                                                    [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}">
+                                                </i>
+                                            </button>
+                                        </div>
+                                        <div class="text-danger" *ngIf="submitted && f['password'].errors">
+                                            Password is required.
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3 d-grid">
+                                        <button class="btn btn-primary btn-block" type="submit">Log In</button>
+                                    </div>
+                                    <div class="mt-3 text-center text-white">
+                                        <a (click)="toggleForgotPassword()" class="pointer_Underline">Forgot Password?</a>
+                                    </div>
+                                </form>
+
+                                
+                                <form *ngIf="isForgotPassword" [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotPasswordSubmit()">
+                                    <div class="mb-3">
+                                        <label for="email" style="color: white !important;">Enter your Email</label>
+                                        <input type="email" class="form-control" formControlName="email" placeholder="Enter your email">
+                                        <div class="text-danger" *ngIf="submittedForgot && gForgot['email'].errors">
+                                            Valid email is required.
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 d-grid">
+                                        <button class="btn btn-success btn-block" type="submit">Submit</button>
+                                    </div>
+                                    <div class="mt-3 text-center text-white">
+                                        <a (click)="toggleForgotPassword()"  class="pointer_Underline">Back to Login</a>
+                                    </div>
+                                </form>
+
+                           
+                        </div>
+                        <div class="text-center text-white">
+                            <p class="mb-5">© {{year}} Sharviinfotech. All Rights Reserved</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+
+
+
+-->
+
+
+<div class="login-page light">
+  <div class="login-left">
+    <div class="left-content">
+
+      <h2 class="left-title">Sharvi Infotech Invoice Portal</h2>
+      <p class="left-desc">Manage your finances with ease. Our platform provides the tools you need to stay organized and efficient.</p>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="form-wrapper">
+      <ng-container *ngIf="!isForgotPassword; else forgotTpl">
+        <h3 class="form-title">Log in to your account</h3>
+        <p class="form-subtitle">Welcome back! Please enter your details.</p>
+
+        <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="userName" class="form-label">User Name</label>
+            <div class="input-with-icon">
+              <input id="userName" type="text" class="form-control" formControlName="userName" placeholder="Enter your user name" [ngClass]="{ 'is-invalid': submitted && f['userName'].errors }">
+              <i class="mdi mdi-account-outline input-icon"></i>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="submitted && f['userName'].errors">User Name is required.</div>
+          </div>
+
+          <div class="mb-2">
+            <label for="password" class="form-label">Password</label>
+            <div class="input-with-icon">
+              <input id="password" [type]="fieldTextType ? 'text' : 'password'" class="form-control" formControlName="password" placeholder="Enter your password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+              <button class="icon-btn" type="button" aria-label="Toggle password visibility" (click)="toggleFieldTextType()">
+                <i class="mdi" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"></i>
+              </button>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="submitted && f['password'].errors">Password is required.</div>
+          </div>
+
+          <div class="d-flex justify-content-end mb-3">
+            <a (click)="toggleForgotPassword()" class="forgot-link">Forgot Password?</a>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-primary login-btn" type="submit">Login</button>
+          </div>
+        </form>
+
+        <div class="text-center mt-4">
+          <span class="text-muted">Don't have an account?</span>
+          <a routerLink="/auth/signup" class="signup-link"> Sign Up</a>
+        </div>
+      </ng-container>
+
+      <ng-template #forgotTpl>
+        <h3 class="form-title">Forgot password</h3>
+        <p class="form-subtitle">Enter your email and we'll send instructions.</p>
+        <form [formGroup]="forgotPasswordForm" (ngSubmit)="onForgotPasswordSubmit()">
+          <div class="mb-3">
+            <label for="fp-email" class="form-label">Email Address</label>
+            <div class="input-with-icon">
+              <input id="fp-email" type="email" class="form-control" formControlName="email" placeholder="Enter your email" [ngClass]="{ 'is-invalid': submittedForgot && gForgot['email'].errors }">
+              <i class="mdi mdi-email-outline input-icon"></i>
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="submittedForgot && gForgot['email'].errors">Valid email is required.</div>
+          </div>
+
+          <div class="d-grid">
+            <button class="btn btn-success login-btn" type="submit">Submit</button>
+          </div>
+          <div class="text-center mt-3">
+            <a (click)="toggleForgotPassword()" class="forgot-link">Back to Login</a>
+          </div>
+        </form>
+      </ng-template>
+
+      <div class="text-center mt-4 text-muted small">
+        © 2025 Sharviinfotech. All Rights Reserved
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

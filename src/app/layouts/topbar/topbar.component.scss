@@ -1,0 +1,89 @@
+.cancelBtn {
+  background-color: rgb(201, 9, 54);
+  color: white;
+}
+
+.navbar-header {
+  // background-image: linear-gradient(to right, #6ba3cd, #031c2e) !important;
+  background-image: linear-gradient(to right, #82c4fa, #0072CF) !important;
+  // background: rgb(78,95,95);
+  // background: radial-gradient(circle, rgba(78,95,95,1) 0%, rgba(47,45,24,0.7933298319327731) 92%, rgba(184,170,65,1) 100%);
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+.text-success{
+  color: green;
+}
+.text-danger{
+  color:red
+}
+
+
+::ng-deep {@media (min-width: 1200px) {
+  .modal-xl {
+      --bs-modal-width: 1315px !important;
+  }
+}
+}
+
+/* ... (Rest of your media queries) ... */
+
+.tooltip-box {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: black;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 1000;
+  box-shadow: 0px 0px 5px rgb(237, 233, 233);
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+  background-color: white;
+}
+
+.tooltip-target {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.top-navbar {
+  height: 50px;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  color: white;
+  overflow: hidden;
+}
+
+.marquee-wrapper {
+  width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 25s linear infinite;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+@keyframes scrollText {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+
+
+
+
