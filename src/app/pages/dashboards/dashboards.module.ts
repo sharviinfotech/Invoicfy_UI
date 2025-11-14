@@ -12,11 +12,15 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ReviewNotificationComponent } from './review-notification/review-notification.component';
 import { DashboardBackupComponent } from './dashboard-backup/dashboard-backup.component';
+import { DefaultComponent } from './default/default.component';
+import { InvoicefyGlobalDashboardComponent } from './invoicefy-global-dashboard/invoicefy-global-dashboard.component';
+
 // import { GlobalReviewEditComponent } from './global-review-edit/global-review-edit.component';
 
 @NgModule({
   declarations: [
     SampleComponentComponent,
+    // InvoicefyGlobalDashboardComponent,
     // DashboardBackupComponent,
     // ReviewNotificationComponent,
     // GlobalReviewEditComponent,
@@ -30,7 +34,8 @@ import { DashboardBackupComponent } from './dashboard-backup/dashboard-backup.co
     CommonModule,
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),  // Ensure it's in the imports array
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    DefaultComponent
 
   ],
   providers: [BsDropdownConfig],

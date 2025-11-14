@@ -6,14 +6,16 @@ import { ChatComponent } from './chat/chat.component';
 import { DefaultComponent } from './dashboards/default/default.component';
 import { FilemanagerComponent } from './filemanager/filemanager.component';
 import { InvoiceComponent } from './dashboards/invoice/invoice.component';
+import { InvoicefyGlobalDashboardComponent } from './dashboards/invoicefy-global-dashboard/invoicefy-global-dashboard.component';
+
 
 const routes: Routes = [
   // { path: '', redirectTo: 'dashboard' },
   {
-    path: "",
-    component: DefaultComponent
+    path: "default",
+    component: InvoicefyGlobalDashboardComponent
   },
-  { path: 'dashboard', component: DefaultComponent },
+  { path: 'dashboard', component: InvoicefyGlobalDashboardComponent },
   // { path: 'Invoice', component: InvoiceComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },

@@ -2,14 +2,13 @@
     <form >
  
     <div class="card">
-        <div class="card-header" style="text-align: center;">
-        Company Creation
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Company Creation</span>
+          <button type="button" class="btn btn-raised btn-md btnSubmitApproval" style="background-color: green;" (click)="newCompanyCreation(newcompanyTemplate)">Create Company Name +</button>
         </div>
         <div class="card-body">
  
-            <button type="button" class="btn btn-raised btn-md btnSubmitApproval" style="background-color: green;" (click)="newCompanyCreation(newcompanyTemplate)">
-                Create Company Name
-              </button>
+
              
             <div class="table-responsive tableFixHead">
                 <table class="table table-bordered table-striped">

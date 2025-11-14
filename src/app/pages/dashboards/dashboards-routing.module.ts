@@ -18,11 +18,13 @@ import { GlobalReviewEditComponent } from './global-review-edit/global-review-ed
 import { ReviewNotificationComponent } from './review-notification/review-notification.component';
 import { CompanyCreationComponent } from './company-creation/company-creation.component';
 import { FundsRecievedAgainstComponent } from './funds-recieved-against/funds-recieved-against.component';
+import { InvoicefyGlobalDashboardComponent } from './invoicefy-global-dashboard/invoicefy-global-dashboard.component';
+
 
 const routes: Routes = [
     {
         path: 'default',
-        component: DefaultComponent
+        component: InvoicefyGlobalDashboardComponent
     },
     {
         path: 'sampleComponent',

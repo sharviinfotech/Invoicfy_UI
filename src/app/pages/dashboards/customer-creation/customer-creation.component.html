@@ -2,14 +2,13 @@
     <form >
  
     <div class="card">
-        <div class="card-header" style="text-align: center;">
-        Customer Creation
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>Customer Creation</span>
+          <button type="button" class="btn btn-raised btn-md btnSubmitApproval" style="background-color: green;" (click)="newCustomerCreation(newCustomerTemplate)">Create New Customer +</button>
         </div>
         <div class="card-body">
  
-            <button type="button" class="btn btn-raised btn-md btnSubmitApproval" style="background-color: green;" (click)="newCustomerCreation(newCustomerTemplate)">
-                Create New Customer
-              </button>
+
              
             <div class="table-responsive tableFixHead">
                 <table class="table table-bordered table-striped">

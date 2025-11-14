@@ -37,6 +37,11 @@ export class LayoutComponent implements OnInit, AfterViewInit {
     // default settings
     this.stores.select('layout').subscribe((data) => {
       document.body.setAttribute('data-bs-theme', data.LAYOUT_MODE);
+      // Sync class-based theme for custom styles that use body.theme-*
+      document.body.classList.remove('theme-dark', 'theme-light');
+      if (data.LAYOUT_MODE) {
+        document.body.classList.add(`theme-${data.LAYOUT_MODE}`);
+      }
       document.body.setAttribute('data-layout-size', data.LAYOUT_WIDTH);
       document.body.setAttribute('data-sidebar', data.SIDEBAR_MODE);
       document.body.setAttribute('data-topbar', data.TOPBAR_TYPE);
