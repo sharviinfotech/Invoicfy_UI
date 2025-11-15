@@ -188,7 +188,7 @@
                   <th class="text-nowrap">Upload Type</th>
                   <th class="text-nowrap">DSC Status</th>
                   <th class="text-nowrap">Upload DSC File</th>
-                  <th class="text-nowrap">Actions</th>
+                  <!-- <th class="text-nowrap">Actions</th> -->
                 </tr>
               </thead>
               <tbody>
@@ -278,13 +278,13 @@
                     </div>
 
                   </td>
-                  <td>
+                  <!-- <td>
                     <div class="d-flex gap-2">
                       <i class="edit-btn fa fa-edit" (click)="edit(invoice)"></i>
                       <i class="delete-btn bx bx-trash" (click)="delete(invoice)"></i>
                     </div>
 
-                  </td>
+                  </td> -->
 
 
                 </tr>
@@ -772,7 +772,7 @@
                 <div class="form-group">
                   <label>Type Of Service<span class="text-danger">*</span></label>
                   <input type="text" formControlName="ProformaTypeOfServices" class="form-control" placeholder=""
-                    (input)="convertToUppercase($event)">
+                    >
                 </div>
                 <div class="text-danger" style="color: red;"
                   *ngIf="newInvoiceCreation.get('ProformaTypeOfServices')?.hasError('required') && newInvoiceCreation.get('ProformaTypeOfServices')?.touched">
@@ -816,7 +816,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Sector</label>
-                  <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder="" (input)="convertToUppercase($event)"> -->
+                  <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder="" > -->
                   <input type="text" formControlName="bookingsector" class="form-control"
                     (input)="updateChargeItem(0, 'description', $event.target.value)">
                 </div>
@@ -828,7 +828,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Billing Flying Time<span class="text-danger">*</span></label>
-                  <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder="" (input)="convertToUppercase($event)"> -->
+                  <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder="" > -->
                   <input type="text" formControlName="bookingbillingflyingtime" class="form-control"
                     (input)="updateChargeItem(0, 'units', $event.target.value)">
                 </div>

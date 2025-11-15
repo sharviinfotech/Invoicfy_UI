@@ -2678,7 +2678,7 @@ font-family: Arial, sans-serif;
       <div class ="backgrd">
           <div class="orange-background">${invoiceItem.proformaCardHeaderName}</div>
 
-    <div class="TO" style="display: flex; width: 100%; padding-top: 10px;border-bottom: 1px solid #d6d6d685;">
+    <div class="TO" style="display: flex; width: 100%;border-bottom: 1px solid #d6d6d685;">
   
  
   <!-- Second Section (Right) -->

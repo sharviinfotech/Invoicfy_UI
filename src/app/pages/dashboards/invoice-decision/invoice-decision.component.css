@@ -17,7 +17,7 @@
 }
 .fa-edit:before {
   content: "\f044";
-  color: blue;
+  /* color: blue; */
 }
 
 

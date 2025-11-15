@@ -336,20 +336,43 @@ p {
 }
 #dashboard-container .kpi-card .label {
   color: #6b7280;
-  font-size: 12px;
+  font-size: 15px;
 }
 #dashboard-container .kpi-card .value {
   font-weight: 700;
-  font-size: 18px;
+  font-size: 20px;
 }
-#dashboard-container .kpi-card.invoiced { background: #eef2ff; }
-#dashboard-container .kpi-card.invoiced .value { color: #4338ca; }
-#dashboard-container .kpi-card.paid { background: #ecfdf5; }
-#dashboard-container .kpi-card.paid .value { color: #059669; }
-#dashboard-container .kpi-card.pending { background: #fff7ed; }
-#dashboard-container .kpi-card.pending .value { color: #d97706; }
-#dashboard-container .kpi-card.overdue { background: #fef2f2; }
-#dashboard-container .kpi-card.overdue .value { color: #dc2626; }
+#dashboard-container .kpi-card.invoiced { 
+  /* background: #eef2ff;  */
+      border-left: 4px solid #2563eb !important;
+}
+#dashboard-container .kpi-card.invoiced .value { 
+  color: #4338ca; 
+}
+#dashboard-container .kpi-card.paid { 
+  /* background: #ecfdf5;  */
+  border-left: 4px solid #059669 !important;
+
+}
+#dashboard-container .kpi-card.paid .value { 
+  color: #059669;
+ }
+#dashboard-container .kpi-card.pending { 
+  /* background: #fff7ed;  */
+    border-left: 4px solid #d97706 !important;
+
+}
+#dashboard-container .kpi-card.pending .value {
+   color: #d97706;
+   }
+#dashboard-container .kpi-card.overdue { 
+  /* background: #fef2f2;  */
+      border-left: 4px solid #dc2626 !important;
+
+}
+#dashboard-container .kpi-card.overdue .value {
+   color: #dc2626; 
+  }
 
 /* Chart cards */
 #dashboard-container #leftBar,

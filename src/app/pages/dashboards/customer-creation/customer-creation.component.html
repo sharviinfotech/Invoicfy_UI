@@ -89,8 +89,8 @@
                     <div class="form-group">
                         <label>Customer Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerName" type="text"
-                            placeholder="Enter Customer Name" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Customer Name" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerName'].errors">
                             Customer Name is required.
                         </div>
@@ -102,8 +102,8 @@
                     <div class="form-group">
                         <label>Address<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerAddress" type="text"
-                            placeholder="Enter Address" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Address" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerAddress'].errors">
                             Address is required.
                         </div>
@@ -115,8 +115,8 @@
                     <div class="form-group">
                         <label>City<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerCity" type="text"
-                            placeholder="Enter City" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter City" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerCity'].errors">
                             City is required.
                         </div>
@@ -183,8 +183,8 @@
                     <div class="form-group">
                         <label>GST No</label>
                         <input class="form-control form-control-sm" formControlName="customerGstNo" type="text"
-                            placeholder="Enter GST No" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter GST No" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerGstNo'].errors">
                             Valid Gst No is required.
                         </div>
@@ -196,7 +196,7 @@
                     <div class="form-group">
                         <label>PAN No<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerPanNo" type="text"
-                            placeholder="Enter PAN No" (input)="convertToUpperCase($event)">
+                            placeholder="Enter PAN No" >
                         <div class="text-danger" *ngIf="submit && f['customerPanNo'].errors">
                             PAN No is required.
                         </div>
@@ -280,8 +280,8 @@
                     <div class="form-group">
                         <label>Customer Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerName" type="text"
-                            placeholder="Enter Customer Name" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Customer Name" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerName'].errors">
                             Customer Name is required.
                         </div>
@@ -292,8 +292,8 @@
                     <div class="form-group">
                         <label>Address<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerAddress" type="text"
-                            placeholder="Enter Address" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Address" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerAddress'].errors">
                             Address is required.
                         </div>
@@ -305,8 +305,8 @@
                     <div class="form-group">
                         <label>City<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerCity" type="text"
-                            placeholder="Enter City" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter City" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['customerCity'].errors">
                             City is required.
                         </div>
@@ -370,8 +370,8 @@
                     <div class="form-group">
                         <label>GST No</label>
                         <input class="form-control form-control-sm" formControlName="customerGstNo" type="text"
-                            placeholder="Enter GST No" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter GST No" 
+                            >
                     </div>
                 </div>
 
@@ -381,7 +381,7 @@
                         <label>PAN No<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="customerPanNo" type="text"
                             placeholder="Enter PAN No" maxlength="10" pattern="(/^[A-Z]{5}[0-9]{4}[A-Z]$/)"
-                            style="text-transform: uppercase;" (input)="convertToUpperCase($event)">
+                             >
                         <div class="text-danger" *ngIf="submit && f['customerPanNo'].errors">
                             PAN No is required.
                         </div>

@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <span>Company Creation</span>
-          <button type="button" class="btn btn-raised btn-md btnAdd"  (click)="newCompanyCreation(newcompanyTemplate)">+ Create Company Name </button>
+          <button type="button" class="btn btn-raised btn-md btnAdd"  (click)="newCompanyCreation(newcompanyTemplate)">+ Create Company</button>
         </div>
              <div class="card-body">
 
@@ -306,7 +306,26 @@
                     </div>
                 </div>
 
-                
+                   <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label class="mt-2">Image Upload</label>
+                    <div class="logo-upload" (click)="logoInput.click()" (mouseenter)="isHoveringLogo = true"
+                        (mouseleave)="isHoveringLogo = false">
+                        <input #logoInput type="file" (change)="onLogoSelected($event)" accept="image/*"
+                            style="display: none">
+                        <div *ngIf="!logoUrl" class="logo-placeholder">
+                            <i>+ Logo</i>
+                            <div>Upload Image </div>
+                        </div>
+                        <ng-container *ngIf="logoUrl">
+                            <button class="remove-logo" (click)="removeLogo($event)"
+                                (mouseenter)="isHoveringRemove = true"
+                                (mouseleave)="isHoveringRemove = false">×</button>
+                            <div class="hover-text">{{ isHoveringRemove ? 'Remove Uploaded Image' : 'Update Uploaded
+                                Image' }}</div>
+                            <img [src]="logoUrl" alt="Company Logo">
+                        </ng-container>
+                    </div>
+                </div>
 
 
 
@@ -339,8 +358,8 @@
                     <div class="form-group">
                         <label>Company Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyName" type="text"
-                            placeholder="Enter Company Name" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Company Name" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['companyName'].errors">
                             Company Name is required.
                         </div>
@@ -351,8 +370,8 @@
                     <div class="form-group">
                         <label>Address<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyAddress" type="text"
-                            placeholder="Enter Address" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Address" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['companyAddress'].errors">
                             Address is required.
                         </div>
@@ -364,8 +383,8 @@
                     <div class="form-group">
                         <label>City<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyCity" type="text"
-                            placeholder="Enter City" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter City" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['companyCity'].errors">
                             City is required.
                         </div>
@@ -412,8 +431,8 @@
                     <div class="form-group">
                         <label>GST No</label>
                         <input class="form-control form-control-sm" formControlName="companyGstNo" type="text"
-                            placeholder="Enter GST No" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter GST No" 
+                            >
                         <div class="text-danger" *ngIf="submit && f['companyGstNo'].errors">
                             Valid Gst No is required.
                         </div>
@@ -425,7 +444,7 @@
                     <div class="form-group">
                         <label>PAN No<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyPanNo" type="text"
-                            placeholder="Enter PAN No" (input)="convertToUpperCase($event)">
+                            placeholder="Enter PAN No" >
                         <div class="text-danger" *ngIf="submit && f['companyPanNo'].errors">
                             PAN No is required.
                         </div>

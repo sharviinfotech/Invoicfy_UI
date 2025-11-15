@@ -37,6 +37,7 @@ export class CompanyCreationComponent {
   newcompanyTemplate: any;
   CompanyCreationForm: any;
   companyForm: any;
+  logoUrl: any;
 
 
   // spinner: any;
@@ -267,8 +268,8 @@ export class CompanyCreationComponent {
       "companyBankAccount_No": this.CompanyCreationForm.value.companyBankAccount_No.toUpperCase(),
       "companyIFSCcode": this.CompanyCreationForm.value.companyIFSCcode.toUpperCase(),
       "companyBranchName": this.CompanyCreationForm.value.companyBranchName.toUpperCase(),
-      "companyBankAccountType": this.CompanyCreationForm.value.companyBankAccountType
-
+      "companyBankAccountType": this.CompanyCreationForm.value.companyBankAccountType,
+       "companyImageUpload":this.logoUrl
 
 
     };
@@ -478,6 +479,23 @@ export class CompanyCreationComponent {
       this.spinner.hide();
     })
   }
+     onLogoSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+  
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        this.logoUrl = reader.result as string; // base64 encoded image
+      };
+  
+      reader.readAsDataURL(input.files[0]); // Convert file to base64
+    }
+  }
+    removeLogo(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation(); // 👈 This prevents the click from reaching the parent div
+    this.logoUrl = null;
+  }
 
 }
-
