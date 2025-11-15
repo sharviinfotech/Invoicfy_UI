@@ -25,6 +25,7 @@ interface ChargeItem {
   amount: number;
 }
 interface Customer {
+  placeOfSupply: any;
   _id: string;
   customerName: string;
   customerAddress: string;
@@ -44,8 +45,8 @@ interface Company {
   companyIFSCcode: string;
   companyBranchName: string;
   companyAddress: string;
+  companyBankAccountType: string;
 }
-
 
 
 
@@ -91,6 +92,9 @@ export class InvoiceComponent implements OnInit {
   filteredCharges: any[];
   filteredPoNumbers: any[];
   filteredChargesByPo: any;
+  manualMode = true;
+  patchedCount = 0;
+
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
 
@@ -157,6 +161,7 @@ export class InvoiceComponent implements OnInit {
           ProformaPincode: selectedCustomer.customerPincode,
           ProformaGstNo: selectedCustomer.customerGstNo,
           ProformaPanNO: selectedCustomer.customerPanNo,
+          customerplaceOfSupply: selectedCustomer.placeOfSupply,
         });
         setTimeout(() => {
           this.onChangeState(); // Call onChangeState after patching the state
@@ -223,7 +228,8 @@ export class InvoiceComponent implements OnInit {
           ProformaIFSCcode: selectedCompany.companyIFSCcode,
           ProformaBranch: selectedCompany.companyBranchName,
           detailsCardAddress: selectedCompany.companyAddress, // Match image field
-          companyState: selectedCompany.companyState
+          companyState: selectedCompany.companyState,
+          companyBankAccountType: selectedCompany.companyBankAccountType,
         });
 
         setTimeout(() => {
@@ -255,7 +261,9 @@ export class InvoiceComponent implements OnInit {
       ProformaBranch: '',
       ProformaGstNumber: '',  // Fixed typo from ProformaGstNo
       ProformaPanNumber: '',  // Fixed typo from ProformaPanNO
-      ProformaTypeOfServices: ''
+      ProformaTypeOfServices: '',
+      companyBankAccountType: '',
+
     });
   }
   onSelectProformaNumber(event: any) {
@@ -277,7 +285,8 @@ export class InvoiceComponent implements OnInit {
       ProformaState: '',
       ProformaPincode: '',
       ProformaGstNo: '',
-      ProformaPanNO: ''
+      ProformaPanNO: '',
+      customerplaceOfSupply: ''
     });
   }
 
@@ -340,6 +349,7 @@ export class InvoiceComponent implements OnInit {
       ProformaAddress: ['', Validators.required],
       ProformaCity: ['', Validators.required],
       ProformaState: ['', Validators.required],
+      customerplaceOfSupply: ['', Validators.required],
       ProformaPincode: [
         '',
         [
@@ -367,7 +377,7 @@ export class InvoiceComponent implements OnInit {
       ],
 
       ProformaGstNumber: ['', Validators.required],
-      ProformaPoNumber: ['', Validators.required],
+      ProformaPoNumber: [''],
       companyState: [''],
       ProformaTypeOfServices: [''],
       ProformaBankName: ['', Validators.required],
@@ -375,7 +385,8 @@ export class InvoiceComponent implements OnInit {
       ProformaIFSCcode: ['', Validators.required],
       ProformaBranch: ['', Validators.required],
       notes: ['', Validators.required],
-      detailsCardAddress: ['', Validators.required]
+      detailsCardAddress: ['', Validators.required],
+      companyBankAccountType: ['', Validators.required],
 
     });
 
@@ -409,18 +420,52 @@ export class InvoiceComponent implements OnInit {
   }
 
 
+  // onPoNumberChange(selectedPo: string) {
+  //   if (!selectedPo) return;
+
+
+  //   const matched = this.allCharges.filter(c => c.poNumber === selectedPo);
+
+  //   if (matched.length === 0) {
+  //     this.chargeItems = [];
+  //     this.calculateTotals();
+  //     return;
+  //   }
+
+
+  //   this.chargeItems = matched.map(c => ({
+  //     description: c.servicesName,
+  //     HSN_SAC: c.HSN_SAC,
+  //     UOM: c.UOM,
+  //     quantity: 1,
+  //     rate: 0,
+  //     amount: 0
+  //   }));
+
+  //   // Step 3: Recalculate totals
+  //   this.calculateTotals();
+  // }
   onPoNumberChange(selectedPo: string) {
-    if (!selectedPo) return;
-
-
-    const matched = this.allCharges.filter(c => c.poNumber === selectedPo);
-
-    if (matched.length === 0) {
+    if (!selectedPo) {
+      this.manualMode = true;
+      this.patchedCount = 0;
       this.chargeItems = [];
+      this.addChargeItem();
       this.calculateTotals();
       return;
     }
 
+    this.manualMode = false;
+
+    const matched = this.allCharges.filter(c => c.poNumber === selectedPo);
+
+    if (matched.length === 0) {
+      this.patchedCount = 0;
+      this.chargeItems = [];
+      this.addChargeItem();
+      this.calculateTotals();
+      return;
+    }
 
     this.chargeItems = matched.map(c => ({
       description: c.servicesName,
@@ -428,12 +473,15 @@ export class InvoiceComponent implements OnInit {
       UOM: c.UOM,
       quantity: 1,
       rate: 0,
-      amount: 0
+      amount: 0,
     }));
 
-    // Step 3: Recalculate totals
+    this.patchedCount = this.chargeItems.length;
+
     this.calculateTotals();
   }
+
+
 
 
 
@@ -738,7 +786,7 @@ export class InvoiceComponent implements OnInit {
 
   // Method to select and show an invoice
   selectInvoice(invoice: any) {
-
+   console.log("invoice", invoice)
     if (invoice.proformaCardHeaderId == "PQ") {
       this.reSubmitInvoice = false
       this.invoiceItem = null
@@ -898,6 +946,39 @@ export class InvoiceComponent implements OnInit {
         }
 
       }
+    } else if (invoice.proformaCardHeaderId == "OnlyTAX") {
+       console.log("invoice", invoice)
+      Swal.fire({
+        text: 'Do you want to Edit the Invoice?',
+        icon: 'info',
+        showCancelButton: true,  // Cancel Button
+        cancelButtonText: 'Cancel',
+        // showDenyButton: true,  // Preview Button
+        // denyButtonText: 'Preview',
+        showConfirmButton: true,  // Edit Button
+        confirmButtonText: 'Edit',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Edit action
+          this.editRow(invoice);
+          this.reSubmitInvoice = false
+          this.activeTab = 'Edit';
+        } else if (result.isDenied) {
+          // Preview action
+          this.invoiceItem = invoice;
+          console.log("this.invoiceItem", this.invoiceItem);
+          this.activeTab = 'Preview';
+          this.spinnerHideMethod()
+          this.reSubmitInvoice = false
+        } else {
+          // Cancel action (Optional: You can add any logic if needed)
+          console.log("Action Cancelled");
+          this.getAllInvoice()
+          this.invoiceItem = null
+          this.reSubmitInvoice = false
+          // this.spinnerHideMethod()
+        }
+      });
     }
 
 
@@ -916,6 +997,7 @@ export class InvoiceComponent implements OnInit {
       ProformaAddress: this.selectedInvoice.header.ProformaAddress,
       ProformaCity: this.selectedInvoice.header.ProformaCity,
       ProformaState: this.selectedInvoice.header.ProformaState,
+      customerplaceOfSupply: this.selectedInvoice.header.customerplaceOfSupply,
       ProformaPincode: this.selectedInvoice.header.ProformaPincode,
       ProformaGstNo: this.selectedInvoice.header.ProformaGstNo,
       ProformaPanNO: this.selectedInvoice.header.ProformaPanNO,
@@ -931,6 +1013,7 @@ export class InvoiceComponent implements OnInit {
       ProformaIFSCcode: this.selectedInvoice.header.ProformaIFSCcode,
       ProformaBranch: this.selectedInvoice.header.ProformaBranch,
       detailsCardAddress: this.selectedInvoice.header.detailsCardAddress,
+      companyBankAccountType: this.selectedInvoice.header.companyBankAccountType,
 
 
 
@@ -994,6 +1077,7 @@ export class InvoiceComponent implements OnInit {
       ProformaAddress: this.selectedInvoice.header.ProformaAddress,
       ProformaCity: this.selectedInvoice.header.ProformaCity,
       ProformaState: this.selectedInvoice.header.ProformaState,
+      customerplaceOfSupply: this.selectedInvoice.header.customerplaceOfSupply,
       ProformaPincode: this.selectedInvoice.header.ProformaPincode,
       ProformaGstNo: this.selectedInvoice.header.ProformaGstNo,
       ProformaPanNO: this.selectedInvoice.header.ProformaPanNO,
@@ -1009,6 +1093,7 @@ export class InvoiceComponent implements OnInit {
       ProformaIFSCcode: this.selectedInvoice.header.ProformaIFSCcode,
       ProformaBranch: this.selectedInvoice.header.ProformaBranch,
       detailsCardAddress: this.selectedInvoice.header.detailsCardAddress,
+      companyBankAccountType: this.selectedInvoice.header.companyBankAccountType,
 
 
 
@@ -1060,6 +1145,7 @@ export class InvoiceComponent implements OnInit {
       ProformaAddress: "",
       ProformaCity: "",
       ProformaState: "",
+      customerplaceOfSupply: "",
       ProformaPincode: "",
       ProformaGstNo: "",
       ProformaPanNO: "",
@@ -1076,6 +1162,7 @@ export class InvoiceComponent implements OnInit {
       ProformaIFSCcode: "",
       ProformaBranch: '',
       detailsCardAddress: '',
+      companyBankAccountType: ''
 
 
     })
@@ -1104,7 +1191,7 @@ export class InvoiceComponent implements OnInit {
   }
   setTab(tabName: string) {
     this.spinner.show()
-
+  this.activeTab = ''
     if (tabName == 'AllInvoice' || tabName == 'NewInvoice') {
       this.activeTab = tabName;
       this.invoiceItem = null
@@ -1236,6 +1323,22 @@ export class InvoiceComponent implements OnInit {
     item.amount = quantity * rate;
     this.calculateTotals();
   }
+
+  blockNonNumeric(event: KeyboardEvent) {
+    const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'];
+
+    // Allow navigation keys
+    if (allowedKeys.includes(event.key)) {
+      return;
+    }
+
+    // Allow only digits
+    if (!/^[0-9]$/.test(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+
   // calculateTotals(): void {
   //   // Calculate subtotal
   //   this.subtotal = this.chargeItems.reduce((sum, item) => {
@@ -1606,6 +1709,7 @@ export class InvoiceComponent implements OnInit {
         "ProformaAddress": this.newInvoiceCreation.value.ProformaAddress,
         "ProformaCity": this.newInvoiceCreation.value.ProformaCity,
         "ProformaState": this.newInvoiceCreation.value.ProformaState,
+        "customerplaceOfSupply": this.newInvoiceCreation.value.customerplaceOfSupply,
         "ProformaPincode": this.newInvoiceCreation.value.ProformaPincode,
         "ProformaGstNo": this.newInvoiceCreation.value.ProformaGstNo,
         "ProformaPanNO": this.newInvoiceCreation.value.ProformaPanNO,
@@ -1622,6 +1726,7 @@ export class InvoiceComponent implements OnInit {
         "ProformaBranch": this.newInvoiceCreation.value.ProformaBranch,
         "detailsCardAddress": this.newInvoiceCreation.value.detailsCardAddress,
         "companyState": this.newInvoiceCreation.value.companyState,
+        "companyBankAccountType": this.newInvoiceCreation.value.companyBankAccountType
       },
       "serviceList": this.chargeItems,
       "taxList": this.taxItems,
@@ -1645,7 +1750,8 @@ export class InvoiceComponent implements OnInit {
       "refUTR": "",
       "actualAmountReceived": "",
       "DSC_Status": "Dsc File Pending",
-      "DSC_UploadFile": ""
+      "DSC_UploadFile": "",
+      "uploadType": ""
     };
 
     console.log('Invoice payload:', payload);
@@ -1764,6 +1870,7 @@ export class InvoiceComponent implements OnInit {
           "ProformaAddress": this.newInvoiceCreation.value.ProformaAddress,
           "ProformaCity": this.newInvoiceCreation.value.ProformaCity,
           "ProformaState": this.newInvoiceCreation.value.ProformaState,
+          "customerplaceOfSupply": this.newInvoiceCreation.value.customerplaceOfSupply,
           "ProformaPincode": this.newInvoiceCreation.value.ProformaPincode,
           "ProformaGstNo": this.newInvoiceCreation.value.ProformaGstNo,
           "ProformaPanNO": this.newInvoiceCreation.value.ProformaPanNO,
@@ -1780,6 +1887,8 @@ export class InvoiceComponent implements OnInit {
           "ProformaBranch": this.newInvoiceCreation.value.ProformaBranch,
           "detailsCardAddress": this.newInvoiceCreation.value.detailsCardAddress,
           "companyState": this.newInvoiceCreation.value.companyState,
+          "companyBankAccountType": this.newInvoiceCreation.value.companyBankAccountType,
+
         },
         "serviceList": this.chargeItems,
         "taxList": this.taxItems,
@@ -1801,8 +1910,9 @@ export class InvoiceComponent implements OnInit {
         "fundsRecievedDate": "",
         "refUTR": "",
         "actualAmountReceived": "",
-        "DSC_Status": "",
-        "DSC_UploadFile": ""
+        "DSC_Status": "Dsc File Pending",
+        "DSC_UploadFile": "",
+        "uploadType": ""
 
         // "bankDetails":{
         //     "accountName":this.newInvoiceCreation.value.accountName,

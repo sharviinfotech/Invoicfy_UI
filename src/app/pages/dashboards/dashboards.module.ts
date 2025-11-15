@@ -14,12 +14,20 @@ import { ReviewNotificationComponent } from './review-notification/review-notifi
 import { DashboardBackupComponent } from './dashboard-backup/dashboard-backup.component';
 import { DefaultComponent } from './default/default.component';
 import { InvoicefyGlobalDashboardComponent } from './invoicefy-global-dashboard/invoicefy-global-dashboard.component';
+import { ProductManagementComponent } from './product-management/product-management.component';
+import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
+import { StockEntryComponent } from './stock-entry/stock-entry.component';
+import { GateEntryComponent } from './gate-entry/gate-entry.component';
 
 // import { GlobalReviewEditComponent } from './global-review-edit/global-review-edit.component';
 
 @NgModule({
   declarations: [
     SampleComponentComponent,
+    // ProductManagementComponent,
+    // InventoryManagementComponent,
+    // StockEntryComponent,
+    // GateEntryComponent,
     // InvoicefyGlobalDashboardComponent,
     // DashboardBackupComponent,
     // ReviewNotificationComponent,

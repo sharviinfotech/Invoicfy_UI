@@ -175,7 +175,7 @@
                                 <div class="form-group">
                                     <label>Type of Aircraft<span class="text-danger">*</span></label>
                                     <input type="text" formControlName="proformatypeOfAircraft" class="form-control"
-                                        placeholder="" (input)="convertToUpperCase($event)" />
+                                        placeholder="" />
                                 </div>
                                 <div class="text-danger" style="color: red;"
                                     *ngIf="newInvoiceCreation.get('proformatypeOfAircraft')?.hasError('required') && newInvoiceCreation.get('proformatypeOfAircraft')?.touched">
@@ -214,7 +214,7 @@
                          <div class="col-lg-6">
                           <label>Start Date<span class="text-danger">*</span></label>
                           <input type="text" placeholder="Date" formControlName="startBookingDateOfJourny"
-                          class="form-control form-control-sm" [bsConfig]="bsConfig" bsDatepicker  (input)="convertToUpperCase($event)"/>
+                          class="form-control form-control-sm" [bsConfig]="bsConfig" bsDatepicker />
                           <div class="text-danger"
                           *ngIf="newInvoiceCreation.get('startBookingDateOfJourny')?.hasError('required') && newInvoiceCreation.get('startBookingDateOfJourny')?.touched">
                           Start Date  is required.
@@ -224,7 +224,7 @@
                          <div class="col-lg-6">
                           <label>End Date<span class="text-danger">*</span></label>
                           <input type="text" placeholder="Date" formControlName="endBookingDateOfJourny"
-                          class="form-control form-control-sm" [bsConfig]="bsConfig" bsDatepicker  (input)="convertToUpperCase($event)"/>
+                          class="form-control form-control-sm" [bsConfig]="bsConfig" bsDatepicker />
                           <div class="text-danger"
                           *ngIf="newInvoiceCreation.get('endBookingDateOfJourny')?.hasError('required') && newInvoiceCreation.get('endBookingDateOfJourny')?.touched">
                           End Date  is required.
@@ -237,7 +237,7 @@
                       <div class="col-lg-4 pt-4" style="border-left: 2px solid blue;">
                         <div class="form-group">
                           <label>Sector<span class="text-danger">*</span></label>
-                          <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder="" (input)="convertToUpperCase($event)"> -->
+                          <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder=""> -->
                           <input type="text" formControlName="bookingsector" class="form-control"
                           (input)="updateChargeItem(0, 'description', $event.target.value);convertToUpperCase($event)">
                         </div>
@@ -249,7 +249,7 @@
                       <div class="col-lg-4 pt-4" style="border-left: 2px solid blue;">
                         <div class="form-group">
                           <label>Billing Flying Time<span class="text-danger">*</span></label>
-                          <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder="" (input)="convertToUpperCase($event)"> -->
+                          <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder=""> -->
                           <input type="text" formControlName="bookingbillingflyingtime" class="form-control"
                           (input)="updateChargeItem(0, 'units', $event.target.value)">
                         </div>

@@ -1,42 +1,49 @@
 <div class="">
-    <form >
- 
-    <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <span>Company Creation</span>
-          <button type="button" class="btn btn-raised btn-md btnAdd"  (click)="newCompanyCreation(newcompanyTemplate)">+ Create Company Name </button>
-        </div>
-             <div class="card-body">
+    <form>
 
-               
+        <div class="card">
+            
+             <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Inventory Management</span>
+               <button type="button" class="btn btn-raised btn-md btnAdd" 
+                    (click)="newCompanyCreation(newcompanyTemplate)">
+                    + Add Stock
+                </button>
+            </div>
+            <div class="card-body">
+
+                
 
                 <div class="table-responsive tableFixHead">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
-
-                                <th class="text-nowrap">Company Name</th>
-                                <th>Address</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Pincode</th>
-                                <th>Gst No</th>
-                                <th>Pan No</th>
-                                <th>Email</th>
-                                <th>Finance Contact</th>
-                                <th class="text-nowrap">Alernative Contact</th>
-                                <th class="text-nowrap">Bank Name</th>
-                                <th>Bank Account_No</th>
-                                <th>IFSC Code</th>
-                                <th>Branch Name</th>
-                                <th>Account Type</th>
+                                <th class="text-nowrap">Source of Stock</th>
+                                <th class="text-nowrap">Company Name|Plant</th>
+                                <th>Posting Date</th>
+                                <th>Product code</th>
+                                <th>Product Name</th>
+                                <th>Material Type</th>
+                                <!-- <th>Material Group</th> -->
+                                <th>Value</th>
+                                <th>Batch</th>
+                                <th>S Lock</th>
+                                <th>Available Stock</th>
+                                <!-- <th>Quality Stock</th>
+                                <th>Blocked Stock</th> -->
+                                <th class="text-nowrap">UOM</th>
+                                <!-- <th class="text-nowrap"></th>
+                                <th>BatchReq</th>
+                                <th>HSN Code</th>
+                                <th>Image</th>
+                                <th>QM Req</th> -->
                                 <th *ngIf='loginData?.data.userActivity != "MD"'>Actions</th>
 
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let data of companyList">
+                            <!-- <tr *ngFor="let data of companyList">
 
                                 <td class="text-nowrap">{{data.companyName}}</td>
                                 <td class="text-nowrap">{{data.companyAddress}}</td>
@@ -52,20 +59,19 @@
                                 <td class="text-nowrap">{{data.companyBankAccount_No}}</td>
                                 <td class="text-nowrap">{{data.companyIFSCcode}}</td>
                                 <td class="text-nowrap">{{data.companyBranchName}}</td>
-                                <td class="text-nowrap">{{data.companyBankAccountType}}</td>
+                                <td class="text-nowrap">{{data.companyBankAccountType}}</td> -->
 
-                                <!-- <td>
+                            <!-- <td>
                               {{ data.userStatus ? 'Active' : 'Inactive' }}
                             </td> -->
 
-                                <td class="text-center d-flex" *ngIf='loginData?.data.userActivity != "MD"'>
+                            <!-- <td class="text-center d-flex" *ngIf='loginData?.data.userActivity != "MD"'>
 
-                                    <i class="edit-btn fa fa-edit"
-                                        (click)="openEditModal(data, editCompanyTemplate)"></i>
-                                    <i class="delete-btn bx bx-trash" (click)="delete(data)"></i>
+                                <i class="edit-btn fa fa-edit" (click)="openEditModal(data, editCompanyTemplate)"></i>
+                                <i class="delete-btn bx bx-trash" (click)="delete(data)"></i>
 
 
-                            </tr>
+                                </tr> -->
 
 
                         </tbody>
@@ -74,29 +80,49 @@
                 </div>
 
             </div>
- 
-    </div>
-   
- 
-</form>
- 
+
+        </div>
+
+
+    </form>
+
 </div>
- 
 
 <ng-template #newcompanyTemplate let-c="close">
     <div class="modal-header">
-        Create New Company Name
+        Stock Posting
     </div>
     <div class="modal-body">
         <form [formGroup]="CompanyCreationForm">
             <div class="row">
-
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Company Name<span class="text-danger">*</span></label>
+                        <label>Source of Stock<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyName" type="text"
-                            placeholder="Enter Company Name" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Company Name" 
+                           >
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Company Name|Plant<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name" 
+                           >
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Posting Date<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyName'].errors">
                             Company Name is required.
                         </div>
@@ -106,10 +132,10 @@
                 <!-- Address -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Address<span class="text-danger">*</span></label>
+                        <label>Product code<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyAddress" type="text"
-                            placeholder="Enter Address" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Address" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyAddress'].errors">
                             Address is required.
                         </div>
@@ -119,10 +145,10 @@
                 <!-- City -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>City<span class="text-danger">*</span></label>
+                        <label>Product Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyCity" type="text"
-                            placeholder="Enter City" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter City" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyCity'].errors">
                             City is required.
                         </div>
@@ -135,7 +161,7 @@
                 <!-- State Field -->
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="state">State <span class="text-danger">*</span></label>
+                        <label for="state">Material Type<span class="text-danger">*</span></label>
                         <select formControlName="companyState" class="form-control"
                             [ngClass]="{'is-errors': submit && f['companyState'].errors}">
                             <option value="">Select a state</option>
@@ -154,9 +180,9 @@
 
 
                 <!-- Pincode -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Pincode<span class="text-danger">*</span></label>
+                        <label><span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyPincode" type="text"
                             placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -167,15 +193,15 @@
                             Pincode must be exactly 6 digits.
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- GST No -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>GST No</label>
+                        <label>Value</label>
                         <input class="form-control form-control-sm" formControlName="companyGstNo" type="text"
-                            placeholder="Enter GST No" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter GST No" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyGstNo'].errors">
                             Valid Gst No is required.
                         </div>
@@ -185,9 +211,9 @@
                 <!-- PAN No -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>PAN No<span class="text-danger">*</span></label>
+                        <label>Batch<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyPanNo" type="text"
-                            placeholder="Enter PAN No" (input)="convertToUpperCase($event)">
+                            placeholder="Enter PAN No">
                         <div class="text-danger" *ngIf="submit && f['companyPanNo'].errors">
                             PAN No is required.
                         </div>
@@ -196,7 +222,7 @@
                 <!-- email Id -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Email<span class="text-danger">*</span></label>
+                        <label>S Lock<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyEmail" type="email"
                             placeholder="Enter email">
                         <div class="text-danger" *ngIf="submit && f['companyEmail'].errors">
@@ -207,7 +233,7 @@
                 <!-- contact -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Finance Contact<span class="text-danger">*</span></label>
+                        <label>Available Stock<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
                             placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -217,9 +243,9 @@
                     </div>
                 </div>
                 <!-- alt contact -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Alternative Contact</label>
+                        <label>Quality Stock</label>
                         <input class="form-control form-control-sm" formControlName="companyAlernativecontact"
                             type="text" placeholder="Enter Alternative Contact" maxlength="10" pattern="[0-9]{10}"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -227,10 +253,10 @@
                             Alternative contact is required.
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                </div> -->
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Bank Name <span class="text-danger">*</span></label>
+                        <label>Blocked Stock<span class="text-danger">*</span></label>
                         <input formControlName="companyBankName" class="form-control form-control-sm"
                             [ngClass]="{'is-errors': (submit || f['companyBankName'].touched) && f['companyBankName'].errors}"
                             type="text" placeholder="Enter Bank Name" (keypress)="allowOnlyLetters($event)">
@@ -240,12 +266,12 @@
                             <div *ngIf="f['companyBankName'].errors.pattern">Only alphabets are allowed</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
 
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
-                        <label>Bank Account <span class="text-danger">*</span></label>
+                        <label>UOM<span class="text-danger">*</span></label>
                         <input formControlName="companyBankAccount_No" class="form-control form-control-sm"
                             [ngClass]="{'is-errors': (submit || f['companyBankAccount_No'].touched) && f['companyBankAccount_No'].errors}"
                             type="text" placeholder="Enter Bank Account" (keypress)="allowOnlyNumbers($event)"
@@ -259,54 +285,10 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>IFSC Code <span class="text-danger">*</span></label>
-                        <input formControlName="companyIFSCcode" class="form-control form-control-sm"
-                            [ngClass]="{'is-errors': submit && f['companyIFSCcode'].errors}" type="text"
-                            placeholder="Enter IFSC Code" maxlength="11" pattern="[A-Za-z]{4}[0][A-Za-z0-9]{6}"
-                            oninput="this.value = this.value.toUpperCase()">
-                        <div class="text-danger" *ngIf="submit && f['companyIFSCcode'].errors">
-                            IFSC Code is required.
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Branch <span class="text-danger">*</span></label>
-                        <input formControlName="companyBranchName" class="form-control form-control-sm"
-                            [ngClass]="{'is-errors': (submit || f['companyBranchName'].touched) && f['companyBranchName'].errors}"
-                            type="text" placeholder="Enter Branch Name" (keypress)="allowOnlyLetters($event)">
-                        <div class="text-danger"
-                            *ngIf="(submit || f['companyBranchName'].touched) && f['companyBranchName'].errors">
-                            <div *ngIf="f['companyBranchName'].errors.required">Branch is required.</div>
-                            <div *ngIf="f['companyBranchName'].errors.pattern">Only alphabets are allowed</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Account Type <span class="text-danger">*</span></label>
 
-                        <select formControlName="companyBankAccountType" class="form-control form-control-sm"
-                            [ngClass]="{'is-errors': (submit || f['companyBankAccountType'].touched) && f['companyBankAccountType'].errors}">
 
-                            <option value="">Select Account Type</option>
-                            <option value="Savings">Savings</option>
-                            <option value="Current">Current</option>
-                        </select>
 
-                        <div class="text-danger"
-                            *ngIf="(submit || f['companyBankAccountType'].touched) && f['companyBankAccountType'].errors">
-                            <div *ngIf="f['companyBankAccountType'].errors.required">
-                                Account Type is required.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
 
 
 
@@ -339,8 +321,8 @@
                     <div class="form-group">
                         <label>Company Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyName" type="text"
-                            placeholder="Enter Company Name" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Company Name" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyName'].errors">
                             Company Name is required.
                         </div>
@@ -351,8 +333,8 @@
                     <div class="form-group">
                         <label>Address<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyAddress" type="text"
-                            placeholder="Enter Address" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter Address" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyAddress'].errors">
                             Address is required.
                         </div>
@@ -364,8 +346,8 @@
                     <div class="form-group">
                         <label>City<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyCity" type="text"
-                            placeholder="Enter City" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter City" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyCity'].errors">
                             City is required.
                         </div>
@@ -393,27 +375,14 @@
 
 
                 <!-- Pincode -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Pincode<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="companyPincode" type="text"
-                            placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                        <div class="text-danger" *ngIf="submit && f['companyPincode'].errors?.required">
-                            Pincode is required.
-                        </div>
-                        <div class="text-danger" *ngIf="submit && f['companyPincode'].errors?.pattern">
-                            Pincode must be exactly 6 digits.
-                        </div>
-                    </div>
-                </div>
+
                 <!-- GST No -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>GST No</label>
                         <input class="form-control form-control-sm" formControlName="companyGstNo" type="text"
-                            placeholder="Enter GST No" style="text-transform: uppercase;"
-                            (input)="convertToUpperCase($event)">
+                            placeholder="Enter GST No" 
+                           >
                         <div class="text-danger" *ngIf="submit && f['companyGstNo'].errors">
                             Valid Gst No is required.
                         </div>
@@ -425,7 +394,7 @@
                     <div class="form-group">
                         <label>PAN No<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="companyPanNo" type="text"
-                            placeholder="Enter PAN No" (input)="convertToUpperCase($event)">
+                            placeholder="Enter PAN No">
                         <div class="text-danger" *ngIf="submit && f['companyPanNo'].errors">
                             PAN No is required.
                         </div>
@@ -558,7 +527,3 @@
     </div>
 
 </ng-template>
- 
- 
- 
- 

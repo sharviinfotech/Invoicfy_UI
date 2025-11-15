@@ -2,7 +2,7 @@
   <div class="card-header" >
     Invoice Decision
   </div>
-  <div class="card-body">
+ <div class="card-body">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div>
         <label class="d-inline-flex align-items-center">
@@ -185,8 +185,10 @@
                   <th class="text-nowrap">Customer Name</th>
                   <th class="text-nowrap">City</th>
                   <th class="text-nowrap">Total Amount</th>
+                  <th class="text-nowrap">Upload Type</th>
                   <th class="text-nowrap">DSC Status</th>
                   <th class="text-nowrap">Upload DSC File</th>
+                  <th class="text-nowrap">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -204,26 +206,87 @@
                   <td>{{ invoice.header.ProformaCity }}</td>
                   <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
                   <td>
-                    <span [ngClass]="{
-      'text-danger': !invoice.DSC_Status || invoice.DSC_Status === 'Dsc File Pending',
-      'text-success': invoice.DSC_Status === 'Dsc File Uploaded'
-    }">
-                      {{ invoice.DSC_Status && invoice.DSC_Status.trim() !== '' ? invoice.DSC_Status : 'Dsc File
-                      Pending' }}
-                    </span>
+                    <select [(ngModel)]="invoice.uploadType" class="form-select form-select-sm" style="width: 12ch;">
+                      <option value="">Select</option>
+                      <option value="Direct">Direct</option>
+                      <option value="Image Upload">Image Upload</option>
+                      <option value="Dsc Signature">Dsc Signature</option>
+                    </select>
                   </td>
                   <td>
-                    <ng-container
-                      *ngIf="!invoice.DSC_Status || invoice.DSC_Status === 'Dsc File Pending'; else viewFile">
-                      <input type="file" accept=".pdf,.jpg,.png" (change)="onFileSelected($event, invoice)" />
-                    </ng-container>
-
-                    <ng-template #viewFile>
-                      <button class="btn btn-sm btn-outline-primary" (click)="viewDSCFile(invoice)">
-                        View File
-                      </button>
-                    </ng-template>
+                    <span [ngClass]="{
+      'text-success': invoice.DSC_Status === 'Dsc Uploaded' ||
+                      invoice.DSC_Status === 'Direct',
+      'text-danger': !invoice.DSC_Status || invoice.DSC_Status === 'Dsc Pending'
+    }">
+                      {{
+                      invoice.DSC_Status && invoice.DSC_Status.trim() !== ''
+                      ? invoice.DSC_Status
+                      : 'Dsc Pending'
+                      }}
+                    </span>
                   </td>
+
+                  <td>
+                    <div *ngIf="invoice.uploadType">
+                      <!-- 🖼️ Case 1: Image Upload -->
+                      <ng-container *ngIf="invoice.uploadType === 'Image Upload'; else checkDirectOrDsc">
+                        <div *ngIf="invoice.DSC_UploadFile; else uploadFile">
+                          <a href="javascript:void(0)" class="text-primary text-decoration-underline"
+                            (click)="viewDSCFile(invoice)">
+                            View DSC File
+                          </a>
+                        </div>
+                        <ng-template #uploadFile>
+                          <input type="file" accept=".pdf,.jpg,.png" (change)="onFileSelected($event, invoice)" />
+                        </ng-template>
+                      </ng-container>
+
+                      <!-- ⚙️ Case 2: Direct or DSC Signature -->
+                      <ng-template #checkDirectOrDsc>
+                        <!-- ✅ Case 2A: Direct -->
+                        <ng-container *ngIf="invoice.uploadType === 'Direct'; else dscSignatureType">
+                          <div *ngIf="invoice.status === 'Approved'; else rejectedOrButtons">
+                            <span class="text-success fw-semibold">Approved</span>
+                          </div>
+
+                          <ng-template #rejectedOrButtons>
+                            <div *ngIf="invoice.status === 'Rejected'; else showApproveReject">
+                              <span class="text-danger fw-semibold">Rejected</span>
+                            </div>
+                          </ng-template>
+
+                          <ng-template #showApproveReject>
+                            <div class="d-flex gap-2">
+                              <button class="btn btn-success btn-sm" (click)="openModal('Approved', invoice)">
+                                Approve
+                              </button>
+                              <button class="btn btn-danger btn-sm" (click)="openModal('Rejected', invoice)">
+                                Reject
+                              </button>
+                            </div>
+                          </ng-template>
+                        </ng-container>
+
+                        <!-- ✅ Case 2B: DSC Signature -->
+                        <ng-template #dscSignatureType>
+                          <button class="btn btn-sm btn-outline-primary" (click)="openDscSignature(invoice)">
+                            DSC Sign
+                          </button>
+                        </ng-template>
+                      </ng-template>
+                    </div>
+
+                  </td>
+                  <td>
+                    <div class="d-flex gap-2">
+                      <i class="edit-btn fa fa-edit" (click)="edit(invoice)"></i>
+                      <i class="delete-btn bx bx-trash" (click)="delete(invoice)"></i>
+                    </div>
+
+                  </td>
+
+
                 </tr>
               </tbody>
             </table>
@@ -341,7 +404,7 @@
       </div>
 
       <div class="card mb-4">
-        <div class="orange-background" >
+        <div class="orange-background" style="text-align: center;">
           Proforma Invoice
         </div>
         <div class="card-body">
@@ -376,7 +439,7 @@
       </div>
 
       <div class="card mb-4">
-        <div class="orange-background" >
+        <div class="orange-background" style="text-align: center;">
           Booking Details
         </div>
         <div class="card-body">
@@ -398,7 +461,7 @@
         </div>
       </div>
       <div class="card mb-4">
-        <div class="orange-background" >
+        <div class="orange-background" style="text-align: center;">
           Charges
         </div>
         <div class="card-body">
@@ -564,7 +627,7 @@
           <img [src]="logoUrl" alt="Company Logo" class="logo">
         </div>
         <div class="card mb-4">
-          <div class="card-header " >
+          <div class="card-header " style="text-align: center;">
             Proforma Invoice
           </div>
           <div class="card-body"
@@ -732,7 +795,7 @@
         </div>
 
         <div class="card mb-4">
-          <div class="card-header " >
+          <div class="card-header " style="text-align: center;">
             Booking Details
           </div>
           <div class="card-body"
@@ -914,7 +977,7 @@
 
       </div>
       <div class="card mb-4">
-        <div class="card-header" >
+        <div class="card-header" style="text-align: center;">
           Notes
         </div>
         <div class="card-body"
@@ -962,136 +1025,3 @@
   <app-global-review-edit [childMessage]="parentMessage"
     (messageEvent)="receiveMessage(invoice)"></app-global-review-edit>
 </ng-template>
-
-
-
-
-
-
-
-
-
-
-<!-- share related logic -->
-<!-- <i class="fas fa-share-alt"></i>  -->
-
-<!-- 
-  <div *ngIf="showSharePopup && selectedInvoice" class="share-popup">
-    <div class="card">
-      <div class="card-body d-flex flex-nowrap overflow-auto">  <a href="whatsapp://send?text=Invoice details: {{ selectedInvoice.invoiceUniqueNumber }} - {{ selectedInvoice.grandTotal }}" target="_blank" class="share-link whatsapp">
-          <i class="fab fa-whatsapp"></i> WhatsApp
-        </a>
-        <a href="mailto:?subject=Invoice Details&body=Invoice details: {{ selectedInvoice.invoiceUniqueNumber }} - {{ selectedInvoice.grandTotal }}" class="share-link email">
-          <i class="fas fa-envelope"></i> Email
-        </a>
-       
-      </div>
-    </div>
-    <div class="text-center">   
-         <button (click)="closeSharePopup()" class="close-button">Close</button>
-    </div>
-  </div> -->
-
-
-
-
-
-
-
-
-
-
-<!-- 
-<div class="tableFixHeadR">
-  <table class="table table-bordered table-stripped">
-    <thead class="thead-light">
-      <tr>
-        <th class="text-nowrap">Invoice Number</th>
-        <th class="text-nowrap">Invoice Date</th>
-        <th class="text-nowrap">Customer Name</th>
-        <th class="text-nowrap">City</th>
-
-        <th class="text-nowrap">Total Amount</th>
-        <th clas="text-nowrap" *ngIf="loginData?.data.userActivity != 'ACCOUNTS'">Status</th>
-        <th class="text-nowrap" *ngIf="loginData?.data.userActivity == 'ACCOUNTS'">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let invoice of paginatedInvoices">
-        <td>
-          <span [ngClass]="{
-                          'text-green-600  underline cursor-pointer': invoice.status === 'Approved',
-                          'text-Amount_Received underline cursor-pointer': invoice.status === 'Amount Received'
-                        }" (click)="selectInvoice(invoice)">
-            {{ invoice.invoiceUniqueNumber }}
-          </span>
-        </td>
-        <td>{{ invoice.header.ProformaInvoiceDate }}</td>
-        <td>{{ invoice.header.ProformaCustomerName }}</td>
-        <td>{{ invoice.header.ProformaCity }}</td>
-        <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
-        <td *ngIf="loginData?.data.userActivity != 'ACCOUNTS'" class="d-flex align-items-center" [ngClass]="{
-                  'text-green-600 cursor-pointer': invoice.status === 'Approved',
-                  'text-orange-600': invoice.status === 'Pending',
-                  'text-red-600': invoice.status === 'Rejected',
-                  'text-Amount_Received': invoice.status === 'Amount Received',
-                  'rejected_Reversed':invoice.status === 'Rejected_Reversed'
-                }">
-          <span [ngClass]="{'reasonOpen': invoice.invoiceApprovedOrRejectedByUser}"
-            (click)="afterDecisionOpen(invoice)">
-            {{ invoice.status }}
-          </span>
-
-          <span *ngIf="invoice.status === 'Pending' && invoice.reviewed == true" class="share-icon gap-2 d-flex">
-            <i class="fas fa-eye" title="view" role="button" (click)="openSharePopup(invoice)"></i>
-            <i class="fa fa-edit" title="edit" role="button" (click)="openGlobalReviewPopup(invoice)"
-              *ngIf="invoice.status !== 'updated'"></i>
-
-
-          </span>
-
-        </td>
-        <td [class.selected]="invoiceItem === invoice" [ngClass]="{
-                                                 'text-green-600 cursor-pointer': invoice.status === 'Approved',
-                                                 'text-orange-600': invoice.status === 'Pending',
-                                                 'text-red-600': invoice.status === 'Rejected',
-                                                 'text-Amount_Received': invoice.status === 'Amount Received',
-                                                  'rejected_Reversed':invoice.status === 'Rejected_Reversed'}"
-          *ngIf="loginData?.data.userActivity == 'ACCOUNTS'">
-
-          <div *ngIf='invoice.status == "Pending" || invoice.status == "Rejected_Reversed"'>
-            <div *ngIf="invoice.reviewed == false || invoice.reviewed == null" class="d-flex gap-2">
-              <button class="btn btn-success btn-sm" (click)="openModal('Approved', invoice)">
-                Approve
-              </button>
-              <button class="btn btn-danger btn-sm" (click)="openModal('Rejected', invoice)">
-                Reject
-              </button>
-              <button class="btn btnReview btn-sm" (click)="reviewInvoice(invoice)">
-                Review
-              </button>
-            </div>
-            <div *ngIf="invoice.reviewed == true">
-              Waiting for Admin Response
-            </div>
-
-          </div>
-
-
-
-
-          <span *ngIf="invoice.status !== 'Pending'" style="text-decoration: none; cursor: pointer;"
-            (click)="afterDecisionOpen(invoice)">
-            {{ invoice.status }}
-          </span>
-
-        </td>
-
-
-
-
-
-      </tr>
-    </tbody>
-  </table>
-</div> -->

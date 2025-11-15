@@ -1,6 +1,6 @@
 <div class="card">
-  <div class="card-header text-center bg-primary text-white">
-    <h5>Service Charges</h5>
+  <div class="card-header">
+    Service Charges
   </div>
   <div class="card-body">
     <form [formGroup]="servicesForm">
@@ -114,7 +114,12 @@
       </div>
     </form>
 
-    <div class="mt-4" *ngIf="allCharges && allCharges.length > 0">
+   
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+ <div class="mt-4 table-responsive" *ngIf="allCharges && allCharges.length > 0">
       <table class="table table-bordered text-center">
         <thead>
           <tr>

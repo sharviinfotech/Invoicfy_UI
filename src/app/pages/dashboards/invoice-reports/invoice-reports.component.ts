@@ -12,7 +12,6 @@ import { ImageService } from 'src/app/image.service';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 
-
 interface ChargeItem {
   HSN_SAC: any;
   rate: string;
@@ -33,6 +32,8 @@ interface TaxItem {
 }
 
 interface InvoiceHeader {
+  customerplaceOfSupply: any;
+  state_Code: any;
   ProformaPoNumber: string;
   ProformaCompanyName: any;
   ProformacompanyName: any;
@@ -61,6 +62,8 @@ interface InvoiceHeader {
   BookingSector: string;
   BookingBillingFlyingTime: string;
   companyState: string;
+  companyBankAccountType: string;
+
 }
 
 interface InvoiceItem {
@@ -1402,11 +1405,17 @@ font-family: Arial, sans-serif;
 
     </div>
    <div style="text-align:center; padding:0px; font-size:18px;">
+  // <p>
+  //   Address: STPI, 2nd Floor, Divya Sree Solitaire Building HI-TECH City, Madhapur,<br>
+  //   Hyderabad, Telangana 500081, IN 
+  //   Website: <a href="https://www.sharviinfotech.com" target="_blank">www.sharviinfotech.com</a>
+  // </p>
   <p>
-    Address: STPI, 2nd Floor, Divya Sree Solitaire Building HI-TECH City, Madhapur,<br>
-    Hyderabad, Telangana 500081, IN 
-    Website: <a href="https://www.sharviinfotech.com" target="_blank">www.sharviinfotech.com</a>
-  </p>
+  ${invoiceItem.header.ProformaAddress},
+  ${invoiceItem.header.ProformaCity}, ${invoiceItem.header.companyState},
+          ${invoiceItem.header.ProformaPincode}
+          </p>
+
 </div>
 
 </body>
@@ -2176,7 +2185,14 @@ font-family: Arial, sans-serif;
     }
     this.background1 = this.imageService.SharviBackgroundLightBlue();
     this.background2 = this.imageService.SharviBackgroundLight();
+    const placeOfSupply = invoiceItem.header.customerplaceOfSupply;
+    // Example: "KARNATAKA - 29"
 
+    let stateCode = '';
+    if (placeOfSupply && placeOfSupply.includes('-')) {
+      // Split by '-' and trim
+      stateCode = placeOfSupply.split('-')[1].trim(); // "29"
+    }
     const invoiceHTML = `
  
 <html>
@@ -2669,7 +2685,7 @@ font-family: Arial, sans-serif;
   <div class="remittance-container" style="width: 50%; margin-top:10px; font-size:12px; border-right:2px solid white">
     <table class="remittance-table" style="border-collapse: collapse; width: 100%;">
               <tr><td colspan="2" style="background-color: rgb(88, 98, 145); color: white; padding: 5px;border-right: 1px solid white;">
-            From
+            FROM
           </td>
           <tr>
   <td colspan="4" style="padding: 5px; vertical-align: top; font-size:14px;">
@@ -2713,15 +2729,28 @@ font-family: Arial, sans-serif;
         <td style="padding: 5px; vertical-align: top; font-size:14px;">${invoiceItem.header.ProformaAddress},${invoiceItem.header.ProformaCity},
           ${invoiceItem.header.ProformaPincode} </td>
       </tr>
+    
+      <tr>
+  <td style="padding: 3px; width: 40%;"><strong>State</strong></td>
+  <td style="padding: 3px;">: ${invoiceItem.header.ProformaState}</td>
+</tr>
+       <tr>
+  <td style="padding: 3px;"><strong>State Code</strong></td>
+  <td style="padding: 3px;">: ${stateCode}</td>
+</tr>
+       <tr>
+  <td style="padding: 3px;"><strong>Place of Supply</strong></td>
+  <td style="padding: 3px;">: ${invoiceItem.header.customerplaceOfSupply}</td>
+</tr>
+      
         <tr>
-        <td style="padding: 5px; vertical-align: top; font-size:14px;"> ${invoiceItem.header.ProformaState}</td>
-      </tr>
+  <td style="padding: 3px;"><strong>GST NO</strong></td>
+  <td style="padding: 3px;">: ${invoiceItem.header.ProformaGstNo}</td>
+</tr>
         <tr>
-        <td style="padding: 5px; vertical-align: top; font-size:14px;"><strong>GST NO</strong> :${invoiceItem.header.ProformaGstNo}</td>
-      </tr>
-        <tr>
-        <td style="padding: 5px; vertical-align: top; font-size:14px;"><strong>PAN NO</strong>  :${invoiceItem.header.ProformaPanNO}</td>
-      </tr>
+  <td style="padding: 3px;"><strong>PAN NO</strong></td>
+  <td style="padding: 3px;">: ${invoiceItem.header.ProformaPanNO}</td>
+</tr>
     </table>
   </div>
 </div>
@@ -2781,7 +2810,7 @@ font-family: Arial, sans-serif;
               <td></td>
               <td></td>
               <td></td>
-                <td  class="text-right bold" style="font-weight:bold;background: rgb(143 152 192) !important;color: white;border-right: 1px solid white;" >TAXABLE VALUE</td>
+                <td  class="text-right bold" style="font-weight:bold;background: rgb(143 152 192) !important;color: white;border-right: 1px solid white;white-space: nowrap" >TAXABLE VALUE</td>
                 <td class="text-right bold"  style="font-weight:bold;background: rgb(143 152 192) !important;color: white;">${invoiceItem.subtotal}</td>
               </tr>
               <tr>
@@ -2835,24 +2864,24 @@ font-family: Arial, sans-serif;
       <tbody >
          <tr>
         <td style="padding:5px"><strong>BANK NAME</strong></td>
-        <td style="padding:5px">:Kotak Mahindra Bank</td>
+        <td style="padding:5px">:${invoiceItem.header.ProformaBankName}</td>
       </tr>
          <tr>
         <td style="padding:5px"><strong>ACCOUNT NAME</strong></td>
-        <td style="padding:5px">:Sharvi Infotech Pvt Ltd</td>
+      <td style="padding:5px">:Sharvi Infotech Pvt Ltd</td>
       </tr>
          <tr>
         <td style="padding:3px"><strong>ACCOUNT NUMBER</strong></td>
-        <td style="padding:5px">:1714348594</td>
+        <td style="padding:5px">:${invoiceItem.header.ProformaBankAccountNumber}</td>
       </tr>
       <tr>
         <td style="padding:5px"><strong>ACCOUNT TYPE</strong></td>
-        <td style="padding:5px">:Current</td>
+        <td style="padding:5px">:${invoiceItem.header.companyBankAccountType}</td>
       </tr>
        
         <tr>
         <td style="padding:5px"><strong>IFSC</strong></td>
-        <td style="padding:5px">:KKBK0007746</td>
+        <td style="padding:5px">:${invoiceItem.header.ProformaIFSCcode}</td>
       </tr>
       </tbody>
     </table>
@@ -2886,11 +2915,12 @@ font-family: Arial, sans-serif;
         
     </div>
     <div class="print-footer">
+ 
   <p>
-    Address: STPI, 2nd Floor, Divya Sree Solitaire Building HI-TECH City, Madhapur,<br>
-    Hyderabad, Telangana 500081, IN 
-    Website: <a href="https://www.sharviinfotech.com" target="_blank">www.sharviinfotech.com</a>
-  </p>
+    ${invoiceItem.header.ProformaAddress},
+    ${invoiceItem.header.ProformaCity}, ${invoiceItem.header.companyState},
+          ${invoiceItem.header.ProformaPincode}
+          </p>
 </div>
 </body>
 </html>
@@ -2914,4 +2944,4 @@ font-family: Arial, sans-serif;
 
 }
 
-// background-color: rgb(88, 98, 145);
+

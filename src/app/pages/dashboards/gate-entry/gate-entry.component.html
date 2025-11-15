@@ -1,0 +1,360 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        Gate  Entry
+
+    </div>
+    <div class="card-body">
+        <form [formGroup]="CompanyCreationForm">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Entry Object Type<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name">
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Vehicle Type<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name">
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Vehicle Entry date&time<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name">
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Vehicle Number<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name">
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Driver Name<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyName" type="text"
+                            placeholder="Enter Company Name">
+                        <div class="text-danger" *ngIf="submit && f['companyName'].errors">
+                            Company Name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Driver Contact NO<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyAddress" type="text"
+                            placeholder="Enter Address">
+                        <div class="text-danger" *ngIf="submit && f['companyAddress'].errors">
+                            Address is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- City -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Driver Id<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyCity" type="text"
+                            placeholder="Enter City">
+                        <div class="text-danger" *ngIf="submit && f['companyCity'].errors">
+                            City is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- State -->
+
+
+                <!-- State Field -->
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="state">PO<span class="text-danger">*</span></label>
+                        <select formControlName="companyState" class="form-control"
+                            [ngClass]="{'is-errors': submit && f['companyState'].errors}">
+                            <option value="">Select a state</option>
+                            <option *ngFor="let state of statesList" [value]="state.stateName">{{ state.stateName }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- State Error Message -->
+                    <div class="text-danger" *ngIf="submit && f['companyState'].errors">
+                        Company state is required.
+                    </div>
+                </div>
+
+
+
+
+                <!-- Pincode -->
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label><span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyPincode" type="text"
+                            placeholder="Enter Pincode" maxlength="6" pattern="[0-9]{6}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyPincode'].errors?.required">
+                            Pincode is required.
+                        </div>
+                        <div class="text-danger" *ngIf="submit && f['companyPincode'].errors?.pattern">
+                            Pincode must be exactly 6 digits.
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- GST No -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Product Code</label>
+                        <input class="form-control form-control-sm" formControlName="companyGstNo" type="text"
+                            placeholder="Enter GST No">
+                        <div class="text-danger" *ngIf="submit && f['companyGstNo'].errors">
+                            Valid Gst No is required.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PAN No -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Product Name<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyPanNo" type="text"
+                            placeholder="Enter PAN No">
+                        <div class="text-danger" *ngIf="submit && f['companyPanNo'].errors">
+                            PAN No is required.
+                        </div>
+                    </div>
+                </div>
+                <!-- email Id -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Quantity<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyEmail" type="email"
+                            placeholder="Enter email">
+                        <div class="text-danger" *ngIf="submit && f['companyEmail'].errors">
+                            Email is required.
+                        </div>
+                    </div>
+                </div>
+                <!-- contact -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Uom<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <!-- alt contact -->
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Quality Stock</label>
+                        <input class="form-control form-control-sm" formControlName="companyAlernativecontact"
+                            type="text" placeholder="Enter Alternative Contact" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyAlernativecontact'].errors">
+                            Alternative contact is required.
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Blocked Stock<span class="text-danger">*</span></label>
+                        <input formControlName="companyBankName" class="form-control form-control-sm"
+                            [ngClass]="{'is-errors': (submit || f['companyBankName'].touched) && f['companyBankName'].errors}"
+                            type="text" placeholder="Enter Bank Name" (keypress)="allowOnlyLetters($event)">
+                        <div class="text-danger"
+                            *ngIf="(submit || f['companyBankName'].touched) && f['companyBankName'].errors">
+                            <div *ngIf="f['companyBankName'].errors.required">Bank Name is required.</div>
+                            <div *ngIf="f['companyBankName'].errors.pattern">Only alphabets are allowed</div>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Gate Pass No<span class="text-danger">*</span></label>
+                        <input formControlName="companyBankAccount_No" class="form-control form-control-sm"
+                            [ngClass]="{'is-errors': (submit || f['companyBankAccount_No'].touched) && f['companyBankAccount_No'].errors}"
+                            type="text" placeholder="Enter Bank Account" (keypress)="allowOnlyNumbers($event)"
+                            maxlength="17">
+                        <div class="text-danger"
+                            *ngIf="(submit || f['companyBankAccount_No'].touched) && f['companyBankAccount_No'].errors">
+                            <div *ngIf="f['companyBankAccount_No'].errors.required">Bank Account is required.</div>
+                            <div *ngIf="f['companyBankAccount_No'].errors.pattern">Only numbers are allowed</div>
+                            <div *ngIf="f['companyBankAccount_No'].errors.maxlength">Maximum 17 digits allowed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>vehicle Exit Date&Time<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>visitor Type<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>visitor Name<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Purpose of Visit<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Employe Responsible<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Id Type<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Image Capturing<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Exit Date&Time<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Item Code<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Serial Number<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Quantity<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Responsible Person<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Approver Name<span class="text-danger">*</span></label>
+                        <input class="form-control form-control-sm" formControlName="companyFinanceContact" type="text"
+                            placeholder="Enter Finance Number" maxlength="10" pattern="[0-9]{10}"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <div class="text-danger" *ngIf="submit && f['companyFinanceContact'].errors">
+                            Finance Contact is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

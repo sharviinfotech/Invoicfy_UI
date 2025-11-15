@@ -617,7 +617,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Type Of Service<span class="text-danger">*</span></label>
-                  <input type="text" formControlName="ProformaTypeOfServices" class="form-control" placeholder=""  (input)="convertToUppercase($event)">
+                  <input type="text" formControlName="ProformaTypeOfServices" class="form-control" placeholder="" >
                 </div>
                 <div class="text-danger" style="color: red;"
                   *ngIf="newInvoiceCreation.get('ProformaTypeOfServices')?.hasError('required') && newInvoiceCreation.get('ProformaTypeOfServices')?.touched">
@@ -661,7 +661,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Sector</label>
-                  <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder="" (input)="convertToUppercase($event)"> -->
+                  <!-- <input type="text" formControlName="bookingsector" class="form-control" placeholder=""> -->
                   <input type="text" formControlName="bookingsector" class="form-control"
                   (input)="updateChargeItem(0, 'description', $event.target.value)">
                 </div>
@@ -673,7 +673,7 @@
               <div class="col-lg-4">
                 <div class="form-group">
                   <label>Billing Flying Time<span class="text-danger">*</span></label>
-                  <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder="" (input)="convertToUppercase($event)"> -->
+                  <!-- <input type="text" formControlName="bookingbillingflyingtime" class="form-control" placeholder=""> -->
                   <input type="text" formControlName="bookingbillingflyingtime" class="form-control"
                   (input)="updateChargeItem(0, 'units', $event.target.value)">
                 </div>

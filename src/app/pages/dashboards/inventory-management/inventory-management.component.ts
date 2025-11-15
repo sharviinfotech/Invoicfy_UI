@@ -1,5 +1,3 @@
-// import { Component } from '@angular/core';
-
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralserviceService } from 'src/app/generalservice.service'; // Adjust path if necessary
@@ -8,15 +6,16 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
-  selector: 'app-company-creation',
-  templateUrl: './Company-creation.component.html',
-  styleUrl: './Company-creation.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,NgxSpinnerModule],
+  selector: 'app-inventory-management',
+  templateUrl: './inventory-management.component.html',
+  styleUrl: './inventory-management.component.css',
+   imports: [CommonModule, ReactiveFormsModule, FormsModule, NgxSpinnerModule],
   standalone: true
 })
-export class CompanyCreationComponent {
-   @ViewChild('editCompanyTemplate') editCompanyTemplate!: TemplateRef<any>; creditPeriodList: string[] = ['15 days', '30 days', '45 days'];
+export class InventoryManagementComponent {
+@ViewChild('editCompanyTemplate') editCompanyTemplate!: TemplateRef<any>; creditPeriodList: string[] = ['15 days', '30 days', '45 days'];
 
   statesList: any[] = [];
   companyEditForm: FormGroup;
@@ -479,5 +478,5 @@ export class CompanyCreationComponent {
     })
   }
 
-}
 
+}

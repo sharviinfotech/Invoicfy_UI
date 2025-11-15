@@ -6,91 +6,120 @@ export const MENU: MenuItem[] = [
     //     label: 'MENUITEMS.DASHBOARDS.TEXT',
     //     icon: 'bx-home-circle',
     //     subItems: [
-            {
-                id: 2,
-                label: 'Dashboard',
-                link: '/dashboard',
-                parentId: 2,
-                icon: 'bx-home-circle',
-            },
-            
-            // {
-            //     id:4 ,
-            //     label: 'Invoice Layout',
-            //     link: '/InvoiceLayout',
-            //     parentId: 1,
-            //     icon: 'bx bx-layout',
-            // },
-            {
-                id:5,
-                label: 'Invoice',
-                link: '/Invoice',
-                parentId: 1,
-                icon: 'bx bx-plus',
-            },
-            
-            {
-                id: 6,
-                label: 'Invoice Decision',
-                link: '/InvoiceDecision',
-                parentId: 1,
-                icon: 'bx-sync', // Represents invoice approval/decision
-            },
-            {
-                id: 7,
-                label: 'Funds Recieved Against',
-                link: '/funds_recived_against',
-                parentId: 1,
-                icon: 'bx-dollar', // Represents invoice approval/decision
-            },
-            {
-                id:8 ,
-                label: 'Invoice Reports',
-                link: '/InvoiceReports',
-                parentId: 1,
-                icon: 'bx bx-spreadsheet',
-            },
-            {
-                id: 3,
-                label: 'Customer Creation',
-                link: '/CustomerCreation',
-                parentId: 1,
-                icon: 'bx-user-check', // Represents invoice approval/decision
-            },
-            {
-                id: 11,
-                label: 'Company Creation',
-                link: '/CompanyCreation',
-                parentId: 1,
-                icon: 'bx-home-circle',
-            },
-            {
-                id: 9,
-                label: 'User Creation',
-                link: '/InvoiceUserCreation',
-                parentId: 1,
-                icon: 'bx bx-user-check',
-            },
-            {
-                id: 10,
-                label: 'Services',
-                link: '/ServiceCharges',
-                parentId: 1,
-                icon: 'bx bx-receipt',
-            },
-            // {
-            //     id: 10,
-            //     label: 'Company_Creation',
-            //     link: '/CompanyCreation',
-            //     parentId: 1,
-            //     icon: 'bx-home-circle',
-            // },
+    {
+        id: 2,
+        label: 'Dashboard',
+        link: '/dashboard',
+        parentId: 2,
+        icon: 'bx-home-circle',
+    },
 
-            // <i class="bx bx-user-plus"></i>  
-            // <i class="bx bx-user-check"></i> 
-            // <i class="bx bx-user-pin"></i>  
+    // {
+    //     id:4 ,
+    //     label: 'Invoice Layout',
+    //     link: '/InvoiceLayout',
+    //     parentId: 1,
+    //     icon: 'bx bx-layout',
+    // },
+    {
+        id: 5,
+        label: 'Invoice',
+        link: '/Invoice',
+        parentId: 1,
+        icon: 'bx bx-plus',
+    },
 
-           
+    {
+        id: 6,
+        label: 'Invoice Decision',
+        link: '/InvoiceDecision',
+        parentId: 1,
+        icon: 'bx-sync', // Represents invoice approval/decision
+    },
+    {
+        id: 7,
+        label: 'Funds Recieved Against',
+        link: '/funds_recived_against',
+        parentId: 1,
+        icon: 'bx-dollar', // Represents invoice approval/decision
+    },
+    {
+        id: 8,
+        label: 'Invoice Reports',
+        link: '/InvoiceReports',
+        parentId: 1,
+        icon: 'bx bx-spreadsheet',
+    },
+    {
+        id: 3,
+        label: 'Customer Creation',
+        link: '/CustomerCreation',
+        parentId: 1,
+        icon: 'bx-user-check', // Represents invoice approval/decision
+    },
+    {
+        id: 11,
+        label: 'Company Creation',
+        link: '/CompanyCreation',
+        parentId: 1,
+        icon: 'bx-home-circle',
+    },
+
+    {
+        id: 10,
+        label: 'Services',
+        link: '/ServiceCharges',
+        parentId: 1,
+        icon: 'bx bx-receipt',
+    },
+    {
+        id: 10,
+        label: 'Product Master',
+        link: '/ProductMaster',
+        parentId: 1,
+        icon: 'bx bx-purchase-tag',
+    },
+    {
+        id: 10,
+        label: 'Inventory Management',
+        link: '/inventoryManagement',
+        parentId: 1,
+        icon: 'bx bx-package',
+    },
+    {
+        id: 10,
+        label: 'Stock Entry',
+        link: '/StockEntry',
+        parentId: 1,
+        icon: 'bx bx-package',
+    },
+    {
+        id: 10,
+        label: 'Gate Entry',
+        link: '/Gateentry',
+        parentId: 1,
+        icon: 'bx bx-package',
+    },
+    {
+        id: 9,
+        label: 'User Creation',
+        link: '/InvoiceUserCreation',
+        parentId: 1,
+        icon: 'bx bx-user-check',
+    },
+    // {
+    //     id: 10,
+    //     label: 'Company_Creation',
+    //     link: '/CompanyCreation',
+    //     parentId: 1,
+    //     icon: 'bx-home-circle',
+    // },
+
+    // <i class="bx bx-user-plus"></i>  
+    // <i class="bx bx-user-check"></i> 
+    // <i class="bx bx-user-pin"></i>  
+
+
     //     ]
     // },
     // {

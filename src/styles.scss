@@ -256,6 +256,7 @@ button {
   // background-color: rgb(88 98 145)!important;
   color: black;
   text-align-last: center !important;
+  white-space: nowrap;
 
 }
 
@@ -742,14 +743,14 @@ input:focus {
   padding: 10px;
   border-radius: 5px;
 }
-.btnReset{
-  margin-top: 15px;
-  background: #1226c9;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-}
+// .btnReset{
+//   margin-top: 15px;
+//   background: #1226c9;
+//   color: white;
+//   border: none;
+//   padding: 10px;
+//   border-radius: 5px;
+// }
 
 .btnClose{
   padding: 10px 20px;
@@ -917,6 +918,38 @@ input:focus {
   color: white !important;
 }
 
+.btnAdd {
+  background-color: #2563eb;
+  color: white !important;
+  transition: background-color 0.3s;
+}
+
+.btnAdd:hover {
+  background-color: white;
+  color: #2563eb !important;
+  border: 2px solid #2563eb;
+}
+.btnSave{
+  background: #057e1b ;
+  color: white;
+  transition: background-color 0.3s;
+}
+.btnSave:hover {
+  background-color: white;
+  color: #057e1b !important;
+  border: 2px solid #057e1b;
+}
+.btnReset{
+  background: red ;
+  color: white;
+  transition: background-color 0.3s;
+}
+.btnReset:hover {
+  background-color: white;
+  color: red !important;
+  border: 2px solid red;
+}
+
 /* Table Styling */
 .table {
   width: 100%;
@@ -929,6 +962,7 @@ input:focus {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
+    white-space: nowrap;
 }
 
 .table th {
@@ -1378,7 +1412,7 @@ body.theme-dark label { color: var(--theme-text-light) !important; }
 body.theme-dark input,
 body.theme-dark select,
 body.theme-dark textarea {
-  background-color: #0f1720 !important;
+  background-color: white !important;
   color: var(--theme-text-light) !important;
   border-color: #1f2a35 !important;
 }
@@ -1448,3 +1482,21 @@ body.theme-dark .apexcharts-tooltip { background: var(--theme-card-bg) !importan
 body.theme-dark .apexcharts-menu { background: var(--theme-card-bg) !important; border-color: #1f2a35 !important; }
 body.theme-dark .apexcharts-gridline { stroke: #1f2a35 !important; }
 body.theme-dark .apexcharts-xaxis line, body.theme-dark .apexcharts-yaxis line { stroke: #1f2a35 !important; }
+
+.delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 3px;
+  }
+  .edit-btn{
+    background: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }

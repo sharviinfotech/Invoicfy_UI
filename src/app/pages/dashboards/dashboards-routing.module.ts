@@ -19,6 +19,10 @@ import { ReviewNotificationComponent } from './review-notification/review-notifi
 import { CompanyCreationComponent } from './company-creation/company-creation.component';
 import { FundsRecievedAgainstComponent } from './funds-recieved-against/funds-recieved-against.component';
 import { InvoicefyGlobalDashboardComponent } from './invoicefy-global-dashboard/invoicefy-global-dashboard.component';
+import { GateEntryComponent } from './gate-entry/gate-entry.component';
+import { StockEntryComponent } from './stock-entry/stock-entry.component';
+import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
+import { ProductManagementComponent } from './product-management/product-management.component';
 
 
 const routes: Routes = [
@@ -57,6 +61,22 @@ const routes: Routes = [
     {
         path: 'ServiceCharges',
         component: ServiceChargesComponent
+    },
+    {
+        path: 'ProductMaster',
+        component: ProductManagementComponent
+    },
+    {
+        path: 'inventoryManagement',
+        component: InventoryManagementComponent
+    },
+    {
+        path: 'StockEntry',
+        component: StockEntryComponent
+    },
+    {
+        path: 'Gateentry',
+        component: GateEntryComponent
     },
     {
         path: 'globalReviewEdit',

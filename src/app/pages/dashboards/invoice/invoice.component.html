@@ -21,8 +21,8 @@
     <div class="col-lg-4" style="text-align: end;">
       <!-- New Invoice Button with Dropdown -->
       <div class="dropdown" style="display: inline-block; position: relative;">
-        <button class="new-invoice-btn" (click)="toggleDropdown()">
-          New Invoice +
+        <button class="btn btn-md btn-raised btnAdd" (click)="toggleDropdown()">
+          + New Invoice 
         </button>
 
         <!-- Dropdown Menu -->
@@ -109,12 +109,12 @@
         </div>
       </div>
       <div class="container">
-        <!-- <div class="header-row">
-
+        <div class="header-row">
+          <!-- 
           <img [src]="logoUrl" alt="Company Logo" class="logo">
           <img [src]="InvoiceLogo" alt="Company Logo" class="logo">
-          <img [src]="logoUrl" alt="Company Logo" class="logo">
-        </div> -->
+          <img [src]="logoUrl" alt="Company Logo" class="logo"> -->
+        </div>
         <div class="row">
           <div class="col-lg-4" *ngIf="proformaCardHeaderId == 'TAX'">
             <div class="form-group">
@@ -133,7 +133,7 @@
 
         </div>
         <div class="card mt-2">
-          <div class="card-header " >
+           <div class="card-header" >
             Sharvi Group Details
           </div>
           <div class="card-body"
@@ -267,6 +267,20 @@
                   Branch is required.
                 </div>
               </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Bank Account Type <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="companyBankAccountType">
+                </div>
+
+                <div class="text-danger" *ngIf="newInvoiceCreation.get('companyBankAccountType')?.hasError('required') 
+        && newInvoiceCreation.get('companyBankAccountType')?.touched 
+        && submited">
+                  Bank Account Type is required.
+                </div>
+              </div>
+
+
 
 
 
@@ -277,7 +291,7 @@
           </div>
         </div>
         <div class="card mb-4">
-          <div class="card-header " >
+          <div class="card-header">
             {{proformaCardHeaderName}}
           </div>
           <div class="card-body"
@@ -382,7 +396,8 @@
                   city name is required.
                 </div>
               </div>
-              <div class="col-lg-4">
+              <!-- <div class="col-lg-4">
+
                 <div class="form-group">
                   <label for="state">State<span class="text-danger">*</span></label>
                   <select formControlName="ProformaState" class="form-control" (change)="onChangeState()">
@@ -395,7 +410,33 @@
                   *ngIf="newInvoiceCreation.get('ProformaState')?.hasError('required') && newInvoiceCreation.get('ProformaState')?.touched && submited">
                   state is required.
                 </div>
+              </div> -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label for="state">State<span class="text-danger">*</span></label>
+                  <input type="text" formControlName="ProformaState" class="form-control" readonly />
+                </div>
+                <div class="text-danger"
+                  *ngIf="newInvoiceCreation.get('ProformaState')?.hasError('required') && newInvoiceCreation.get('ProformaState')?.touched && submited">
+                  State is required.
+                </div>
               </div>
+
+              <div class="col-lg-4">
+                <div class="form-group mb-3">
+                  <label for="customerplaceOfSupply">Place of Supply <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" formControlName="customerplaceOfSupply">
+
+                </div>
+                <div class="text-danger" *ngIf="newInvoiceCreation.get('customerplaceOfSupply')?.hasError('required') 
+    && newInvoiceCreation.get('customerplaceOfSupply')?.touched && submited">
+                  Place of supply is required.
+                </div>
+              </div>
+
+
+
+
               <div class="col-lg-4">
                 <div class="form-group">
                   <label for="Pincode">Pincode<span class="text-danger">*</span></label>
@@ -471,7 +512,7 @@
               </div> -->
               <div class="col-lg-4">
                 <div class="form-group">
-                  <label>PO Number <span class="text-danger">*</span></label>
+                  <label>PO Number</label>
 
                   <select class="form-control" formControlName="ProformaPoNumber"
                     (change)="onPoNumberChange($event.target.value)">
@@ -556,34 +597,68 @@
                 </td> -->
 
                 <!-- ✅ Service Name -->
-                <td>{{ item.description }}</td>
-
-                <!-- ✅ HSN -->
-                <td>{{ item.HSN_SAC }}</td>
 
                 <td>
-                  <input type="number" [(ngModel)]="item.quantity" [ngModelOptions]="{standalone: true}"
-                    class="form-control" (input)="calculateAmount(item)" />
+                  <ng-container *ngIf="!manualMode && i < patchedCount; else manualDesc">
+                    {{ item.description }}
+                  </ng-container>
+                  <ng-template #manualDesc>
+                    <input type="text" [(ngModel)]="item.description" class="form-control" />
+                  </ng-template>
                 </td>
-                <td>{{ item.UOM }}</td>
-                <td class="text-right">
+                <!-- ✅ HSN -->
+                <!-- <td>{{ item.HSN_SAC }}</td> -->
+                <td>
+                  <ng-container *ngIf="!manualMode && i < patchedCount; else manualHSN">
+                    {{ item.HSN_SAC }}
+                  </ng-container>
+                  <ng-template #manualHSN>
+                    <input type="text" [(ngModel)]="item.HSN_SAC" class="form-control" />
+                  </ng-template>
+                </td>
+                <!-- 
+                <td>
+                  <input type="text" [(ngModel)]="item.quantity" [ngModelOptions]="{standalone: true}"
+                    class="form-control" (input)="calculateAmount(item)" />
+                </td> -->
+                <td>
+                  <input type="text" [(ngModel)]="item.quantity" [ngModelOptions]="{standalone: true}"
+                    class="form-control" (keydown)="blockNonNumeric($event)" (input)="calculateAmount(item)" />
+                </td>
+
+                <!-- <td>{{ item.UOM }}</td> -->
+                <td>
+                  <ng-container *ngIf="!manualMode && i < patchedCount; else manualUOM">
+                    {{ item.UOM }}
+                  </ng-container>
+                  <ng-template #manualUOM>
+                    <input type="text" [(ngModel)]="item.UOM" class="form-control" />
+                  </ng-template>
+                </td>
+                <!-- <td class="text-right">
                   <input type="text" [(ngModel)]="item.rate" [ngModelOptions]="{standalone: true}"
                     class="amount-input text-right" (input)="calculateAmount(item)"
                     (blur)="item.rate = formatAmount(item.rate)" />
+                </td> -->
+                <td class="text-right">
+                  <input type="text" [(ngModel)]="item.rate" [ngModelOptions]="{standalone: true}"
+                    class="amount-input text-right" (input)="calculateAmount(item)"
+                    (blur)="item.rate = formatAmount(item.rate)" (keypress)="allowOnlyNumbers($event)" />
                 </td>
+
                 <td class="text-right">
                   {{item.amount | number:'1.0-0'}}
                 </td>
               </tr>
-              <!-- <tr>
-                <td colspan="4" class="text-right"></td>
+              <tr>
+                <td colspan="5" class="text-right"></td>
                 <td style="text-align: end">
-                  <button (click)="addChargeItem()" class="add-btn">+ Add Services</button>
+                  <button (click)="addChargeItem()" class="add-btn">+ Add </button>
                 </td>
-              </tr> -->
+              </tr>
               <tr>
                 <td></td>
-                <td colspan="4" class="text-right bold">TOTAL</td>
+                <td colspan="5" class="text-right bold">TOTAL</td>
                 <td class="text-right bold">{{subtotal | number:'1.0-0'}}</td>
               </tr>
               <tr>
@@ -598,7 +673,7 @@
               </tr>
               <tr>
                 <td></td>
-                <td colspan="4" class="bold text-right">GRAND TOTAL</td>
+                <td colspan="5" class="bold text-right">GRAND TOTAL</td>
                 <td class="text-right bold">{{grandTotal | number:'1.0-0'}}</td>
               </tr>
             </tbody>
@@ -609,7 +684,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header" >
+        <div class="card-header" style="text-align: center;">
           Notes
         </div>
         <div class="card-body"
@@ -630,15 +705,10 @@
           </div>
         </div>
       </div>
-
-
-
-      <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-2" style="text-align: end;">
-        <button class="btnSave btn" (click)="CreateInvoice()">Create Invoice</button>
-        <button class="btnReset btn" (click)="resetForm()">Reset</button>
+        <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
+        <button class="btn btn-md btn-raised btnSave" (click)="CreateInvoice()">Create Invoice</button>
+        <button class="btn btn-md btn-raised btnReset" (click)="resetForm()">Reset</button>
       </div>
-
-
     </form>
   </div>
 
@@ -656,15 +726,15 @@
       </div>
     </div>
     <div class="container">
-      <!-- <div class="header-row">
-
+      <div class="header-row">
+        <!-- 
         <img [src]="logoUrl" alt="Company Logo" class="logo">
         <img [src]="InvoiceLogo" alt="Company Logo" class="logo">
-        <img [src]="logoUrl" alt="Company Logo" class="logo">
-      </div> -->
+        <img [src]="logoUrl" alt="Company Logo" class="logo"> -->
+      </div>
 
       <div class="card mb-4">
-        <div class="orange-background" >
+        <div class="orange-background" style="text-align: center;">
           Proforma Invoice
         </div>
         <div class="card-body">
@@ -780,7 +850,7 @@
 
       </div>
       <div class="card">
-        <div class="card-header" >
+        <div class="card-header" style="text-align: center;">
           Notes
         </div>
         <div class="card-body"
@@ -818,16 +888,14 @@
         </div>
       </div>
       <div class="container">
-        <!-- <div class="header-row">
+        <div class="header-row">
 
-          <img [src]="logoUrl" alt="Company Logo" class="logo">
+          <!-- <img [src]="logoUrl" alt="Company Logo" class="logo">
           <img [src]="InvoiceLogo" alt="Company Logo" class="logo">
-          <img [src]="logoUrl" alt="Company Logo" class="logo">
-        </div> -->
+          <img [src]="logoUrl" alt="Company Logo" class="logo"> -->
+        </div>
         <div class="card mt-2">
-          <div class="card-header " >
-            Sharvi Group Details
-          </div>
+
           <div class="card-body"
             style="background-color: #f9f9f9; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
             <div class="row">
@@ -934,7 +1002,7 @@
           </div>
         </div>
         <div class="card mb-4">
-          <div class="card-header " >
+          <div class="card-header " style="text-align: center;">
             {{proformaCardHeaderName}}
           </div>
           <div class="card-body"
@@ -1014,6 +1082,15 @@
                   state is required.
                 </div>
               </div>
+
+
+
+
+
+
+
+
+
               <div class="col-lg-4">
                 <div class="form-group">
                   <label for="Pincode">Pincode<span class="text-danger">*</span></label>
@@ -1169,7 +1246,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header" >
+        <div class="card-header" style="text-align: center;">
           Notes
         </div>
         <div class="card-body"
@@ -1189,18 +1266,20 @@
             </div>
           </div>
         </div>
+          <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
+        <button class="btn btn-md btn-raised btnSave" (click)="UpdateInvoice()">Update</button>
+        <button class="btn btn-md btn-raised btnReset" (click)="resetForm()">Reset</button>
+      </div>
       </div>
 
-      <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-2" style="text-align: end;">
-        <button class="btnSave btn" (click)="UpdateInvoice()">Update</button>
-        <button class="btnClose btn" (click)="resetForm()">Reset</button>
-      </div>
+    
 
 
     </form>
   </div>
 
   <!-- edit div end -->
+
 </div>
 
 

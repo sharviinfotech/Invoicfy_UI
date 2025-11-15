@@ -59,7 +59,6 @@ interface InvoiceItem {
   status: string;
   proformaCardHeaderName: string
 }
-
 @Component({
   selector: 'app-invoice-decision',
   templateUrl: './invoice-decision.component.html',
@@ -68,7 +67,7 @@ interface InvoiceItem {
   standalone: true,
 })
 export class InvoiceDecisionComponent {
-  @ViewChild(CdkStepper) stepper!: CdkStepper;
+ @ViewChild(CdkStepper) stepper!: CdkStepper;
   activeTab: 'View' | 'Edit' = 'View';
   @ViewChild('approveModal') approveModal: TemplateRef<any>;
   @ViewChild('afterDecision') afterDecision: TemplateRef<any>;
@@ -97,7 +96,7 @@ export class InvoiceDecisionComponent {
   selectedInvoice: any;
   chargeItems: ChargeItem[] = [];
   taxItems: TaxItem[] = [];
-
+editingInvoice: any = null;
 
 
 
@@ -477,7 +476,10 @@ export class InvoiceDecisionComponent {
       reason: this.approveForm.value.remark, // Default to 'N/A' if no remark is provided
       invoiceApprovedOrRejectedByUser: this.loginData?.data.userName,
       invoiceApprovedOrRejectedDateAndTime: formattedDateTime,
-      reviewedReSubmited: false
+      reviewedReSubmited: false,
+      DSC_Status: 'Direct',
+      DSC_UploadFile: '',
+      uploadType:"Direct",
 
     };
 
@@ -2985,20 +2987,21 @@ export class InvoiceDecisionComponent {
       });
 
       if (isConfirmed) {
-        this.uploadDSCFile(invoice.originalUniqueId, base64File);
+        this.uploadDSCFile(invoice.originalUniqueId, base64File,invoice);
       }
     };
     reader.readAsDataURL(file);
   }
 
-  uploadDSCFile(originalUniqueId: string, base64File: string) {
+  uploadDSCFile(originalUniqueId: string, base64File: string,invoice) {
     console.log("Uploading DSC file...");
 
     const payload = {
       originalUniqueId,
-      DSC_Status: 'Dsc File Uploaded',
+      DSC_Status: 'Dsc Uploaded',
       DSC_UploadFile: base64File,
       status: "Approved",
+      uploadType:invoice.uploadType,
     };
 
     this.spinner.show();
@@ -3011,7 +3014,7 @@ export class InvoiceDecisionComponent {
         if (res.status) {
           Swal.fire({
             title: 'Uploaded!',
-            text: res.message || 'DSC File uploaded successfully.',
+            text: res.message || 'Dsc Uploaded successfully.',
             icon: 'success',
             timer: 1200,
             showConfirmButton: false
@@ -3044,13 +3047,24 @@ export class InvoiceDecisionComponent {
       }
     });
   }
+openDscSignature(invoice: any) {
+  Swal.fire({
+    title: 'DSC Signature',
+    text: `Digital signing feature coming soon for ${invoice.invoiceUniqueNumber}.`,
+    icon: 'info'
+  });
+}
+edit(invoice){
 
+}
+delete(invoice){
 
+}
   viewDSCFile(invoice: any) {
     console.log("viewDSCFile", invoice)
     if (!invoice.DSC_UploadFile) {
       // If file is missing
-      Swal.fire('No File', 'No DSC file uploaded yet.', 'info');
+      Swal.fire('No File', 'No Dsc Uploaded yet.', 'info');
       return;
     }
 

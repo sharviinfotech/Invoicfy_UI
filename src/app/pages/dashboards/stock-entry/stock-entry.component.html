@@ -1,0 +1,83 @@
+<div class="">
+    <form [formGroup]="stockForm">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Stock Entry</span>
+                <button type="button" class="btn bn-md btn-raised btnAdd" (click)="addRow()">
+                     + Add Row
+                </button>
+            </div>
+            <div class="card-body">
+                <div formArrayName="items">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th>#</th>
+                                <th>Nature of Transaction</th>
+                                <th>Company Name|plant</th>
+                                <th>Posting Date</th>
+                                <th>Product Code</th>
+                                <th>Product Name</th>
+                                <th>Material Type</th>
+                                <th>Stock Type</th>
+                                <th>Quantity</th>
+                                <th>Value</th>
+                                <th>Batch</th>
+                                <th>UOM</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+                                <td class="text-center">{{ i + 1 }}</td>
+                                <td><input formControlName=" NatureofTransaction" class="form-control form-control-sm"
+                                        placeholder="Code" /></td>
+                                <td><input formControlName="CompanyName" class="form-control form-control-sm"
+                                        placeholder="Name" /></td>
+                                <td><input formControlName="Postingdate" class="form-control form-control-sm"
+                                        placeholder="Type" /></td>
+                                <td><input formControlName="productCode" class="form-control form-control-sm"
+                                        placeholder="Code" /></td>
+                                <td><input formControlName="productName" class="form-control form-control-sm"
+                                        placeholder="Name" /></td>
+                                <td><input formControlName="materialType" class="form-control form-control-sm"
+                                        placeholder="Type" /></td>
+                                <td><input formControlName="stocktype" class="form-control form-control-sm"
+                                        placeholder="Type" /></td>
+                                <td><input formControlName="quantity" type="number" class="form-control form-control-sm"
+                                        placeholder="Qty" /></td>
+                                <td><input formControlName="value" type="number" class="form-control form-control-sm"
+                                        placeholder="Value" /></td>
+                                <td><input formControlName="batch" class="form-control form-control-sm"
+                                        placeholder="Batch" />
+                                </td>
+                                <td><input formControlName="uom" class="form-control form-control-sm"
+                                        placeholder="UOM" />
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removeRow(i)">
+                                        <i class="bx bx-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+
+                    </table>
+                </div>
+
+
+
+                <div class="text-right">
+                    <button type="button" class="btn btn-primary" (click)="saveStockEntry()">
+                        <i class="bx bx-save"></i> Post Stock
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
