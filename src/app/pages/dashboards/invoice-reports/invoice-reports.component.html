@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    All Invoice Reports 
+    All Invoice Reports
   </div>
   <div class="card-body">
 
@@ -95,153 +95,147 @@
       </div>
 
     </div> -->
-    <div class="card p-2">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <label class="d-inline-flex align-items-center">
-            Show
-            <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()" [ngModelOptions]="{ standalone: true }">
-              <option [value]="5">5</option>
-              <option [value]="10">10</option>
-              <option [value]="20">20</option>
-              <option [value]="25">25</option>
-              <option [value]="30">30</option>
-            </select>
-            entries
-          </label>
-        </div>
-        <div id="tickets-table_filter" class="dataTables_filter">
-          <label class="d-inline-flex align-items-center">
-            Search:
-            <input type="text" name="searchTerm" class="form-control form-control-sm ms-2" aria-controls="tickets-table"
-              [(ngModel)]="service.searchTerm" (input)="resetPagination()" />
-          </label>
-          <!-- <button class="btn btn-sm btn-outline-secondary ms-2" (click)="resetTable()" title="Reset">
+
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+      <label class="d-inline-flex align-items-center">
+        Show
+        <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange()" [ngModelOptions]="{ standalone: true }">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="25">25</option>
+          <option [value]="30">30</option>
+        </select>
+        entries
+      </label>
+    </div>
+    <div id="tickets-table_filter" class="dataTables_filter">
+      <label class="d-inline-flex align-items-center">
+        Search:
+        <input type="text" name="searchTerm" class="form-control form-control-sm ms-2" aria-controls="tickets-table"
+          [(ngModel)]="service.searchTerm" (input)="resetPagination()" />
+      </label>
+      <!-- <button class="btn btn-sm btn-outline-secondary ms-2" (click)="resetTable()" title="Reset">
       <i class="fas fa-sync-alt"></i>
     </button> -->
-          <!-- ✅ Download Excel Button Next to Search -->
-          <!-- <button class="btn btn-success btn-sm ms-3" (click)="downloadExcel()">
+      <!-- ✅ Download Excel Button Next to Search -->
+      <!-- <button class="btn btn-success btn-sm ms-3" (click)="downloadExcel()">
             <i class="fa fa-file-excel-o"></i> Download Excel
           </button> -->
-          <button class="btn btn-success ms-3" style="height:38px; padding:4px 12px; font-size:0.875rem;"
-            (click)="downloadExcel()">
-            <i class="fa fa-file-excel-o"></i> Download Excel
-          </button>
+      <button class="btn btn-success ms-3" style="height:38px; padding:4px 12px; font-size:0.875rem;"
+        (click)="downloadExcel()">
+        <i class="fa fa-file-excel-o"></i> Download Excel
+      </button>
 
-        </div>
-      </div>
-
-
-
-
-
-
-
-      <div class="table-responsive">
-        <table class="table table-bordered table-stripped">
-          <thead class="thead-light">
-            <tr>
-              <th class="text-nowrap">Invoice Number</th>
-              <th class="text-nowrap">Invoice Date</th>
-              <th class="text-nowrap">Customer Name</th>
-              <!-- <th class="text-nowrap">Type Of Service</th> -->
-              <th class="text-nowrap">City</th>
-              <th class="text-nowrap">Invoice Type</th>
-              <th class="text-nowrap">Due Dates</th>
-              <th class="text-nowrap">IGST</th>
-              <th class="text-nowrap">SGST</th>
-              <th class="text-nowrap">CGST</th>
-              <th class="text-nowrap">Actual Amount</th>
-              <th class="text-nowrap">Total Amount</th>
-              <th class="text-nowrap">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- (click)="invoice.status === 'Approved' ? openInvoicePopup(invoice) : null" -->
-            <tr *ngFor="let invoice of paginatedInvoices" (click)="selectInvoice(invoice)"
-              [class.selected]="invoiceItem === invoice">
-              <td>
-                <span [ngClass]="{
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-stripped">
+      <thead class="thead-light">
+        <tr>
+          <th class="text-nowrap">Invoice Number</th>
+          <th class="text-nowrap">Invoice Date</th>
+          <th class="text-nowrap">Customer Name</th>
+          <!-- <th class="text-nowrap">Type Of Service</th> -->
+          <th class="text-nowrap">City</th>
+          <th class="text-nowrap">Invoice Type</th>
+          <th class="text-nowrap">Due Dates</th>
+          <th class="text-nowrap">IGST</th>
+          <th class="text-nowrap">SGST</th>
+          <th class="text-nowrap">CGST</th>
+          <th class="text-nowrap">Actual Amount</th>
+          <th class="text-nowrap">Total Amount</th>
+          <th class="text-nowrap">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- (click)="invoice.status === 'Approved' ? openInvoicePopup(invoice) : null" -->
+        <tr *ngFor="let invoice of paginatedInvoices" (click)="selectInvoice(invoice)"
+          [class.selected]="invoiceItem === invoice">
+          <td>
+            <span [ngClass]="{
                 'text-green-600 underline cursor-pointer': invoice.status === 'Approved',
                 'text-orange-600': invoice.status === 'Pending',
                 'text-red-600': invoice.status === 'Rejected',
                 'text-Amount_Received underline cursor-pointer': invoice.status === 'Amount Received',
                 'rejected_Reversed':invoice.status === 'Rejected_Reversed'
               }">
-                  {{ invoice.invoiceUniqueNumber }}
-                </span>
-              </td>
-              <td>{{ invoice.header.ProformaInvoiceDate }}</td>
-              <td>{{ invoice.header.ProformaCustomerName }}</td>
-              <!-- <td>{{ invoice.header.ProformaTypeOfServices }}</td> -->
-              <td>{{ invoice.header.ProformaCity }}</td>
-              <td>{{ invoice.proformaCardHeaderId }}</td>
-              <td></td>
-              <td>
-                {{ getTaxAmount(invoice.taxList, 'IGST') }}
-              </td>
-              <td>
-                {{ getTaxAmount(invoice.taxList, 'SGST') }}
-              </td>
-              <td>
-                {{ getTaxAmount(invoice.taxList, 'CGST') }}
-              </td>
+              {{ invoice.invoiceUniqueNumber }}
+            </span>
+          </td>
+          <td>{{ invoice.header.ProformaInvoiceDate }}</td>
+          <td>{{ invoice.header.ProformaCustomerName }}</td>
+          <!-- <td>{{ invoice.header.ProformaTypeOfServices }}</td> -->
+          <td>{{ invoice.header.ProformaCity }}</td>
+          <td>{{ invoice.proformaCardHeaderId }}</td>
+          <td></td>
+          <td>
+            {{ getTaxAmount(invoice.taxList, 'IGST') }}
+          </td>
+          <td>
+            {{ getTaxAmount(invoice.taxList, 'SGST') }}
+          </td>
+          <td>
+            {{ getTaxAmount(invoice.taxList, 'CGST') }}
+          </td>
 
-              <td>{{invoice.subtotal}}</td>
+          <td>{{invoice.subtotal}}</td>
 
-              <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
-              <td [ngClass]="{
+          <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
+          <td [ngClass]="{
                 'text-green-600': invoice.status === 'Approved',
                 'text-orange-600': invoice.status === 'Pending',
                 'text-red-600': invoice.status === 'Rejected',
                 'text-Amount_Received  ': invoice.status === 'Amount Received',
                 'rejected_Reversed':invoice.status === 'Rejected_Reversed'
               }">
-                {{ invoice.status }}
-              </td>
+            {{ invoice.status }}
+          </td>
 
-            </tr>
-            <tr *ngIf="allInvoiceList.length === 0">
-              <td colspan="8" > <label cols> No Data </label></td>
-
-
-            </tr>
-          </tbody>
-        </table>
-        <!-- <button printSectionId="invoice-content" ngxPrint>Print Invoice</button> -->
-      </div>
-      <div class="row justify-content-center align-items-md-center mt-2">
-        <ul class="pagination" style="justify-content: end;">
-          <!-- Previous Button -->
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <a class="page-link" (click)="currentPage > 1 && pageChanged(currentPage - 1)">
-              &laquo; Previous
-            </a>
-          </li>
-
-          <!-- Page Numbers -->
-          <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
-            <a class="page-link" (click)="pageChanged(page)">
-              {{ page }}
-            </a>
-          </li>
-
-          <!-- Next Button -->
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <a class="page-link" (click)="currentPage < totalPages && pageChanged(currentPage + 1)"
-              style="background-color: green; color: white;">
-              Next &raquo;
-            </a>
-          </li>
-        </ul>
-      </div>
+        </tr>
+        <tr *ngIf="allInvoiceList.length === 0">
+          <td colspan="8"> <label cols> No Data </label></td>
 
 
-
-    </div>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <button printSectionId="invoice-content" ngxPrint>Print Invoice</button> -->
   </div>
+  <div class="row justify-content-center align-items-md-center mt-2">
+    <ul class="pagination" style="justify-content: end;">
+      <!-- Previous Button -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="currentPage > 1 && pageChanged(currentPage - 1)">
+          &laquo; Previous
+        </a>
+      </li>
 
-  <!-- <div id="invoice-content" class="m-2">
+      <!-- Page Numbers -->
+      <li *ngFor="let page of pages" class="page-item" [class.active]="currentPage === page">
+        <a class="page-link" (click)="pageChanged(page)">
+          {{ page }}
+        </a>
+      </li>
+
+      <!-- Next Button -->
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="currentPage < totalPages && pageChanged(currentPage + 1)"
+          style="background-color: green; color: white;">
+          Next &raquo;
+        </a>
+      </li>
+    </ul>
+  </div>
+  </div>
+</div>
+
+<!-- <div id="invoice-content" class="m-2">
     <h2>Invoice Details</h2>
     <p><strong>Invoice Number:</strong> {{ invoice.invoiceNumber }}</p>
     <p><strong>Invoice Date:</strong> {{ invoice.invoiceDate }}</p>
@@ -250,7 +244,7 @@
   </div> -->
 
 
-  <!-- <div class="container my-5 p-4 border" #invoiceContent id="invoiceContent" style="max-width: 800px; background-color: white;">
+<!-- <div class="container my-5 p-4 border" #invoiceContent id="invoiceContent" style="max-width: 800px; background-color: white;">
 
     <div class="text-center mb-4">
       <h3 class="company-name">RITHWIK GREEN POWER & AVIATION PRIVATE LIMITED</h3>

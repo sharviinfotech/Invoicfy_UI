@@ -1039,7 +1039,7 @@ input:focus {
 // }
 .tableFixHead {
   overflow-y: auto; /* Enables vertical scrolling */
-  max-height: 45vh; /* Reduce height to make it smaller */
+  max-height: 65vh; /* Reduce height to make it smaller */
   margin-top: 3px;
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: #ccc transparent; /* Light scrollbar color */
@@ -1241,7 +1241,9 @@ body.theme-light #sidebar-menu li.mm-active i {
 
 /* Light theme: subtle separators between topbar/sidebar/content */
 body.theme-light .vertical-menu { border-right: 0.5px solid rgba(17,24,39,0.08) !important; }
-body.theme-light #page-topbar .navbar-header { border-bottom: 1px solid rgba(17,24,39,0.08) !important; }
+body.theme-light #page-topbar .navbar-header { 
+  // border-bottom: 1px solid rgba(17,24,39,0.08) !important; 
+}
 
 
 /* Light theme: vertical separator beside the hamburger (3 bars) */
