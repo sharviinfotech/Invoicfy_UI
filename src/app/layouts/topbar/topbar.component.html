@@ -6,28 +6,33 @@
         <!-- <img src="assets/images/aircraftimage.png" alt="" height="100" width="200" style="padding: 30px 10px 10px 10px !important;">  -->
         <a routerLink="/" class="logo logo-dark">
           <span class="logo-sm">
-            <img src="assets/images/fav.icon.2.png" alt="" height="50" width="50" style="padding: 20px 10px 0px 10px !important;">
+            <img src="assets/images/fav.icon.2.png" alt="" height="50" width="50"
+              style="padding: 20px 10px 0px 10px !important;">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/SIPL Invoicefy_transaprent.png" alt="" height="100" width="200" style="padding: 20px 10px 0px 10px !important;">
+            <img src="assets/images/SIPL Invoicefy_transaprent.png" alt="" height="100" width="200"
+              style="padding: 20px 10px 0px 10px !important;">
           </span>
         </a>
- 
+
         <a routerLink="/" class="logo logo-light">
           <span class="logo-sm">
-            <img src="assets/images/fav.icon.2.png" alt="" height="50" width="50" style="padding: 20px 10px 0px 10px !important;">
+            <img src="assets/images/fav.icon.2.png" alt="" height="50" width="50"
+              style="padding: 20px 10px 0px 10px !important;">
           </span>
           <span class="logo-lg">
-            <img src="assets/images/SIPL Invoicefy_transaprent.png" alt="" height="100" width="200" style="padding: 20px 10px 0px 10px !important;">
+            <img src="assets/images/SIPL Invoicefy_transaprent.png" alt="" height="100" width="200"
+              style="padding: 20px 10px 0px 10px !important;">
           </span>
         </a>
-        Version 2
+
       </div>
 
-      <button type="button" class="btn btn-sm px-3 mt-3 font-size-16 header-item" [ngClass]="{ 'd-none': theme === 'horizontal' }" id="vertical-menu-btn" (click)="toggleMobileMenu($event)">
+      <button type="button" class="btn btn-sm px-3 mt-3 font-size-16 header-item"
+        [ngClass]="{ 'd-none': theme === 'horizontal' }" id="vertical-menu-btn" (click)="toggleMobileMenu($event)">
         <i class="fa fa-fw fa-bars"></i>
       </button>
-      
+
 
       <!-- App Search-->
       <!-- <form class="app-search d-none d-lg-block">
@@ -168,19 +173,22 @@
       </div> -->
     </div>
     <div class="marquee-wrapper">
-      <div class="marquee-content text-white">
-        Welcome to Sharvi Infotech — Empowering Digital Transformation | Software Solutions | Web & App Development | IT Consulting | Quality Services Delivered with Innovation!
-      </div>
+      <!-- <div class="marquee-content text-white">
+        Welcome to Sharvi Infotech — Empowering Digital Transformation | Software Solutions | Web & App Development | IT
+        Consulting | Quality Services Delivered with Innovation!
+      </div> -->
     </div>
     <div class="d-flex">
       <div class="mt-4 text-white  text-nowrap">
         Welcome : {{loginData?.data.userFirstName}} <span class="ml-2">{{loginData?.data.userLastName}}</span>
       </div>
       <div class="dropdown d-inline-block d-lg-none ms-2" dropdown>
-        <button type="button" class="btn header-item noti-icon" id="page-header-search-dropdown" data-toggle="dropdown" aria-haspopup="true" dropdownToggle aria-expanded="false">
+        <button type="button" class="btn header-item noti-icon" id="page-header-search-dropdown" data-toggle="dropdown"
+          aria-haspopup="true" dropdownToggle aria-expanded="false">
           <i class="mdi mdi-magnify"></i>
         </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" *dropdownMenu aria-labelledby="page-header-search-dropdown">
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" *dropdownMenu
+          aria-labelledby="page-header-search-dropdown">
           <form class="p-3">
             <div class="m-0">
               <div class="input-group">
@@ -269,7 +277,7 @@
           <i class="bx bx-fullscreen"></i>
         </button>
       </div> -->
-<!-- 
+      <!-- 
       <div class="dropdown d-inline-block" dropdown>
         <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown" dropdownToggle>
           <i class="bx bx-bell bx-tada"></i>
@@ -377,7 +385,7 @@
             {{ 'HEADER.LOGIN.LOGOUT' | translate}}</a>
         </div>
       </div> -->
-   <!-- <div class="m-2 mt-4" style="font-size: 16px;" >
+      <!-- <div class="m-2 mt-4" style="font-size: 16px;" >
     <div class="position-relative">
       <i class="fas fa-bell fa-lg text-white" role="button" (click)="openNotificationPop()"></i>
       <span class="badge  rounded-pill position-absolute top-0 start-100 translate-middle" style="background-color: #ea0000;">
@@ -385,16 +393,18 @@
       </span>
     </div>
    </div> -->
-   <div class="m-2 mt-4" style="font-size: 16px;" >
-    <div class="position-relative">
-      <i class="fas fa-bell fa-lg text-white" role="button" (click)="openNotificationPop()"></i>
-      <span class="badge  rounded-pill position-absolute top-0 start-100 translate-middle" style="background-color: #ea0000;">
-        {{ notificationCount }}
-      </span>
-    </div>
-   </div>
+      <div class="m-2 mt-4" style="font-size: 16px;">
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-white" role="button" (click)="openNotificationPop()"></i>
+          <span class="badge  rounded-pill position-absolute top-0 start-100 translate-middle"
+            style="background-color: #ea0000;">
+            {{ notificationCount }}
+          </span>
+        </div>
+      </div>
       <div class="dropdown d-inline-block ms-2" dropdown>
-        <button type="button" class="btn header-item noti-icon" id="page-header-settings-dropdown" dropdownToggle aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn header-item noti-icon" id="page-header-settings-dropdown" dropdownToggle
+          aria-haspopup="true" aria-expanded="false">
           <i class="bx bx-cog"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" *dropdownMenu aria-labelledby="page-header-settings-dropdown">
@@ -407,141 +417,120 @@
         </ul>
       </div>
       <div class="d-inline-block mt-3" style="position: relative;margin-left: 10px;">
-        <button 
-            type="button" 
-            class="btn btn-raised cancelBtn" 
-            (click)="toggleLogoutDropdown()">
-            <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
-            <!-- {{ 'HEADER.LOGIN.LOGOUT' | translate }}  -->
+        <button type="button" class="btn btn-raised cancelBtn" (click)="toggleLogoutDropdown()">
+          <i class="bx bx-power-off font-size-16 align-middle me-1"></i>
+          <!-- {{ 'HEADER.LOGIN.LOGOUT' | translate }}  -->
         </button>
-        
-        <div *ngIf="isLogoutDropdownOpen" class="dropdown-menu show" style="position: absolute; right: 0; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
-           
-            <a class="dropdown-item" (click)="openResetPasswordModal()" role="button">
-              <i class="bx bx-reset font-size-16 align-middle me-1" style="font-size: 15px;"></i>
-              Reset Password
+
+        <div *ngIf="isLogoutDropdownOpen" class="dropdown-menu show"
+          style="position: absolute; right: 0; background: white; border: 1px solid #ddd; border-radius: 5px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000;">
+
+          <a class="dropdown-item" (click)="openResetPasswordModal()" role="button">
+            <i class="bx bx-reset font-size-16 align-middle me-1" style="font-size: 15px;"></i>
+            Reset Password
           </a>
           <a class="dropdown-item" (click)="logout()" role="button">
-            <i class="fas fa-sign-in-alt" style="transform: scaleX(-1); margin-right: 5px;font-size: 15px;"></i>       
-            
-          {{ 'HEADER.LOGIN.LOGOUT' | translate }}
+            <i class="fas fa-sign-in-alt" style="transform: scaleX(-1); margin-right: 5px;font-size: 15px;"></i>
+
+            {{ 'HEADER.LOGIN.LOGOUT' | translate }}
           </a>
         </div>
-    </div>
-      
-    
+      </div>
+
+
 
     </div>
     <div *ngIf="isResetPasswordModalOpen" class="modal" style="display: block; background-color: rgba(0, 0, 0, 0.5);">
-      <form [formGroup] = "resetPassword" >
-      <div class="modal-dialog">
+      <form [formGroup]="resetPassword">
+        <div class="modal-dialog">
           <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Reset Password</h5>
-                  <button type="button" class="close" (click)="closeResetPasswordModal()">
-                      <span>&times;</span>
-                  </button>
+            <div class="modal-header">
+              <h5 class="modal-title">Reset Password</h5>
+              <button type="button" class="close" (click)="closeResetPasswordModal()">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>User Name</label>
+                <input type="text" class="form-control" formControlName="userName">
               </div>
-              <div class="modal-body">
-                  <div class="form-group">
-                      <label >User Name</label>
-                      <input type="text" class="form-control"    formControlName ="userName">
-                  </div>
-                  <div class="form-group">
-                    <label for="currentPassword">Current Password<span class="text-danger">*</span></label>
-                    <div class="input-group auth-pass-inputgroup">
-                        <input
-                            [type]="currentPasswordFieldTextType ? 'text' : 'password'"
-                            class="form-control form-control-sm"
-                            autocomplete="new-password"
-                            formControlName="currentPassword"
-                            placeholder="Enter Current Password"
-                            [ngClass]="{ 'is-invalid': submitted && f.currentPassword.errors }"
-                        />
-                        <button class="btn btn-light ms-0" type="button" (click)="toggleCurrentPasswordFieldTextType()">
-                            <i
-                                class="mdi mdi-eye-outline"
-                                [ngClass]="{ 'mdi-eye-off-outline': !currentPasswordFieldTextType, 'mdi-eye-outline': currentPasswordFieldTextType }"
-                            ></i>
-                        </button>
-                    </div>
-                    <div class="text-danger" *ngIf="submitted && f['currentPassword'].errors">
-                        Current Password is required.
-                    </div>
+              <div class="form-group">
+                <label for="currentPassword">Current Password<span class="text-danger">*</span></label>
+                <div class="input-group auth-pass-inputgroup">
+                  <input [type]="currentPasswordFieldTextType ? 'text' : 'password'"
+                    class="form-control form-control-sm" autocomplete="new-password" formControlName="currentPassword"
+                    placeholder="Enter Current Password"
+                    [ngClass]="{ 'is-invalid': submitted && f.currentPassword.errors }" />
+                  <button class="btn btn-light ms-0" type="button" (click)="toggleCurrentPasswordFieldTextType()">
+                    <i class="mdi mdi-eye-outline"
+                      [ngClass]="{ 'mdi-eye-off-outline': !currentPasswordFieldTextType, 'mdi-eye-outline': currentPasswordFieldTextType }"></i>
+                  </button>
                 </div>
-                
-                <div class="form-group">
-                    <label for="newPassword">New Password<span class="text-danger">*</span></label>
-                    <div class="input-group auth-pass-inputgroup">
-                        <input
-                            [type]="newPasswordFieldTextType ? 'text' : 'password'"
-                            class="form-control form-control-sm"
-                            formControlName="newPassword"
-                            placeholder="Enter New Password"
-                            [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }"
-                            autocomplete="new-password"
-                        />
-                        <button class="btn btn-light ms-0" type="button" (click)="toggleNewPasswordFieldTextType()">
-                            <i
-                                class="mdi mdi-eye-outline"
-                                [ngClass]="{ 'mdi-eye-off-outline': !newPasswordFieldTextType, 'mdi-eye-outline': newPasswordFieldTextType }"
-                            ></i>
-                        </button>
-                    </div>
-                    <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['required']">
-                        New Password is required.
-                    </div>
-                    <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['minlength']">
-                        New Password must be at least 8 characters.
-                    </div>
-                    <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['pattern']">
-                        New Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.
-                    </div>
+                <div class="text-danger" *ngIf="submitted && f['currentPassword'].errors">
+                  Current Password is required.
                 </div>
-                
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password<span class="text-danger">*</span></label>
-                    <div class="input-group auth-pass-inputgroup">
-                        <input
-                            [type]="confirmFieldTextType ? 'text' : 'password'"
-                            class="form-control form-control-sm"
-                            formControlName="confirmPassword"
-                            placeholder="Enter Confirm Password"
-                            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
-                            autocomplete="new-password"
-                        />
-                        <button class="btn btn-light ms-0" type="button" (click)="toggleConfirmFieldTextType()">
-                            <i
-                                class="mdi mdi-eye-outline"
-                                [ngClass]="{ 'mdi-eye-off-outline': !confirmFieldTextType, 'mdi-eye-outline': confirmFieldTextType }"
-                            ></i>
-                        </button>
-                    </div>
-                    <div class="text-danger" *ngIf="submitted && f['confirmPassword'].errors?.['required']">
-                        Confirm password is required.
-                    </div>
-                    <div class="text-danger" *ngIf="f.confirmPassword?.hasError('mustMatch')">
-                        Password and Confirm Password do not match.
-                    </div>
+              </div>
+
+              <div class="form-group">
+                <label for="newPassword">New Password<span class="text-danger">*</span></label>
+                <div class="input-group auth-pass-inputgroup">
+                  <input [type]="newPasswordFieldTextType ? 'text' : 'password'" class="form-control form-control-sm"
+                    formControlName="newPassword" placeholder="Enter New Password"
+                    [ngClass]="{ 'is-invalid': submitted && f.newPassword.errors }" autocomplete="new-password" />
+                  <button class="btn btn-light ms-0" type="button" (click)="toggleNewPasswordFieldTextType()">
+                    <i class="mdi mdi-eye-outline"
+                      [ngClass]="{ 'mdi-eye-off-outline': !newPasswordFieldTextType, 'mdi-eye-outline': newPasswordFieldTextType }"></i>
+                  </button>
                 </div>
+                <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['required']">
+                  New Password is required.
+                </div>
+                <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['minlength']">
+                  New Password must be at least 8 characters.
+                </div>
+                <div class="text-danger" *ngIf="submitted && f['newPassword'].errors?.['pattern']">
+                  New Password must contain at least one uppercase letter, one lowercase letter, one number, and one
+                  special character.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password<span class="text-danger">*</span></label>
+                <div class="input-group auth-pass-inputgroup">
+                  <input [type]="confirmFieldTextType ? 'text' : 'password'" class="form-control form-control-sm"
+                    formControlName="confirmPassword" placeholder="Enter Confirm Password"
+                    [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" autocomplete="new-password" />
+                  <button class="btn btn-light ms-0" type="button" (click)="toggleConfirmFieldTextType()">
+                    <i class="mdi mdi-eye-outline"
+                      [ngClass]="{ 'mdi-eye-off-outline': !confirmFieldTextType, 'mdi-eye-outline': confirmFieldTextType }"></i>
+                  </button>
+                </div>
+                <div class="text-danger" *ngIf="submitted && f['confirmPassword'].errors?.['required']">
+                  Confirm password is required.
+                </div>
+                <div class="text-danger" *ngIf="f.confirmPassword?.hasError('mustMatch')">
+                  Password and Confirm Password do not match.
+                </div>
+              </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" (click)="resetpasswordSave()">Reset Password</button>
-                  <button type="button" class="btn btn-secondary" (click)="closeResetPasswordModal()">Cancel</button>
-         
+                <button type="button" class="btn btn-secondary" (click)="closeResetPasswordModal()">Cancel</button>
+
               </div>
+            </div>
           </div>
-      </div>
-      </div>
-    </form>
-  </div>
+        </div>
+      </form>
+    </div>
   </div>
 </header>
 
-<ng-template #notificationPopAdmin let-modal> 
+<ng-template #notificationPopAdmin let-modal>
   <div class="modal-header">
     Pending Corrections
-    </div>
- 
+  </div>
+
   <div class="modal-body">
     <div class="table-responsive">
       <table class="table table-bordered table-stripped">
@@ -567,16 +556,18 @@
             <td>{{ invoice.header.ProformaTypeOfAircraft }}</td>
             <td>{{ invoice.header.ProformaCity }}</td>
             <td>{{ invoice.header.BookingSector }}</td>
-            <td class="text-nowrap">{{ invoice.header.startBookingDateOfJourny }}/{{ invoice.header.endBookingDateOfJourny }}</td>
+            <td class="text-nowrap">{{ invoice.header.startBookingDateOfJourny }}/{{
+              invoice.header.endBookingDateOfJourny }}</td>
             <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
             <td>{{ invoice.reviewedDescription }} ({{ invoice.reviewedDate }})</td>
-            <td><i class="fa fa-check-circle text-success" style="font-size: 20px;" role="button" (click)="verifyedInvoice(invoice)"></i></td>
-  
+            <td><i class="fa fa-check-circle text-success" style="font-size: 20px;" role="button"
+                (click)="verifyedInvoice(invoice)"></i></td>
+
           </tr>
         </tbody>
       </table>
     </div>
-   
+
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="closeInvoice()">Close</button>
@@ -585,12 +576,12 @@
 
 </ng-template>
 
-<ng-template #notificationPopMD let-modal> 
+<ng-template #notificationPopMD let-modal>
   <div class="modal-header">
     <!-- Admin Update Completed -->
     Resolved Corrections
-    </div>
- 
+  </div>
+
   <div class="modal-body">
     <div class="table-responsive">
       <table class="table table-bordered table-stripped">
@@ -609,24 +600,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let invoice of reviewedNotificationList" >
+          <tr *ngFor="let invoice of reviewedNotificationList">
             <td>{{ invoice.invoiceUniqueNumber }}</td>
             <td>{{ invoice.header.ProformaInvoiceDate }}</td>
             <td>{{ invoice.header.ProformaCustomerName }}</td>
             <td>{{ invoice.header.ProformaTypeOfAircraft }}</td>
             <td>{{ invoice.header.ProformaCity }}</td>
             <td>{{ invoice.header.BookingSector }}</td>
-            <td class="text-nowrap">{{ invoice.header.startBookingDateOfJourny }}/{{ invoice.header.endBookingDateOfJourny }}</td>
+            <td class="text-nowrap">{{ invoice.header.startBookingDateOfJourny }}/{{
+              invoice.header.endBookingDateOfJourny }}</td>
             <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
             <td>{{ invoice.reviewedDescription }} ({{ invoice.reviewedDate }})</td>
-            <td class="text-success">{{invoice.reviewedReSubmited == true?'Modifications Completed – Awaiting Your Decision':''}}</td>
+            <td class="text-success">{{invoice.reviewedReSubmited == true?'Modifications Completed – Awaiting Your
+              Decision':''}}</td>
             <!-- <td><i class="fa fa-check-circle text-success" style="font-size: 20px;" role="button" (click)="verifyedInvoice(invoice)"></i></td> -->
-  
+
           </tr>
         </tbody>
       </table>
     </div>
-   
+
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="closeInvoice()">Close</button>
@@ -637,5 +630,6 @@
 
 
 <ng-template>
-  <app-global-review-edit [childMessage]="parentMessage" (messageEvent)="receiveMessage(invoice)"></app-global-review-edit>
+  <app-global-review-edit [childMessage]="parentMessage"
+    (messageEvent)="receiveMessage(invoice)"></app-global-review-edit>
 </ng-template>

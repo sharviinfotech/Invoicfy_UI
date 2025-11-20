@@ -10,11 +10,11 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
   selector: 'app-customer-creation',
   templateUrl: './customer-creation.component.html',
   styleUrl: './customer-creation.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule,NgxSpinnerModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgxSpinnerModule],
   standalone: true
 })
 export class CustomerCreationComponent {
- @ViewChild('editCustomerTemplate') editCustomerTemplate!: TemplateRef<any>;
+  @ViewChild('editCustomerTemplate') editCustomerTemplate!: TemplateRef<any>;
   creditPeriodList: string[] = ['15 days', '30 days', '45 days'];
 
   statesList: any[] = [];

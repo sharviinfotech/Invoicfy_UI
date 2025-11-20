@@ -92,7 +92,8 @@
     <div class="left-content">
 
       <h2 class="left-title">Sharvi Infotech Invoice Portal</h2>
-      <p class="left-desc">Manage your finances with ease. Our platform provides the tools you need to stay organized and efficient.</p>
+      <p class="left-desc">Manage your finances with ease. Our platform provides the tools you need to stay organized
+        and efficient.</p>
     </div>
   </div>
 
@@ -106,7 +107,8 @@
           <div class="mb-3">
             <label for="userName" class="form-label">User Name</label>
             <div class="input-with-icon">
-              <input id="userName" type="text" class="form-control" formControlName="userName" placeholder="Enter your user name" [ngClass]="{ 'is-invalid': submitted && f['userName'].errors }">
+              <input id="userName" type="text" class="form-control" formControlName="userName"
+                placeholder="Enter your user name" [ngClass]="{ 'is-invalid': submitted && f['userName'].errors }">
               <i class="mdi mdi-account-outline input-icon"></i>
             </div>
             <div class="invalid-feedback d-block" *ngIf="submitted && f['userName'].errors">User Name is required.</div>
@@ -115,9 +117,13 @@
           <div class="mb-2">
             <label for="password" class="form-label">Password</label>
             <div class="input-with-icon">
-              <input id="password" [type]="fieldTextType ? 'text' : 'password'" class="form-control" formControlName="password" placeholder="Enter your password" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
-              <button class="icon-btn" type="button" aria-label="Toggle password visibility" (click)="toggleFieldTextType()">
-                <i class="mdi" [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"></i>
+              <input id="password" [type]="fieldTextType ? 'text' : 'password'" class="form-control"
+                formControlName="password" placeholder="Enter your password"
+                [ngClass]="{ 'is-invalid': submitted && f['password'].errors }">
+              <button class="icon-btn" type="button" aria-label="Toggle password visibility"
+                (click)="toggleFieldTextType()">
+                <i class="mdi"
+                  [ngClass]="{'mdi-eye-off-outline': !fieldTextType, 'mdi-eye-outline': fieldTextType}"></i>
               </button>
             </div>
             <div class="invalid-feedback d-block" *ngIf="submitted && f['password'].errors">Password is required.</div>
@@ -145,10 +151,12 @@
           <div class="mb-3">
             <label for="fp-email" class="form-label">Email Address</label>
             <div class="input-with-icon">
-              <input id="fp-email" type="email" class="form-control" formControlName="email" placeholder="Enter your email" [ngClass]="{ 'is-invalid': submittedForgot && gForgot['email'].errors }">
+              <input id="fp-email" type="email" class="form-control" formControlName="email"
+                placeholder="Enter your email" [ngClass]="{ 'is-invalid': submittedForgot && gForgot['email'].errors }">
               <i class="mdi mdi-email-outline input-icon"></i>
             </div>
-            <div class="invalid-feedback d-block" *ngIf="submittedForgot && gForgot['email'].errors">Valid email is required.</div>
+            <div class="invalid-feedback d-block" *ngIf="submittedForgot && gForgot['email'].errors">Valid email is
+              required.</div>
           </div>
 
           <div class="d-grid">
@@ -163,10 +171,7 @@
       <div class="text-center mt-4 text-muted small">
         © 2025 Sharviinfotech. All Rights Reserved
       </div>
+
     </div>
   </div>
 </div>
-
-
-
-

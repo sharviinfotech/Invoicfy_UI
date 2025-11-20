@@ -23,6 +23,8 @@ import { GateEntryComponent } from './gate-entry/gate-entry.component';
 import { StockEntryComponent } from './stock-entry/stock-entry.component';
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
+import { EquipmentMasterComponent } from './equipment-master/equipment-master.component';
+import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-list.component';
 
 
 const routes: Routes = [
@@ -79,6 +81,14 @@ const routes: Routes = [
         component: GateEntryComponent
     },
     {
+        path: 'equipmentMaster',
+        component: EquipmentMasterComponent
+    },
+    {
+        path: 'equipmenttaskList',
+        component: EquipmenttaskListComponent
+    },
+    {
         path: 'globalReviewEdit',
         component: GlobalReviewEditComponent
     },
@@ -88,11 +98,11 @@ const routes: Routes = [
     },
     {
         path: 'CompanyCreation',
-        component:CompanyCreationComponent
+        component: CompanyCreationComponent
     },
     {
         path: 'funds_recived_against',
-        component:FundsRecievedAgainstComponent
+        component: FundsRecievedAgainstComponent
     },
     // {
     //     path: 'saas',
@@ -116,4 +126,4 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class DashboardsRoutingModule {}
+export class DashboardsRoutingModule { }

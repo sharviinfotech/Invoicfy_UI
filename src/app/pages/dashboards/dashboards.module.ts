@@ -18,12 +18,16 @@ import { ProductManagementComponent } from './product-management/product-managem
 import { InventoryManagementComponent } from './inventory-management/inventory-management.component';
 import { StockEntryComponent } from './stock-entry/stock-entry.component';
 import { GateEntryComponent } from './gate-entry/gate-entry.component';
+import { EquipmentMasterComponent } from './equipment-master/equipment-master.component';
+import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-list.component';
 
 // import { GlobalReviewEditComponent } from './global-review-edit/global-review-edit.component';
 
 @NgModule({
   declarations: [
     SampleComponentComponent,
+    EquipmentMasterComponent,
+    EquipmenttaskListComponent,
     // ProductManagementComponent,
     // InventoryManagementComponent,
     // StockEntryComponent,
