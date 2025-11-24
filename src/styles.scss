@@ -172,9 +172,10 @@ dropzone>.dropzone.dz-wrapper {
   // background: #042843;
   color: white;
 }
+
 .btn.newHexCode:hover {
-// background: #103554;
-color: white;
+  // background: #103554;
+  color: white;
 }
 
 
@@ -183,6 +184,7 @@ color: white;
   border-radius: 5px 5px 0 0 !important;
   border: 2px solid black !important;
 }
+
 /* General Container */
 /* .invoice-container {
   margin: auto;
@@ -353,10 +355,12 @@ button {
 label {
   display: block;
   margin-bottom: 5px;
-  color:black;
+  color: black;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -473,6 +477,7 @@ input, select, textarea {
   border-radius: 4px;
   resize: vertical;
 }
+
 /* New styles for logo upload */
 /* Header styles */
 .invoice-header {
@@ -576,7 +581,7 @@ input, select, textarea {
   color: white;
 }
 
-.tabCard{
+.tabCard {
   margin-top: 10px;
   margin-bottom: 10px;
   border: 0;
@@ -589,8 +594,8 @@ input, select, textarea {
   background-color: white;
   background-clip: border-box;
   border-radius: 1px solid blue;
-  border: 2px ;
-  padding: 10px ;
+  border: 2px;
+  padding: 10px;
   border-bottom: 2px solid blue !important;
 }
 
@@ -626,7 +631,10 @@ input {
   width: 100%;
 }
 
-.hours-input, .rate-input, .amount-input, .percentage-input {
+.hours-input,
+.rate-input,
+.amount-input,
+.percentage-input {
   text-align: right;
 }
 
@@ -646,6 +654,7 @@ input {
 .add-btn:hover {
   background: #0056b3;
 }
+
 .details-container {
   padding: 16px;
   font-family: Arial, sans-serif;
@@ -692,22 +701,25 @@ input:focus {
   outline: none;
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
 }
+
 /* below is button css */
-.btnSave{
+.btnSave {
   padding: 10px 10px;
-  background: #057e1b ;
+  background: #057e1b;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   color: white;
 }
+
 .btnSave:hover {
   background-color: #218838;
   color: white !important;
 }
-.btnEdit{
+
+.btnEdit {
   padding: 10px 10px;
-  background: #057e1b ;
+  background: #057e1b;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
@@ -718,15 +730,17 @@ input:focus {
   background-color: #218838;
   color: white !important;
 }
-.btnBack{
+
+.btnBack {
   padding: 10px 10px;
-  background: #433eb1 ;
+  background: #433eb1;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   color: white;
 }
-.btnCross{
+
+.btnCross {
   margin-top: 15px;
   background: red;
   color: white;
@@ -735,7 +749,8 @@ input:focus {
   border-radius: 5px;
   cursor: pointer;
 }
-.btnDelete{
+
+.btnDelete {
   margin-top: 15px;
   background: red;
   color: white;
@@ -743,6 +758,7 @@ input:focus {
   padding: 10px;
   border-radius: 5px;
 }
+
 // .btnReset{
 //   margin-top: 15px;
 //   background: #1226c9;
@@ -752,23 +768,25 @@ input:focus {
 //   border-radius: 5px;
 // }
 
-.btnClose{
+.btnClose {
   padding: 10px 20px;
-  background:rgb(201, 9, 54);
+  background: rgb(201, 9, 54);
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
   color: white;
 }
+
 .btnClose:hover {
-  background-color:rgb(201, 9, 54);
+  background-color: rgb(201, 9, 54);
   color: white !important;
 }
 
 
-.card-body{
+.card-body {
   padding: 10px !important;
 }
+
 /* General Styles for Card and Modal */
 .card {
   border-radius: 8px;
@@ -784,13 +802,15 @@ input:focus {
   // text-align: center;
   border-bottom: 2px solid #eeeff1;
 }
+
 .modal-header {
   padding: 10px !important;
- /* background-color: #e79807 !important; */
- background-color: rgb(143 143 203) !important;;
- color: white !important;
- text-align: center !important;
- justify-content: center;
+  /* background-color: #e79807 !important; */
+  background-color: rgb(143 143 203) !important;
+  ;
+  color: white !important;
+  text-align: center !important;
+  justify-content: center;
 }
 
 
@@ -849,8 +869,8 @@ input:focus {
   transition: all 0.2s;
 }
 
-.floating-label .floating-input:focus + label,
-.floating-label .floating-input:not(:focus):valid + label {
+.floating-label .floating-input:focus+label,
+.floating-label .floating-input:not(:focus):valid+label {
   top: -10px;
   left: 10px;
   font-size: 12px;
@@ -929,21 +949,25 @@ input:focus {
   color: #2563eb !important;
   border: 2px solid #2563eb;
 }
-.btnSave{
-  background: #057e1b ;
+
+.btnSave {
+  background: #057e1b;
   color: white;
   transition: background-color 0.3s;
 }
+
 .btnSave:hover {
   background-color: white;
   color: #057e1b !important;
   border: 2px solid #057e1b;
 }
-.btnReset{
-  background: red ;
+
+.btnReset {
+  background: red;
   color: white;
   transition: background-color 0.3s;
 }
+
 .btnReset:hover {
   background-color: white;
   color: red !important;
@@ -962,7 +986,7 @@ input:focus {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .table th {
@@ -976,17 +1000,19 @@ input:focus {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
+
   .col-lg-4,
   .col-md-4,
   .col-sm-4 {
-      width: 100%;
-      margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .table {
-      font-size: 12px;
+    font-size: 12px;
   }
 }
+
 .input-group-text {
   cursor: pointer;
 }
@@ -995,17 +1021,20 @@ input:focus {
   margin-left: 10px;
   font-weight: bold;
 }
+
 .custom-toggle {
   width: 50px;
   height: 25px;
-  background-color: #7A263A; /* Maroon color */
+  background-color: #7A263A;
+  /* Maroon color */
   border: none;
   outline: none;
   transition: background-color 0.3s;
 }
 
 .custom-toggle:checked {
-  background-color: #ffffff; /* White when active */
+  background-color: #ffffff;
+  /* White when active */
 }
 
 .custom-toggle::before {
@@ -1023,8 +1052,10 @@ input:focus {
 .custom-toggle:checked::before {
   transform: translateX(25px);
 }
+
 .selected {
-  border: 2px solid blue !important;  /* Change color as needed */
+  border: 2px solid blue !important;
+  /* Change color as needed */
 }
 
 // .tableFixHead {
@@ -1038,11 +1069,15 @@ input:focus {
 //   top: -2px;
 // }
 .tableFixHead {
-  overflow-y: auto; /* Enables vertical scrolling */
-  max-height: 65vh; /* Reduce height to make it smaller */
+  overflow-y: auto;
+  /* Enables vertical scrolling */
+  max-height: 65vh;
+  /* Reduce height to make it smaller */
   margin-top: 3px;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #ccc transparent; /* Light scrollbar color */
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: #ccc transparent;
+  /* Light scrollbar color */
 
   /* Smart Scroll - Hide scrollbar when not scrolling */
   transition: max-height 0.3s ease-in-out;
@@ -1050,20 +1085,25 @@ input:focus {
 
 /* For WebKit Browsers (Chrome, Safari) */
 .tableFixHead::-webkit-scrollbar {
-  width: 6px; /* Make scrollbar thin */
+  width: 6px;
+  /* Make scrollbar thin */
 }
 
 .tableFixHead::-webkit-scrollbar-track {
-  background: transparent; /* Hide scrollbar background */
+  background: transparent;
+  /* Hide scrollbar background */
 }
 
 .tableFixHead::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2); /* Light scrollbar color */
-  border-radius: 3px; /* Rounded edges */
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Light scrollbar color */
+  border-radius: 3px;
+  /* Rounded edges */
 }
 
 .tableFixHead:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.4); /* Darken when hovering */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Darken when hovering */
 }
 
 .tableFixHead thead th {
@@ -1072,11 +1112,15 @@ input:focus {
 }
 
 .tableFixHeadR {
-  overflow-y: auto; /* Enables vertical scrolling */
-  max-height: 60vh; /* Reduce height to make it smaller */
+  overflow-y: auto;
+  /* Enables vertical scrolling */
+  max-height: 60vh;
+  /* Reduce height to make it smaller */
   margin-top: 3px;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #ccc transparent; /* Light scrollbar color */
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: #ccc transparent;
+  /* Light scrollbar color */
 
   /* Smart Scroll - Hide scrollbar when not scrolling */
   transition: max-height 0.3s ease-in-out;
@@ -1084,21 +1128,27 @@ input:focus {
 
 /* For WebKit Browsers (Chrome, Safari) */
 .tableFixHeadR::-webkit-scrollbar {
-  width: 6px; /* Make scrollbar thin */
+  width: 6px;
+  /* Make scrollbar thin */
 }
 
 .tableFixHeadR::-webkit-scrollbar-track {
-  background: transparent; /* Hide scrollbar background */
+  background: transparent;
+  /* Hide scrollbar background */
 }
 
 .tableFixHeadR::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.2); /* Light scrollbar color */
-  border-radius: 3px; /* Rounded edges */
+  background-color: rgba(0, 0, 0, 0.2);
+  /* Light scrollbar color */
+  border-radius: 3px;
+  /* Rounded edges */
 }
 
 .tableFixHeadR:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.4); /* Darken when hovering */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Darken when hovering */
 }
+
 .tableFixHeadR thead th {
   position: sticky;
   top: -2px;
@@ -1148,15 +1198,16 @@ input:focus {
    ===================== */
 :root {
   --theme-sidebar-blue: #103554;
-  --theme-text-dark: #111827; /* gray-900 */
+  --theme-text-dark: #111827;
+  /* gray-900 */
   // --theme-text-light: #ffffff;
   --theme-text-light: #fefefe;
 
   --theme-card-bg: #ffffff;
-   --theme-card-bg: #fefefe;
+  --theme-card-bg: #fefefe;
   ;
   --theme-card-text: #111827;
-  --border-radius:8px
+  --border-radius: 8px
 }
 
 /* Light Theme Toggle */
@@ -1178,7 +1229,8 @@ body.theme-light .card-footer {
 
 /* Sidebar background in Light theme: #ffffff */
 body.theme-light .vertical-menu {
-  background-image: none !important; /* override component bg image */
+  background-image: none !important;
+  /* override component bg image */
   background: #ffffff !important;
 }
 
@@ -1189,6 +1241,7 @@ body.theme-light .navbar-brand-box {
   background-image: none !important;
   background: #ffffff !important;
 }
+
 /* Sidebar text/icon colors - always dark in Light theme */
 body.theme-light .vertical-menu .metismenu a,
 body.theme-light .vertical-menu .metismenu span,
@@ -1199,7 +1252,7 @@ body.theme-light .vertical-menu i {
 
 
 /* Active/hover states for better contrast on white */
-body.theme-light .vertical-menu .mm-active > a,
+body.theme-light .vertical-menu .mm-active>a,
 body.theme-light .vertical-menu .metismenu a:hover {
   color: var(--theme-text-dark) !important;
   background-color: rgba(0, 0, 0, 0.06) !important;
@@ -1208,7 +1261,8 @@ body.theme-light .vertical-menu .metismenu a:hover {
 
 /* Topbar color to match route in Light theme */
 body.theme-light #page-topbar .navbar-header {
-  background-image: none !important; /* kill gradient from component */
+  background-image: none !important;
+  /* kill gradient from component */
   background-color: #f5f6f8 !important;
 }
 
@@ -1229,7 +1283,9 @@ body.theme-light #page-topbar #vertical-menu-btn i {
 
 
 /* Light theme: main content area beside the sidebar should be #f5f6f8 */
-body.theme-light .page-content { background: #f5f6f8 !important; }
+body.theme-light .page-content {
+  background: #f5f6f8 !important;
+}
 
 
 /* Light theme: force sidebar menu icons to be visible (override component whites) */
@@ -1240,16 +1296,20 @@ body.theme-light #sidebar-menu li.mm-active i {
 }
 
 /* Light theme: subtle separators between topbar/sidebar/content */
-body.theme-light .vertical-menu { border-right: 0.5px solid rgba(17,24,39,0.08) !important; }
-body.theme-light #page-topbar .navbar-header { 
+body.theme-light .vertical-menu {
+  border-right: 0.5px solid rgba(17, 24, 39, 0.08) !important;
+}
+
+body.theme-light #page-topbar .navbar-header {
   // border-bottom: 1px solid rgba(17,24,39,0.08) !important; 
 }
 
 
 /* Light theme: vertical separator beside the hamburger (3 bars) */
 body.theme-light #page-topbar #vertical-menu-btn {
-  border-right: 1px solid rgba(17,24,39,0.08) !important;
-  margin-right: 10px; /* space after the separator */
+  border-right: 1px solid rgba(17, 24, 39, 0.08) !important;
+  margin-right: 10px;
+  /* space after the separator */
 }
 
 
@@ -1264,8 +1324,10 @@ body.theme-dark {
 
 /* Dark theme: main content background */
 body.theme-dark {
-  background-color: #121921 !important; /* ensure body background is dark */
+  background-color: #121921 !important;
+  /* ensure body background is dark */
 }
+
 body.theme-dark #layout-wrapper,
 body.theme-dark .main-content,
 body.theme-dark .page-content {
@@ -1286,7 +1348,8 @@ body.theme-dark .card-footer {
 body.theme-dark .vertical-menu {
   background-image: none !important;
   background: #111729 !important;
-  border-right: 1px solid #111729 !important; /* remove light separator edge */
+  border-right: 1px solid #111729 !important;
+  /* remove light separator edge */
   box-shadow: none !important;
 }
 
@@ -1294,7 +1357,8 @@ body.theme-dark .vertical-menu {
 body.theme-dark .navbar-brand-box {
   background-image: none !important;
   background: #111729 !important;
-  border-bottom: 1px solid #111729 !important; /* remove light line under brand box */
+  border-bottom: 1px solid #111729 !important;
+  /* remove light line under brand box */
   box-shadow: none !important;
 }
 
@@ -1307,16 +1371,18 @@ body.theme-dark .vertical-menu i {
 }
 
 /* Sidebar active/hover states remain dark */
-body.theme-dark .vertical-menu .mm-active > a,
+body.theme-dark .vertical-menu .mm-active>a,
 body.theme-dark .vertical-menu .metismenu a:hover {
   color: var(--theme-text-light) !important;
   background-color: #111729 !important;
 }
+
 /* Ensure entire active list item and sub-menu stay dark */
 body.theme-dark .mm-active {
   background-color: #111729 !important;
   color: var(--theme-text-light) !important;
 }
+
 body.theme-dark .sub-menu .active,
 body.theme-dark .sub-menu .active:hover {
   background-color: #111729 !important;
@@ -1335,7 +1401,7 @@ body.theme-dark .vertical-menu .menu-divider {
 /* Remove active item accent border to keep sidebar fully black */
 body.theme-dark .vertical-menu .metismenu li a.active,
 body.theme-dark .vertical-menu .metismenu li a:hover,
-body.theme-dark .vertical-menu li.mm-active > a,
+body.theme-dark .vertical-menu li.mm-active>a,
 body.theme-dark .sub-menu .active,
 body.theme-dark .sub-menu .active:hover {
   border-left: 4px solid #111729 !important;
@@ -1348,6 +1414,7 @@ body.theme-dark #page-topbar .navbar-header {
   background-image: none !important;
   background-color: #121921 !important;
 }
+
 body.theme-dark #page-topbar .header-item,
 body.theme-dark #page-topbar .header-item i,
 body.theme-dark #page-topbar .noti-icon i,
@@ -1360,9 +1427,11 @@ body.theme-dark #page-topbar #vertical-menu-btn i {
 body.theme-dark .footer {
   background-color: #121921 !important;
   color: var(--theme-text-light) !important;
-  border-top: 1px solid #121921 !important; /* remove any light separator */
+  border-top: 1px solid #121921 !important;
+  /* remove any light separator */
   box-shadow: none !important;
 }
+
 body.theme-dark .footer a,
 body.theme-dark .footer i,
 body.theme-dark .footer .text-muted {
@@ -1383,7 +1452,7 @@ body.theme-dark .table {
 }
 
 /* Cells, header and footer */
-body.theme-dark .table > :not(caption) > * > * {
+body.theme-dark .table> :not(caption)>*>* {
   background-color: #121921 !important;
   color: var(--theme-text-light) !important;
   border-color: #1f2a35 !important;
@@ -1406,11 +1475,20 @@ body.theme-dark .dropdown-menu {
   color: var(--theme-text-light) !important;
   border-color: #1f2a35 !important;
 }
-body.theme-dark .dropdown-item { color: var(--theme-text-light) !important; }
-body.theme-dark .dropdown-item:hover { background-color: #243141 !important; }
+
+body.theme-dark .dropdown-item {
+  color: var(--theme-text-light) !important;
+}
+
+body.theme-dark .dropdown-item:hover {
+  background-color: #243141 !important;
+}
 
 /* Forms and labels for readability */
-body.theme-dark label { color: var(--theme-text-light) !important; }
+body.theme-dark label {
+  color: var(--theme-text-light) !important;
+}
+
 body.theme-dark input,
 body.theme-dark select,
 body.theme-dark textarea {
@@ -1425,6 +1503,7 @@ body.theme-dark .modal-content {
   color: var(--theme-card-text) !important;
   border-color: #1f2a35 !important;
 }
+
 body.theme-dark .modal-header,
 body.theme-dark .modal-body,
 body.theme-dark .modal-footer {
@@ -1440,10 +1519,22 @@ body.theme-dark .modal-footer {
 
 
 /* Dark theme overrides for Invoicefy Global Dashboard */
-body.theme-dark #dashboard-container { background: transparent !important; }
-body.theme-dark #dashboard-container .header-row .muted { color: #9ca3af !important; }
-body.theme-dark #dashboard-container .search { background: #0f1720 !important; border-color: #1f2a35 !important; }
-body.theme-dark #dashboard-container .search input { color: var(--theme-text-light) !important; }
+body.theme-dark #dashboard-container {
+  background: transparent !important;
+}
+
+body.theme-dark #dashboard-container .header-row .muted {
+  color: #9ca3af !important;
+}
+
+body.theme-dark #dashboard-container .search {
+  background: #0f1720 !important;
+  border-color: #1f2a35 !important;
+}
+
+body.theme-dark #dashboard-container .search input {
+  color: var(--theme-text-light) !important;
+}
 
 body.theme-dark #dashboard-container .kpis .kpi-card,
 body.theme-dark #dashboard-container .card,
@@ -1455,8 +1546,13 @@ body.theme-dark #dashboard-container #rightBar {
   box-shadow: none !important;
 }
 
-body.theme-dark #dashboard-container .kpi-card .label { color: #9ca3af !important; }
-body.theme-dark #dashboard-container .kpi-card .value { color: var(--theme-text-light) !important; }
+body.theme-dark #dashboard-container .kpi-card .label {
+  color: #9ca3af !important;
+}
+
+body.theme-dark #dashboard-container .kpi-card .value {
+  color: var(--theme-text-light) !important;
+}
 
 body.theme-dark #dashboard-container .kpi-card.invoiced,
 body.theme-dark #dashboard-container .kpi-card.paid,
@@ -1478,27 +1574,102 @@ body.theme-dark #dashboard-container .badge {
 }
 
 /* ApexCharts dark theme tweaks */
-body.theme-dark .apexcharts-text { fill: var(--theme-text-light) !important; }
-body.theme-dark .apexcharts-legend-text { color: var(--theme-text-light) !important; }
-body.theme-dark .apexcharts-tooltip { background: var(--theme-card-bg) !important; color: var(--theme-text-light) !important; border-color: #1f2a35 !important; }
-body.theme-dark .apexcharts-menu { background: var(--theme-card-bg) !important; border-color: #1f2a35 !important; }
-body.theme-dark .apexcharts-gridline { stroke: #1f2a35 !important; }
-body.theme-dark .apexcharts-xaxis line, body.theme-dark .apexcharts-yaxis line { stroke: #1f2a35 !important; }
+body.theme-dark .apexcharts-text {
+  fill: var(--theme-text-light) !important;
+}
+
+body.theme-dark .apexcharts-legend-text {
+  color: var(--theme-text-light) !important;
+}
+
+body.theme-dark .apexcharts-tooltip {
+  background: var(--theme-card-bg) !important;
+  color: var(--theme-text-light) !important;
+  border-color: #1f2a35 !important;
+}
+
+body.theme-dark .apexcharts-menu {
+  background: var(--theme-card-bg) !important;
+  border-color: #1f2a35 !important;
+}
+
+body.theme-dark .apexcharts-gridline {
+  stroke: #1f2a35 !important;
+}
+
+body.theme-dark .apexcharts-xaxis line,
+body.theme-dark .apexcharts-yaxis line {
+  stroke: #1f2a35 !important;
+}
 
 .delete-btn {
-    background: red;
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 3px;
-  }
-  .edit-btn{
-    background: green;
-    color: white;
-    border: none;
-    cursor: pointer;
-    padding: 3px 6px;
-    border-radius: 3px;
-    margin-right: 5px;
-  }
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 3px;
+}
+
+.edit-btn {
+  background: green;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-right: 5px;
+}
+
+// google transalet start
+
+//google transalator css
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+
+body {
+  top: 0px !important;
+}
+
+#google_translate_element select {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px;
+  font-size: 14px;
+}
+
+/* Hide the Google Translate iframe */
+iframe.VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide the Google Translate icon */
+img.goog-te-gadget-icon {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.VIpgJd-ZVi9od-xl07Ob-lTBxed {
+  pointer-events: none;
+  /* Disables click */
+  cursor: default;
+  /* Changes cursor to normal */
+}
+
+.goog-te-gadget-simple {
+  background-color: #556ee6 !important;
+  border: 1px solid white !important;
+  color: white !important;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}

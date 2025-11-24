@@ -51,6 +51,8 @@ export class ProductManagementComponent implements OnInit {
       selfLifeDays: [''],
       batchReq: ['', Validators.required],
       hsnCode: ['', Validators.required],
+      uom: ['', Validators.required],
+      slock: ['', Validators.required],
       image: [''],
       qmReq: ['', Validators.required]
     });
@@ -98,6 +100,8 @@ export class ProductManagementComponent implements OnInit {
       selfLifeDays: product.selfLifeDays,
       batchReq: product.batchReq,
       hsnCode: product.hsnCode,
+      uom: product.uom,
+      slock: product.slock,
       image: product.image,
       qmReq: product.qmReq
     });
@@ -129,6 +133,8 @@ export class ProductManagementComponent implements OnInit {
       selfLifeDays: this.ProductCreationForm.value.selfLifeDays,
       batchReq: this.ProductCreationForm.value.batchReq.toUpperCase(),
       hsnCode: this.ProductCreationForm.value.hsnCode.toUpperCase(),
+      uom: this.ProductCreationForm.value.uom,
+      slock: this.ProductCreationForm.value.slock,
       image: this.selectedImageBase64,
       qmReq: this.ProductCreationForm.value.qmReq.toUpperCase()
     };

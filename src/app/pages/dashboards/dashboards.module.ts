@@ -20,6 +20,9 @@ import { StockEntryComponent } from './stock-entry/stock-entry.component';
 import { GateEntryComponent } from './gate-entry/gate-entry.component';
 import { EquipmentMasterComponent } from './equipment-master/equipment-master.component';
 import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-list.component';
+import { WorkorderComponent } from './workorder/workorder.component';
+import { SalesEnquireyComponent } from './sales-enquirey/sales-enquirey.component';
+import { SalesQuotationComponent } from './sales-quotation/sales-quotation.component';
 
 // import { GlobalReviewEditComponent } from './global-review-edit/global-review-edit.component';
 
@@ -28,6 +31,9 @@ import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-l
     SampleComponentComponent,
     EquipmentMasterComponent,
     EquipmenttaskListComponent,
+    WorkorderComponent,
+    SalesEnquireyComponent,
+    SalesQuotationComponent,
     // ProductManagementComponent,
     // InventoryManagementComponent,
     // StockEntryComponent,

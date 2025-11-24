@@ -27,6 +27,10 @@ export class InventoryManagementComponent implements OnInit {
 
   loginData: any;
   submit: boolean = false;
+  productList: any[] = [];
+  companyList: any[] = [];
+  filteredProducts: any[] = [];
+
 
   constructor(
     private modalService: NgbModal,
@@ -47,7 +51,7 @@ export class InventoryManagementComponent implements OnInit {
       materialType: ['', Validators.required],
       value: ['', Validators.required],
       batch: ['', Validators.required],
-      sLock: ['', Validators.required],
+      slock: ['', Validators.required],
       availableStock: ['', Validators.required],
       uom: ['', Validators.required],
       createdAt: ['', Validators.required],
@@ -56,11 +60,65 @@ export class InventoryManagementComponent implements OnInit {
 
     this.loginData = this.service.getLoginResponse();
     this.getInventoryList();
+    // ✅ Fetch companies dynamically from Product screen
+    this.getCompanyListFromProducts();
+
   }
 
   get f() {
     return this.InventoryForm.controls;
   }
+  getCompanyListFromProducts() {
+    this.service.getproductList().subscribe({
+      next: (res: any) => {
+        this.productList = res.data || [];
+        const allProducts = res.data || [];
+        // Extract unique company names
+        this.companyList = [...new Set(allProducts.map(p => p.companyNameORPlant))];
+        console.log('Company List from Products:', this.companyList);
+      },
+      error: () => {
+        this.toastr.error("Failed to load company list from products");
+      }
+    });
+  }
+
+
+
+
+
+  onCompanyChange(event: any) {
+    const selectedCompany = event.target.value;
+    if (selectedCompany) {
+      this.filteredProducts = this.productList.filter(p => p.companyNameORPlant === selectedCompany);
+
+      this.InventoryForm.patchValue({
+        productCode: '',
+        productName: '',
+        materialType: '',
+        uom: '',
+        slock: ''
+      });
+    } else {
+      this.filteredProducts = [];
+    }
+  }
+  onProductSelect(event: any) {
+    const selectedProductCode = event.target.value;
+    const selectedProduct = this.productList.find(p => p.productCode === selectedProductCode);
+    console.log('selected Product:', selectedProduct);
+    if (selectedProduct) {
+      this.InventoryForm.patchValue({
+        productCode: selectedProduct.productCode,
+        productName: selectedProduct.productName,
+        materialType: selectedProduct.materialType,
+        uom: selectedProduct.uom,
+        slock: selectedProduct.slock
+      });
+    }
+  }
+
+
 
   // ============================
   // Open Add Inventory Modal

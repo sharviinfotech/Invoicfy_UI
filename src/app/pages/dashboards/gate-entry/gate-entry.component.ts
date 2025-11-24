@@ -1,483 +1,174 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralserviceService } from 'src/app/generalservice.service'; // Adjust path if necessary
-import Swal from 'sweetalert2';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
+import { GeneralserviceService } from 'src/app/generalservice.service';
 
 @Component({
   selector: 'app-gate-entry',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+
   templateUrl: './gate-entry.component.html',
-  styleUrl: './gate-entry.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgxSpinnerModule],
-  standalone: true
+  styleUrls: ['./gate-entry.component.css']
 })
-export class GateEntryComponent {
- @ViewChild('editCompanyTemplate') editCompanyTemplate!: TemplateRef<any>; creditPeriodList: string[] = ['15 days', '30 days', '45 days'];
+export class GateEntryComponent implements OnInit {
 
-  statesList: any[] = [];
-  companyEditForm: FormGroup;
-  Createcompany: any[] = [];
-  selectedcompany: any = null;
-  modalRef: any;
-
-
-  fieldTextType: boolean = false;
-  submitted: boolean = false;
-  confirmFieldTextType: boolean = false;
-  companyList: any[];
-  submit: boolean = false;
-  companyUniqueId: number;
-  loginData: any;
-  StateName: string;
-
-  newcompanyTemplate: any;
-  CompanyCreationForm: any;
-  companyForm: any;
-
-
-  // spinner: any;
-
-
-
-
+  gateEntryForm!: FormGroup;
+  previewImage: any = null;
+  gateSearchValue: any = '';
+  generateGatePassNo: any;
+  generateGatePass: any;
   constructor(
-    private modalService: NgbModal,
     private fb: FormBuilder,
-    private service: GeneralserviceService, private toastr: ToastrService, private spinner: NgxSpinnerService
+    private service: GeneralserviceService,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
-    this.getStates();
-    this.CompanyCreationForm = this.fb.group({
-      companyName: ['', Validators.required],
-      companyAddress: ['', Validators.required],
-      companyCity: ['', Validators.required],
-      companyState: ['', Validators.required],
-      companyPincode: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[0-9]{6}$/)
-        ]
-      ],
-      companyGstNo: ['', Validators.required],
-      companyPanNo: ['',
-        [Validators.required, Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]  // Correct PAN format
-      ],
-
-      companyEmail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
-      companyFinanceContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      companyAlernativecontact: ['',],
-      companyBankName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      companyBranchName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      companyBankAccount_No: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(17)]],
-      companyIFSCcode: ['', [Validators.required, Validators.pattern('[A-Za-z]{4}[0][A-Za-z0-9]{6}')]], // Add required validator and pattern
-      companyBankAccountType: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-
-
-    });
-
-
-
-
-    this.companyEditForm = this.fb.group({
-
-      companyName: ['', Validators.required],
-      companyAddress: ['', Validators.required],
-      companyCity: ['', Validators.required],
-      companyState: ['', Validators.required],
-      companyPincode: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^[0-9]{6}$/)
-        ]
-      ], companyGstNo: ['', Validators.required],
-      companyPanNo: ['', [Validators.required, Validators.pattern(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/)]],
-
-      companyEmail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
-      companyFinanceContact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      companyAlernativecontact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      companyBankName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      companyBranchName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      companyBankAccount_No: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(17)]],
-      companyIFSCcode: ['', [Validators.required, Validators.pattern('[A-Za-z]{4}[0][A-Za-z0-9]{6}')]], // Add required validator and pattern
-      companyBankAccountType: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-
-
-    }, {
-      // validator: this.mustMatch('password', 'confirmPassword')
-    });
-
-    this.getInvoicecompanyDetails();
-    this.getAllcompanyList();
-
-
-    this.loginData = this.service.getLoginResponse()
-  }
-  convertToUpperCase(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    input.value = input.value.toUpperCase();
+    this.createForm();
   }
 
-  editcompany(selectedcompany: any, content: any) {
-    console.log('selected company:', selectedcompany); // Debugging
+  createForm() {
+    this.gateEntryForm = this.fb.group({
+      EntryObjectType: ['', Validators.required],
+      VehicleType: ['', Validators.required],
+      VehicleEntrydatetime: ['', Validators.required],
+      VehicleNumber: ['', Validators.required],
+      DriverName: ['', Validators.required],
+      DriverContactNO: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      DriverId: ['', Validators.required],
+      PO: ['', Validators.required],
+      ProductCode: ['', Validators.required],
+      ProductName: ['', Validators.required],
+      Quantity: ['', Validators.required],
+      Uom: ['', Validators.required],
+      GatePassNo: ['', Validators.required],
+      visitorType: [''],
+      visitorName: [''],
+      PurposeofVisit: [''],
+      EmployeResponsible: ['', Validators.required],
+      IdType: ['', Validators.required],
+      ImageCapturing: ['', Validators.required],
+      ExitDateTime: [''],
+      ItemCode: [''],
+      SerialNumber: [''],
+      ResponsiblePerson: [''],
+      ApproverName: ['', Validators.required]
+    });
+  }
 
-    if (!selectedcompany) {
-      console.error('No company data found');
+  onImageSelect(event: any) {
+    const file = event.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImage = reader.result;
+        this.gateEntryForm.patchValue({ ImageCapturing: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  SaveGateEntry() {
+
+    if (!this.gateEntryForm.value.GatePassNo) {
+      this.generateGatePass();
+    }
+
+    if (this.gateEntryForm.invalid) {
+      this.toastr.error("Please fill all required fields!", "Validation Error");
       return;
     }
-  }
 
-  // Allow only letters
-  allowOnlyLetters(event: KeyboardEvent): boolean {
-    const charCode = event.keyCode;
-    if ((charCode > 64 && charCode < 91) ||  // A-Z
-      (charCode > 96 && charCode < 123) || // a-z
-      charCode === 32) {                   // space
-      return true;
-    }
-    event.preventDefault();
-    return false;
-  }
+    const payload = { ...this.gateEntryForm.value };
 
-  // Allow only numbers
-  allowOnlyNumbers(event: KeyboardEvent): boolean {
-    const charCode = event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-      event.preventDefault();
-      return false;
-    }
-    return true;
-  }
-
-
-
-
-  openEditModal(company: any, editCompanyTemplate: TemplateRef<any>): void {
-    this.submit = false
-    console.log('company', company);
-    this.companyUniqueId = null
-    const selectedcompany = company;
-    this.companyUniqueId = company.companyUniqueId
-    this.companyEditForm.patchValue({
-      companyName: selectedcompany.companyName,
-      companyAddress: selectedcompany.companyAddress,
-      companyCity: selectedcompany.companyCity,
-      companyState: selectedcompany.companyState,
-      companyPincode: selectedcompany.companyPincode,
-      companyGstNo: selectedcompany.companyGstNo,
-      companyPanNo: selectedcompany.companyPanNo,
-      companyEmail: selectedcompany.companyEmail,
-      companyFinanceContact: selectedcompany.companyFinanceContact,
-      companyAlernativecontact: selectedcompany.companyAlernativecontact,
-      companyBankName: selectedcompany.companyBankName,
-      companyBankAccount_No: selectedcompany.companyBankAccount_No,
-      companyIFSCcode: selectedcompany.companyIFSCcode,
-      companyBranchName: selectedcompany.companyBranchName,
-      companyBankAccountType: selectedcompany.companyBankAccountType
-
-    });
-    this.modalService.open(editCompanyTemplate, {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
-    });
-  }
-  getStates() {
-    console.log("state ")
     this.spinner.show();
-    this.service.getstateList().subscribe(
-      (response: any) => {
-        this.spinner.hide()
-        if (response && response.responseData) {
-          this.statesList = response.responseData.data;
-        }
+
+    this.service.SaveGateEntry(payload).subscribe({
+      next: () => {
+        this.spinner.hide();
+        Swal.fire("Success!", "Gate Entry Saved Successfully", "success");
+        this.gateEntryForm.reset();
+        this.previewImage = null;
       },
-      (error) => {
-
-        console.error('Error fetching statesList:', error);
+      error: () => {
+        this.spinner.hide();
+        this.toastr.error("Failed to Save Entry", "Error");
       }
-    );
-  }
-
-  toggleFieldTextType() {
-    this.fieldTextType = !this.fieldTextType;
-  }
-  toggleConfirmFieldTextType() {
-    this.confirmFieldTextType = !this.confirmFieldTextType;
-  }
-  toggleStatus(): void {
-    this.companyEditForm.patchValue({ status: !this.companyEditForm.value.status });
-  }
-
-
-
-  getInvoicecompanyDetails(): void {
-
-  }
-
-  newCompanyCreation(newcompanyTemplate: any): void {
-    this.submit = false
-    this.CompanyCreationForm.reset()
-    // Form reset before opening the modal
-    this.modalService.open(newcompanyTemplate, {
-      backdrop: 'static',
-      keyboard: false,
-      size: 'lg'
     });
   }
 
 
-  get f() {
-    return this.CompanyCreationForm.controls;
-    return this.companyEditForm.controls;
-  }
+  GetGateEntry() {
 
-
-
-
-
-  savecompanyCreation(model: any) {
-    console.log('Create company:', this.CompanyCreationForm.value);
-
-    if (this.CompanyCreationForm.invalid == true) {
-      this.submit = true;
+    if (!this.gateSearchValue) {
+      this.toastr.error("Please enter Gate Entry Number");
       return;
-    } else {
-      this.submit = false;
     }
 
-    let creatObj = {
-      "companyName": this.CompanyCreationForm.value.companyName.toUpperCase(),
-      "companyAddress": this.CompanyCreationForm.value.companyAddress.toUpperCase(),
-      "companyCity": this.CompanyCreationForm.value.companyCity.toUpperCase(),
-      "companyState": this.CompanyCreationForm.value.companyState.toUpperCase(),
-      "companyPincode": this.CompanyCreationForm.value.companyPincode,
-      "companyGstNo": this.CompanyCreationForm.value.companyGstNo.toUpperCase(),
-      "companyPanNo": this.CompanyCreationForm.value.companyPanNo.toUpperCase(),
-      "companyEmail": this.CompanyCreationForm.value.companyEmail,
-      "companyFinanceContact": this.CompanyCreationForm.value.companyFinanceContact,
-      "companyAlernativecontact": this.CompanyCreationForm.value.companyAlernativecontact,
-      "companyBankName": this.CompanyCreationForm.value.companyBankName.toUpperCase(),
-      "companyBankAccount_No": this.CompanyCreationForm.value.companyBankAccount_No.toUpperCase(),
-      "companyIFSCcode": this.CompanyCreationForm.value.companyIFSCcode.toUpperCase(),
-      "companyBranchName": this.CompanyCreationForm.value.companyBranchName.toUpperCase(),
-      "companyBankAccountType": this.CompanyCreationForm.value.companyBankAccountType
+    const requestPayload = { gatEntryUniqueId: Number(this.gateSearchValue) };
 
-
-
-    };
-
-    console.log("creatObj", creatObj);
-
-    this.service.SaveCompanyCreation(creatObj).subscribe((res: any) => {
-      console.log("submitcompanyForm", res);
-      console.log('apiErr', res, res.responseData);
-
-      if (res.status == 400) {
-        // this.toastr.success(res.message);
-      } else {
-        // Display success toast
-        this.CompanyCreationForm.reset()
-        this.modalService.dismissAll(model);
-        Swal.fire({
-          title: '',
-          text: res.message,
-          icon: 'success',
-          cancelButtonText: 'Ok'
-        }).then((result) => {
-          if (result) {
-
-          } else {
-
-          }
-        });
-      }
-
-
-
-      this.getAllcompanyList();
-      // this.modalService.dismissAll(modal);
-      this.submitted = true;
-    }, error => {
-      this.toastr.error(error)
-      // this.modalService.dismissAll(modal);
-      console.log("error", error);
-    });
-  }
-  c(message: string) {
-    // Handle the close logic here
-    console.log(message);
-    // You might want to close the modal or clear form fields, etc.
-  }
-  updateExitcompany(modal: any): void {
-    console.log('Edit company:', this.companyEditForm.value);
-    this.submitted = true;
-
-    // if (this.companyEditForm.errors) {
-    //   console.log('Form is errors');
-    //   return;
-    // }
-
-    let updateObj = {
-      companyUniqueId: this.companyUniqueId,
-      companyName: this.companyEditForm.value.companyName.toUpperCase(),
-      companyAddress: this.companyEditForm.value.companyAddress.toUpperCase(),
-      companyCity: this.companyEditForm.value.companyCity.toUpperCase(),
-      companyState: this.companyEditForm.value.companyState.toUpperCase(),
-      companyPincode: this.companyEditForm.value.companyPincode,
-      companyGstNo: this.companyEditForm.value.companyGstNo.toUpperCase(),
-      companyPanNo: this.companyEditForm.value.companyPanNo.toUpperCase(),
-      companyEmail: this.companyEditForm.value.companyEmail,
-      companyFinanceContact: this.companyEditForm.value.companyFinanceContact,
-      companyAlernativecontact: this.companyEditForm.value.companyAlernativecontact,
-      companyBankName: this.companyEditForm.value.companyBankName.toUpperCase(),
-      companyBankAccount_No: this.companyEditForm.value.companyBankAccount_No.toUpperCase(),
-      companyIFSCcode: this.companyEditForm.value.companyIFSCcode.toUpperCase(),
-      companyBranchName: this.companyEditForm.value.companyBranchName.toUpperCase(),
-      companyBankAccountType: this.companyEditForm.value.companyBankAccountType
-
-    };
-
-    console.log("Updating company with data:", updateObj);
     this.spinner.show();
 
-    this.service.updateExitCompany(updateObj).subscribe(
-      (res: any) => {
-        console.log("updatecompanyCreation response:", res);
-        this.spinner.hide()
+    this.service.fetchgateentry(requestPayload).subscribe({
+      next: (response: any) => {
+        this.spinner.hide();
 
-        if (res.status === 400) {
-          this.toastr.error(res.message);
-        } else {
-          // this.toastr.success("company updated successfully");
-          this.modalService.dismissAll(modal);
-          Swal.fire({
-            title: '',
-            text: res.message,
-            icon: 'success',
-            confirmButtonText: 'OK'
-          }).then(() => {
-            this.getAllcompanyList();
+        if (response.status === 200 && response.updatedList) {
+
+          const data = response.updatedList;
+
+          // Patch data to form
+          this.gateEntryForm.patchValue({
+            EntryObjectType: data.EntryObjectType,
+            VehicleType: data.VehicleType,
+            VehicleEntrydatetime: data.VehicleEntrydatetime?.slice(0, 16), // convert ISO for datetime-local
+            VehicleNumber: data.VehicleNumber,
+            DriverName: data.DriverName,
+            DriverContactNO: data.DriverContactNO,
+            DriverId: data.DriverId,
+            PO: data.PO,
+            ProductCode: data.ProductCode,
+            ProductName: data.ProductName,
+            Quantity: data.Quantity,
+            Uom: data.Uom,
+            GatePassNo: data.GatePassNo,
+            visitorType: data.visitorType,
+            visitorName: data.visitorName,
+            PurposeofVisit: data.PurposeofVisit,
+            EmployeResponsible: data.EmployeResponsible,
+            IdType: data.IdType,
+            ImageCapturing: data.ImageCapturing,
+            ExitDateTime: data.ExitDateTime ? data.ExitDateTime : '',
+            ItemCode: data.ItemCode,
+            SerialNumber: data.SerialNumber,
+            ResponsiblePerson: data.ResponsiblePerson,
+            ApproverName: data.ApproverName
           });
+
+          this.previewImage = data.ImageCapturing; // show saved image
+
+          Swal.fire("Success", "Gate Entry Fetched Successfully", "success");
+
+        } else {
+          this.toastr.warning("No record found for this Gate No");
         }
-
-        this.companyEditForm.reset();
-        this.submitted = false;
       },
-      (error) => {
-        this.spinner.hide()
-        console.error("Error updating company:", error);
-        this.toastr.error("Failed to update company");
-      }
-    );
-  }
-  // delete(data): void {
-  //   console.log('Deleting company with ID:',data, this.companyUniqueId);
-  // this.companyUniqueId = data.companyUniqueId
-  //   let deletePayload = {
-  //     globalId: this.companyUniqueId,
-  //     screenName: "company"
-  //   };
-
-  //   console.log("Delete payload:", deletePayload);
-  // this.spinner.show()
-  //   this.service.deteleGlobal(deletePayload).subscribe((res: any) => {
-  //       console.log("deleteGlobal response:", res);
-  //       this.spinner.hide()
-  //       if (res.status === 400) {
-  //         this.toastr.error(res.message);
-  //       } else {
-  //         Swal.fire({
-  //           title: 'succes',
-  //           text: res.message,
-  //           icon: 'success',
-  //           confirmButtonText: 'OK'
-  //         }).then(() => {
-  //           // this.getAllcompanyList();
-  //         });
-  //         this.modalService.dismissAll();
-
-  //       }
-  //     },
-  //     (error) => {
-  //       this.spinner.hide()
-  //       console.error("Error deleting company:", error);
-  //       this.toastr.error("Failed to delete company");
-  //     }
-  //   );
-  // }
-  delete(data): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "Do you want to delete this company?",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!',
-      timer: 10000
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log('Deleting company with ID:', data, this.companyUniqueId);
-        this.companyUniqueId = data.companyUniqueId;
-
-        let deletePayload = {
-          globalId: this.companyUniqueId,
-          screenName: "company"
-        };
-
-        console.log("Delete payload:", deletePayload);
-        this.spinner.show();
-
-        this.service.deteleGlobal(deletePayload).subscribe(
-          (res: any) => {
-            console.log("deleteGlobal response:", res);
-            this.spinner.hide();
-
-            if (res.status === 200) {  // Changed to 200 for success
-              this.getAllcompanyList();
-              Swal.fire({
-                title: 'Success',  // Fixed typo in 'success'
-                text: res.message,
-                icon: 'success',
-                confirmButtonText: 'OK',
-                timer: 5000
-              }).then(() => {
-                this.modalService.dismissAll();
-                // Uncomment if you need to refresh the list
-
-              });
-            } else {
-              this.toastr.error(res.message);
-            }
-          },
-          (error) => {
-            this.spinner.hide();
-            console.error("Error deleting company:", error);
-            this.toastr.error("Failed to delete company");
-          }
-        );
+      error: () => {
+        this.spinner.hide();
+        this.toastr.error("Failed to fetch data", "Error");
       }
     });
+
   }
-  getAllcompanyList() {
-    this.companyList = [];
-    this.spinner.show()
-    this.service.getAllCompanyList().subscribe((res: any) => {
-      this.companyList = res.data
-      console.log("this.companyList", this.companyList)
-      this.spinner.hide()
-    }, error => {
-      console.log("error", error)
-      this.spinner.hide();
-    })
-  }
+
+
 
 
 }
-

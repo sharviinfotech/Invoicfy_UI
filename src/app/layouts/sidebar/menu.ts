@@ -23,7 +23,7 @@ export const MENU: MenuItem[] = [
     // },
     {
         id: 5,
-        label: 'Invoice',
+        label: ' Sales Invoice',
         link: '/Invoice',
         parentId: 1,
         icon: 'bx bx-plus',
@@ -113,6 +113,27 @@ export const MENU: MenuItem[] = [
         link: '/equipmenttaskList',
         parentId: 1,
         icon: 'bx bx-list-check',
+    },
+    {
+        id: 10,
+        label: 'Work Order',
+        link: '/workorder',
+        parentId: 1,
+        icon: 'bx bx-wrench',
+    },
+    {
+        id: 10,
+        label: 'Sales Enquirey',
+        link: '/salesenquirey',
+        parentId: 1,
+        icon: 'bx bx-wrench',
+    },
+    {
+        id: 10,
+        label: 'Sales Quotation',
+        link: '/SalesQuotation',
+        parentId: 1,
+        icon: 'bx bx-wrench',
     },
     {
         id: 9,

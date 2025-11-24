@@ -8,7 +8,7 @@
 
 
             <div class="card mt-2">
-                <div class="card-header">A. Basic Details</div>
+                <div class="card-header">Basic Details</div>
                 <div class="card-body">
                     <div class="row">
 
@@ -105,12 +105,12 @@
 
 
             <!-- LOCATION DATA TABLE -->
-            <div class="card mt-2" [formGroup]="form">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    B. Operation Details
+            <!-- Operation Details -->
+            <div class="card mt-2">
+                <div class="card-header d-flex justify-content-between">
+                    Operation Details
                     <button type="button" class="btn btn-primary btn-sm" (click)="addOperationRow()">+ Add Row</button>
                 </div>
-
                 <div class="card-body">
                     <table class="table table-bordered table-sm">
                         <thead>
@@ -125,41 +125,29 @@
                                 <th>Operation Category</th>
                                 <th>Priority</th>
                                 <th>Safety Instructions</th>
-                                <th style="width: 120px;">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
-
                         <tbody formArrayName="operationData">
                             <tr *ngFor="let row of operationData.controls; let i=index" [formGroupName]="i">
-
-                                <td><input class="form-control form-control-sm" formControlName="operationNo"
-                                        placeholder="Operation No"></td>
-                                <td><input class="form-control form-control-sm" formControlName="activityDescription"
-                                        placeholder="Activity Description"></td>
-                                <td><input class="form-control form-control-sm" formControlName="workCenter"
-                                        placeholder="Work Center"></td>
-                                <td><input class="form-control form-control-sm" formControlName="controlKey"
-                                        placeholder="Control Key"></td>
-                                <td><input class="form-control form-control-sm" formControlName="duration"
-                                        placeholder="Duration"></td>
-                                <td><input class="form-control form-control-sm" formControlName="durationUnit"
-                                        placeholder="Duration Unit"></td>
-                                <td><input class="form-control form-control-sm" formControlName="standardTextKey"
-                                        placeholder="Standard Text Key"></td>
-                                <td><input class="form-control form-control-sm" formControlName="operationCategory"
-                                        placeholder="Operation Category"></td>
-                                <td><input class="form-control form-control-sm" formControlName="priority"
-                                        placeholder="Priority"></td>
-                                <td><input class="form-control form-control-sm" formControlName="safetyInstructions"
-                                        placeholder="Safety Instructions"></td>
-
+                                <td><input class="form-control form-control-sm" formControlName="operationNo"></td>
+                                <td><input class="form-control form-control-sm" formControlName="activityDescription">
+                                </td>
+                                <td><input class="form-control form-control-sm" formControlName="workCenter"></td>
+                                <td><input class="form-control form-control-sm" formControlName="controlKey"></td>
+                                <td><input class="form-control form-control-sm" formControlName="duration"></td>
+                                <td><input class="form-control form-control-sm" formControlName="durationUnit"></td>
+                                <td><input class="form-control form-control-sm" formControlName="standardTextKey"></td>
+                                <td><input class="form-control form-control-sm" formControlName="operationCategory">
+                                </td>
+                                <td><input class="form-control form-control-sm" formControlName="priority"></td>
+                                <td><input class="form-control form-control-sm" formControlName="safetyInstructions">
+                                </td>
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm me-1"
-                                        (click)="editOperationRow(i)">Edit</button>
+
                                     <button type="button" class="btn btn-danger btn-sm"
                                         (click)="removeOperationRow(i)">Remove</button>
                                 </td>
-
                             </tr>
                         </tbody>
                     </table>
@@ -169,7 +157,7 @@
 
             <div class="card mt-2" [formGroup]="form">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    C. Spare Parts / Material List
+                    Spare Parts / Material List
                     <button type="button" class="btn btn-primary btn-sm" (click)="addMaterialRow()">+ Add Row</button>
                 </div>
 
@@ -221,7 +209,7 @@
             </div>
             <div class="card mt-2" [formGroup]="form">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    D. Tools Required
+                    Tools Required
                     <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
                 </div>
 
@@ -268,7 +256,7 @@
 
             <div class="card mt-2" [formGroup]="form">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    E.Measurement Points
+                    Measurement Points
                     <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
                 </div>
 
@@ -323,7 +311,7 @@
             </div>
             <div class="card mt-2" [formGroup]="form">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    F.Document Attachments
+                    Document Attachments
                     <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
                 </div>
             </div>
@@ -378,7 +366,7 @@
 
 
             <div class="card mt-2">
-                <div class="card-header">G.compliance</div>
+                <div class="card-header">compliance</div>
                 <div class="card-body">
                     <div class="row">
 

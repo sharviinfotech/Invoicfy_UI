@@ -25,6 +25,9 @@ import { InventoryManagementComponent } from './inventory-management/inventory-m
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { EquipmentMasterComponent } from './equipment-master/equipment-master.component';
 import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-list.component';
+import { WorkorderComponent } from './workorder/workorder.component';
+import { SalesEnquireyComponent } from './sales-enquirey/sales-enquirey.component';
+import { SalesQuotationComponent } from './sales-quotation/sales-quotation.component';
 
 
 const routes: Routes = [
@@ -87,6 +90,18 @@ const routes: Routes = [
     {
         path: 'equipmenttaskList',
         component: EquipmenttaskListComponent
+    },
+    {
+        path: 'workorder',
+        component: WorkorderComponent
+    },
+    {
+        path: 'salesenquirey',
+        component: SalesEnquireyComponent
+    },
+    {
+        path: 'SalesQuotation',
+        component: SalesQuotationComponent
     },
     {
         path: 'globalReviewEdit',

@@ -87,16 +87,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+
                     <div class="form-group">
                         <label>Company Name|Plant<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="companyNameORPlant" type="text"
-                            placeholder="Enter Company Name">
+                        <select class="form-control form-control-sm" formControlName="productCode"
+                            (change)="onProductChange($event)">
+                            <option value="">-- Select Product --</option>
+                            <option *ngFor="let item of productList" [value]="item.productCode">
+                                {{ item.productCode }} - {{ item.productName }}
+                            </option>
+                        </select>
                         <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
                             Company Name is required.
                         </div>
                     </div>
+                </div> -->
+                <!-- Company Name / Plant -->
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label>Company Name | Plant <span class="text-danger">*</span></label>
+                    <select class="form-control form-control-sm" formControlName="companyNameORPlant">
+                        <option value="">-- Select Company --</option>
+                        <option *ngFor="let company of companyList" [value]="company">{{ company }}</option>
+                    </select>
+
+                    <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
+                        Company Name is required.
+                    </div>
+                </div> -->
+                <!-- Company Name / Plant -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label>Company Name | Plant <span class="text-danger">*</span></label>
+                    <select class="form-control form-control-sm" formControlName="companyNameORPlant"
+                        (change)="onCompanyChange($event)">
+                        <option value="">-- Select Company --</option>
+                        <option *ngFor="let company of companyList" [value]="company">{{ company }}</option>
+                    </select>
+                    <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
+                        Company Name is required.
+                    </div>
                 </div>
+
+
+
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>Posting Date<span class="text-danger">*</span></label>
@@ -109,7 +142,7 @@
                 </div>
 
                 <!-- Address -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>Product code<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="productCode" type="text"
@@ -118,10 +151,23 @@
                             Product code is required.
                         </div>
                     </div>
+                </div> -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label>Product Code <span class="text-danger">*</span></label>
+                    <select class="form-control form-control-sm" formControlName="productCode"
+                        (change)="onProductSelect($event)">
+                        <option value="">-- Select Product --</option>
+                        <option *ngFor="let product of filteredProducts" [value]="product.productCode">
+                            {{ product.productCode }}
+                        </option>
+                    </select>
+                    <div class="text-danger" *ngIf="submit && f['productCode'].errors">
+                        Product code is required.
+                    </div>
                 </div>
 
                 <!-- City -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>Product Name<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="productName" type="text"
@@ -129,6 +175,14 @@
                         <div class="text-danger" *ngIf="submit && f['productName'].errors">
                             Product Name is required.
                         </div>
+                    </div>
+                </div> -->
+                <!-- Product Name (auto-filled, readonly) -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <label>Product Name <span class="text-danger">*</span></label>
+                    <input class="form-control form-control-sm" formControlName="productName" type="text" readonly>
+                    <div class="text-danger" *ngIf="submit && f['productName'].errors">
+                        Product Name is required.
                     </div>
                 </div>
 
@@ -176,9 +230,9 @@
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>S Lock<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="sLock" type="email"
+                        <input class="form-control form-control-sm" formControlName="slock" type="text"
                             placeholder="Enter s Lock">
-                        <div class="text-danger" *ngIf="submit && f['sLock'].errors">
+                        <div class="text-danger" *ngIf="submit && f['slock'].errors">
                             S Lock is required.
                         </div>
                     </div>
@@ -196,7 +250,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-4 col-sm-4">
+                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">
                         <label>UOM</label>
                         <input class="form-control form-control-sm" formControlName="uom" type="text"
@@ -205,7 +259,18 @@
                             UOM is required.
                         </div>
                     </div>
+                </div> -->
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>UOM</label>
+                        <input class="form-control form-control-sm" formControlName="uom" type="text" placeholder="UOM"
+                            readonly>
+                        <div class="text-danger" *ngIf="submit && f['uom'].errors">
+                            UOM is required.
+                        </div>
+                    </div>
                 </div>
+
 
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="form-group">

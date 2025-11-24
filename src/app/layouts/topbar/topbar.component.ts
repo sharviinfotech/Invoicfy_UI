@@ -22,13 +22,14 @@ import { NotificationService } from 'src/app/notification.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GlobalReviewEditComponent } from '../../pages/dashboards/global-review-edit/global-review-edit.component';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
-  standalone:true,
-  imports:[CommonModule,TranslateModule,BsDropdownModule,SimplebarAngularModule,ReactiveFormsModule ],
+  standalone: true,
+  imports: [CommonModule, TranslateModule, BsDropdownModule, SimplebarAngularModule, ReactiveFormsModule],
 })
 
 /**
@@ -36,10 +37,10 @@ import { GlobalReviewEditComponent } from '../../pages/dashboards/global-review-
  */
 
 export class TopbarComponent implements OnInit {
-   @ViewChild('notificationPopAdmin') notificationPopAdmin: TemplateRef<any>;
-   @ViewChild('notificationPopMD') notificationPopMD: TemplateRef<any>;
-   parentMessage: string = "Hello from Parent!";
-   receivedMessage: string = "";
+  @ViewChild('notificationPopAdmin') notificationPopAdmin: TemplateRef<any>;
+  @ViewChild('notificationPopMD') notificationPopMD: TemplateRef<any>;
+  parentMessage: string = "Hello from Parent!";
+  receivedMessage: string = "";
   mode: any
   element: any;
   cookieValue: any;
@@ -54,38 +55,40 @@ export class TopbarComponent implements OnInit {
   userUniqueId: any;
   submitted: boolean;
   fieldTextType: boolean = true;
-newPasswordFieldTextType: boolean = true;
-confirmFieldTextType: boolean = true;
-currentPasswordFieldTextType: boolean = true;
-data: any[] = []
-notifications: any[] = []; // Stores the notifications
-isNotificationDropdownOpen: boolean = false; // Tracks dropdown visibility
-notificationCount: number = 0; // Tracks new notification count
+  newPasswordFieldTextType: boolean = true;
+  confirmFieldTextType: boolean = true;
+  currentPasswordFieldTextType: boolean = true;
+  data: any[] = []
+  notifications: any[] = []; // Stores the notifications
+  isNotificationDropdownOpen: boolean = false; // Tracks dropdown visibility
+  notificationCount: number = 0; // Tracks new notification count
   reviewedNotificationList: any;
   selectedInvoice: any = null;
   modalRef: NgbModalRef;
-toggleFieldTextType() {
-  this.fieldTextType = !this.fieldTextType;
-}
-toggleNewPasswordFieldTextType() {
-  this.newPasswordFieldTextType = !this.newPasswordFieldTextType;
-}
-toggleConfirmFieldTextType() {
-  this.confirmFieldTextType = !this.confirmFieldTextType;
-}
-toggleCurrentPasswordFieldTextType() {
-  this.currentPasswordFieldTextType = !this.currentPasswordFieldTextType;
-}
+  topbarConfig: any = {};
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
+  }
+  toggleNewPasswordFieldTextType() {
+    this.newPasswordFieldTextType = !this.newPasswordFieldTextType;
+  }
+  toggleConfirmFieldTextType() {
+    this.confirmFieldTextType = !this.confirmFieldTextType;
+  }
+  toggleCurrentPasswordFieldTextType() {
+    this.currentPasswordFieldTextType = !this.currentPasswordFieldTextType;
+  }
 
   resetPassword!: FormGroup;
   // Define layoutMode as a property
 
-  constructor(@Inject(DOCUMENT) private document: any,private fb: FormBuilder, private router: Router, private authService: AuthenticationService,private modalService: NgbModal,
+  constructor(@Inject(DOCUMENT) private document: any, private fb: FormBuilder, private router: Router, private authService: AuthenticationService, private modalService: NgbModal,
     private authFackservice: AuthfakeauthenticationService,
     public languageService: LanguageService,
     public translate: TranslateService,
-    private toaster: ToastrService,private spinner: NgxSpinnerService,
-    public _cookiesService: CookieService, public store: Store<RootReducerState>, private toastr: ToastrService,private service:GeneralserviceService,private notificationService: NotificationService ) {
+    private toaster: ToastrService, private spinner: NgxSpinnerService,
+    private http: HttpClient,
+    public _cookiesService: CookieService, public store: Store<RootReducerState>, private toastr: ToastrService, private service: GeneralserviceService, private notificationService: NotificationService) {
 
   }
 
@@ -130,48 +133,53 @@ toggleCurrentPasswordFieldTextType() {
       this.flagvalue = val.map(element => element.flag);
     }
 
-   this.loginData= this.service.getLoginResponse()
-   console.log("this.loginData",this.loginData);
-   this.resetPassword = this.fb.group({
-    userName: ['', Validators.required],
-    currentPassword: ['', Validators.required],
-    newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
-    confirmPassword: ['', Validators.required],
-  }, { validators: this.mustMatch('newPassword', 'confirmPassword') });
+    this.loginData = this.service.getLoginResponse()
+    console.log("this.loginData", this.loginData);
+    this.resetPassword = this.fb.group({
+      userName: ['', Validators.required],
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)]],
+      confirmPassword: ['', Validators.required],
+    }, { validators: this.mustMatch('newPassword', 'confirmPassword') });
 
-  if (this.loginData == undefined) {
-    this.router.navigate(['/auth/login-2']);
-  }
-  console.log("this.loginData?.data.userActivity",this.loginData?.data.userActivity)
- if(this.loginData){
-  setInterval(() =>
-
-    this.fetchData(), 10000
-);
- }
-
-}
-
-get f() {
-  return this.resetPassword.controls;
-}
-
-mustMatch(controlName: string, matchingControlName: string) {
-  return (formGroup: FormGroup) => {
-    const control = formGroup.controls[controlName];
-    const matchingControl = formGroup.controls[matchingControlName];
-
-    if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-      return;
+    if (this.loginData == undefined) {
+      this.router.navigate(['/auth/login-2']);
     }
+    console.log("this.loginData?.data.userActivity", this.loginData?.data.userActivity)
+    if (this.loginData) {
+      setInterval(() =>
 
-    if (control.value !== matchingControl.value) {
-      matchingControl.setErrors({ mustMatch: true });
-    } else {
-      matchingControl.setErrors(null);
+        this.fetchData(), 10000
+      );
+    }
+    // Load the topbarConfig from the JSON file
+    this.http.get('/assets/topbarConfig.json').subscribe(config => {
+      this.topbarConfig = config;
+      // Now you can use the topbarConfig because it's loaded
+      console.log(this.topbarConfig);  // This will show the loaded config in the console
+    });
+  }
+
+  get f() {
+    return this.resetPassword.controls;
+  }
+
+  mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
+
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     }
   }
-}
 
 
   setLanguage(text: string, lang: string, flag: string) {
@@ -274,27 +282,27 @@ mustMatch(controlName: string, matchingControlName: string) {
 
 
   openResetPasswordModal() {
-    console.log("this.loginData.userName",this.loginData.data.userName)
+    console.log("this.loginData.userName", this.loginData.data.userName)
     this.isResetPasswordModalOpen = true;
     this.resetPassword.patchValue({
-      "userName":this.loginData.data.userName
+      "userName": this.loginData.data.userName
     })
 
-console.log("this.resetPassword",this.resetPassword.value.userName)
-}
+    console.log("this.resetPassword", this.resetPassword.value.userName)
+  }
 
-// closeResetPasswordModal() {
-//     this.isResetPasswordModalOpen = false;
+  // closeResetPasswordModal() {
+  //     this.isResetPasswordModalOpen = false;
 
-// }
-closeResetPasswordModal() {
-  this.isResetPasswordModalOpen = false; // Close the modal
-  this.resetPassword.reset(); // Reset the form
-  this.submitted = false; // Reset the submitted flag, if used for validation
-}
-     resetpasswordSave() {
+  // }
+  closeResetPasswordModal() {
+    this.isResetPasswordModalOpen = false; // Close the modal
+    this.resetPassword.reset(); // Reset the form
+    this.submitted = false; // Reset the submitted flag, if used for validation
+  }
+  resetpasswordSave() {
 
-    console.log("this.resetPasswordData",this.resetPassword)
+    console.log("this.resetPasswordData", this.resetPassword)
     // this.spinner.show();
 
 
@@ -305,11 +313,11 @@ closeResetPasswordModal() {
     }
 
     const Payload = {
-      userUniqueId:this.loginData.data.userUniqueId,
+      userUniqueId: this.loginData.data.userUniqueId,
       userName: this.resetPassword.value.userName,
-      currentPassword:this.resetPassword.value.currentPassword,
-      newPassword:this.resetPassword.value.newPassword,
-      confirmPassword:this.resetPassword.value.confirmPassword
+      currentPassword: this.resetPassword.value.currentPassword,
+      newPassword: this.resetPassword.value.newPassword,
+      confirmPassword: this.resetPassword.value.confirmPassword
     };
 
     this.service.resetpassword(Payload).subscribe(
@@ -321,25 +329,25 @@ closeResetPasswordModal() {
 
         // Ensure UI update completes before showing Swal
 
-          if (response.status === 200) {
+        if (response.status === 200) {
 
-            // this.service.getLoginResponse(response);
+          // this.service.getLoginResponse(response);
 
-            // Swal.fire(response.message, `Welcome ${response.data.userFirstName} ${response.data.userLastName}`, 'success');
-            Swal.fire({
-              title: response.message,
+          // Swal.fire(response.message, `Welcome ${response.data.userFirstName} ${response.data.userLastName}`, 'success');
+          Swal.fire({
+            title: response.message,
 
-              icon: 'success',
-              timer: 5000, // 10 seconds
-              timerProgressBar: true, // Shows a progress bar
-            });
-            this.router.navigate(['/auth/login-2'],);
-            this.submitted = false;
-          }
+            icon: 'success',
+            timer: 5000, // 10 seconds
+            timerProgressBar: true, // Shows a progress bar
+          });
+          this.router.navigate(['/auth/login-2'],);
+          this.submitted = false;
+        }
 
-          else {
-            this.toaster.error(res.message)
-          }
+        else {
+          this.toaster.error(res.message)
+        }
 
 
 
@@ -375,14 +383,14 @@ closeResetPasswordModal() {
   //   });
   // }
   private previousNotificationCount = 0; // Store previous count
-fetchData(){}
+  fetchData() { }
   fetchData1() {
     this.notificationService.getAllNotification().subscribe((response: any) => {
       console.log("topbar", response, response.data?.length, this.data?.length);
 
-      if(this.loginData?.data.userActivity == 'ADMIN'){
+      if (this.loginData?.data.userActivity == 'ADMIN') {
         const newCount = response.adminNotificationCount || 0; // Ensure count is always a number
-        console.log("newCount Admin",newCount,this.previousNotificationCount)
+        console.log("newCount Admin", newCount, this.previousNotificationCount)
         if (newCount > this.previousNotificationCount) { // Play sound only if count increased
           this.spinner.show()
           this.reviewedNotificationList = []
@@ -393,43 +401,43 @@ fetchData(){}
             time: new Date().toLocaleTimeString()
           });
         }
-        console.log('this.notifications',this.notifications)
+        console.log('this.notifications', this.notifications)
         this.notificationCount = newCount; // Update the displayed count
         this.previousNotificationCount = newCount; // Store new count for next comparison
         this.data = response.adminList || []; // Ensure `this.data` is always an array\
         this.reviewedNotificationList = response.adminList
-        console.log("this.reviewedNotificationList",this.reviewedNotificationList)
+        console.log("this.reviewedNotificationList", this.reviewedNotificationList)
         setTimeout(() => {
           this.spinner.hide()
         }, 500);
 
-      }else{
+      } else {
         const newCount = response.mdNotificationCount || 0; // Ensure count is always a number
-        console.log("newCount MD",newCount,this.previousNotificationCount)
-      if (newCount > this.previousNotificationCount) { // Play sound only if count increased
-        this.spinner.show()
-        this.reviewedNotificationList = []
-        this.notificationService.playNotificationSound();
-        this.notifications.unshift({
-          title: 'New Invoice Reviewed',
-          message: 'A new invoice has been added successfully.',
-          time: new Date().toLocaleTimeString()
-        });
-        // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        //   this.router.navigate(['InvoiceDecision']); // Replace 'parent' with your actual route
-        // });
+        console.log("newCount MD", newCount, this.previousNotificationCount)
+        if (newCount > this.previousNotificationCount) { // Play sound only if count increased
+          this.spinner.show()
+          this.reviewedNotificationList = []
+          this.notificationService.playNotificationSound();
+          this.notifications.unshift({
+            title: 'New Invoice Reviewed',
+            message: 'A new invoice has been added successfully.',
+            time: new Date().toLocaleTimeString()
+          });
+          // this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          //   this.router.navigate(['InvoiceDecision']); // Replace 'parent' with your actual route
+          // });
+        }
+        console.log('this.notifications', this.notifications)
+        this.notificationCount = newCount; // Update the displayed count
+        this.previousNotificationCount = newCount; // Store new count for next comparison
+        this.data = response.mdList || []; // Ensure `this.data` is always an array\
+        this.reviewedNotificationList = response.mdList
+        console.log("this.reviewedNotificationList", this.reviewedNotificationList)
+        setTimeout(() => {
+          this.spinner.hide()
+        }, 500);
       }
-      console.log('this.notifications',this.notifications)
-      this.notificationCount = newCount; // Update the displayed count
-      this.previousNotificationCount = newCount; // Store new count for next comparison
-      this.data = response.mdList || []; // Ensure `this.data` is always an array\
-      this.reviewedNotificationList = response.mdList
-      console.log("this.reviewedNotificationList",this.reviewedNotificationList)
-      setTimeout(() => {
-        this.spinner.hide()
-      }, 500);
-      }
-      console.log("this.notificationCount",this.notificationCount,this.reviewedNotificationList)
+      console.log("this.notificationCount", this.notificationCount, this.reviewedNotificationList)
 
     }, error => {
       this.spinner.hide();
@@ -440,8 +448,8 @@ fetchData(){}
 
   openNotificationPop() {
 
-    if(this.reviewedNotificationList.length>0){
-      if(this.loginData?.data.userActivity == 'ADMIN'){
+    if (this.reviewedNotificationList.length > 0) {
+      if (this.loginData?.data.userActivity == 'ADMIN') {
         // if(this.reviewedNotificationList.length>0){
         //   this.modalService.open(this.notificationPopAdmin, {
         //     size: 'xl',
@@ -450,7 +458,7 @@ fetchData(){}
         //   });
         // }
         this.router.navigate(['/ReviewNotification'], { queryParams: { role: 'admin' } });
-      }else{
+      } else {
         // if(this.reviewedNotificationList.length>0){
         //   this.modalService.open(this.notificationPopMD, {
         //     size: 'lg',
@@ -488,51 +496,63 @@ fetchData(){}
   //   }
   // }
 
-closeInvoice() {
-  this.modalService.dismissAll();
-}
-verifyedInvoice(invoice){
+  closeInvoice() {
+    this.modalService.dismissAll();
+  }
+  verifyedInvoice(invoice) {
 
 
 
 
-  let obj={
+    let obj = {
       "originalUniqueId": invoice.originalUniqueId,
-      "reviewed":false,
-      "reviewedReSubmited":true
-     }
-   this.spinner.show()
-  this.service.verifyedAndUpdated(obj).subscribe(
-        (response: any) => {
-          console.log('Response:', response);
-          this.spinner.hide()
-          this.modalService.dismissAll();
-        },
-        (error) => {
-          // Handle API errors
-          Swal.fire('Error!', 'Failed to update status. Please try again.', 'error');
-          console.error('Approval error:', error);
-          this.spinner.hide()
-        }
-      );
+      "reviewed": false,
+      "reviewedReSubmited": true
+    }
+    this.spinner.show()
+    this.service.verifyedAndUpdated(obj).subscribe(
+      (response: any) => {
+        console.log('Response:', response);
+        this.spinner.hide()
+        this.modalService.dismissAll();
+      },
+      (error) => {
+        // Handle API errors
+        Swal.fire('Error!', 'Failed to update status. Please try again.', 'error');
+        console.error('Approval error:', error);
+        this.spinner.hide()
+      }
+    );
 
 
 
-}
-// openGlobalReviewPopup(invoice: any) {
-//   this.selectedInvoice = invoice;
+  }
+  // openGlobalReviewPopup(invoice: any) {
+  //   this.selectedInvoice = invoice;
 
-//   // Open GlobalReviewEditComponent in a modal
-//   this.modalRef = this.modalService.open(GlobalReviewEditComponent, { size: 'lg' });
+  //   // Open GlobalReviewEditComponent in a modal
+  //   this.modalRef = this.modalService.open(GlobalReviewEditComponent, { size: 'lg' });
 
-//   // Pass data to the component
-//   this.modalRef.componentInstance.invoiceData = this.selectedInvoice;
+  //   // Pass data to the component
+  //   this.modalRef.componentInstance.invoiceData = this.selectedInvoice;
 
-//   // Handle modal close
-//   this.modalRef.componentInstance.closeModal.subscribe(() => {
-//     this.modalRef.close();
-//   });
-// }
-
+  //   // Handle modal close
+  //   this.modalRef.componentInstance.closeModal.subscribe(() => {
+  //     this.modalRef.close();
+  //   });
+  // }
+  // Helper function to check visibility, supports nested properties
+  isVisible(element: string): boolean {
+    const keys = element.split('.');
+    let value = this.topbarConfig;
+    for (let key of keys) {
+      if (value && value[key] !== undefined) {
+        value = value[key];
+      } else {
+        return false;
+      }
+    }
+    return value.visible ?? false;
+  }
 
 }

@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class GeneralserviceService {
+  getProductList: any;
 
   deleteProduct(productId: any) {
     throw new Error('Method not implemented.');
@@ -159,6 +160,15 @@ export class GeneralserviceService {
   }
   getInventoryList() {
     return this.http.get(environment.baseUrl + '/invoice/Get_InventoryList');
+  }
+  SaveGateEntry(obj: any) {
+    return this.http.post(environment.baseUrl + '/invoice/SaveGateEntry', obj);
+  }
+  updategateentry(obj: any) {
+    return this.http.post(environment.baseUrl + '/invoice/updategateentry', obj);
+  }
+  fetchgateentry(obj: any) {
+    return this.http.post(environment.baseUrl + '/invoice/FetchGetEntryData', obj);
   }
 
 }

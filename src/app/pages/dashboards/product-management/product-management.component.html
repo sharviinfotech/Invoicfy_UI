@@ -30,6 +30,8 @@
                             <th>Self Life Days</th>
                             <th>Batch Req</th>
                             <th>HSN Code</th>
+                            <th>UOM</th>
+                            <th>S Lock</th>
                             <th>Image</th>
                             <th>QM Req</th>
                             <th class="text-center">Action</th>
@@ -55,6 +57,8 @@
                             <td>{{ product.selfLifeDays }}</td>
                             <td>{{ product.batchReq }}</td>
                             <td>{{ product.hsnCode }}</td>
+                            <td>{{ product.uom }}</td>
+                            <td>{{ product.slock }}</td>
 
                             <td>
                                 <img *ngIf="product.image" [src]="product.image" width="40" height="40"
@@ -170,16 +174,27 @@
 
                 <!-- Batch Required -->
                 <div class="col-lg-4">
-                    <label>Batch Required <span class="text-danger">*</span></label>
-                    <input type="text" formControlName="batchReq" class="form-control"
-                        placeholder="Enter batch required" />
+                    <label>Batch Required<span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="batchReq">
+                        <option value="">Select Batch Required Type</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
 
 
                 <!-- HSN Code -->
                 <div class="col-lg-4">
-                    <label>HSN Code <span class="text-danger">*</span></label>
+                    <label>HSN Code<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="hsnCode" placeholder="Enter HSN Code">
+                </div>
+                <div class="col-lg-4">
+                    <label>UOM<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="uom" placeholder="Enter uom">
+                </div>
+                <div class="col-lg-4">
+                    <label>S Lock<span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="slock" placeholder="Enter slock">
                 </div>
 
                 <!-- Image -->
@@ -190,8 +205,12 @@
 
                 <!-- QM Required -->
                 <div class="col-lg-4">
-                    <label>QM Required <span class="text-danger">*</span></label>
-                    <input type="text" formControlName="qmReq" class="form-control" placeholder="Enter qm required" />
+                    <label>QM Required<span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="qmReq">
+                        <option value="">Select QM Required Type</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
                 </div>
 
 

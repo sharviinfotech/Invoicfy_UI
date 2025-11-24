@@ -1,0 +1,365 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        Work Order
+    </div>
+
+    <div class="card-body">
+        <form>
+
+
+            <div class="card mt-2">
+                <div class="card-header">A. BASIC ORDER INFO</div>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Order Type<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter Order Type">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Order Description<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Order Description">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Notification No</label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Notification Number">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Priority<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter Priority">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <div class="form-group">
+                                <label>Maintenance Plant<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Maintenance Plant">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card mt-2">
+                <div class="card-header">B. TECHNICAL OBJECT</div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Equipment Number<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Equipment Number">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Functional Location<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Functional Location">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Equipment Description (Auto-Populate)<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text" placeholder="Auto-populated"
+                                    disabled>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="card mt-2">
+                <div class="card-header">C. PLANNING & SCHEDULING</div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Planned Start Date<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="date"
+                                    placeholder="Select Planned Start Date">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Planned End Date<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="date"
+                                    placeholder="Select Planned End Date">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Required Date (optional)</label>
+                                <input class="form-control form-control-sm" type="date"
+                                    placeholder="Select Required Date">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Estimated Duration (Hours)<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="number"
+                                    placeholder="Enter Duration in Hours">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mt-2">
+                <div class="card-header">D. RESPONSIBLE DETAILS</div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Planner Group<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Planner Group">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Person Responsible<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Person Responsible">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Main Work Center<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Main Work Center">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Plant Section (optional)</label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter Plant Section">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mt-2" [formGroup]="form">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    E. Operation
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addOperationRow()">+ Add Row</button>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Operation Description</th>
+                                <th>Work Center</th>
+                                <th>Control Key</th>
+                                <th>Duration (Hrs)</th>
+                                <th style="width:120px;">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody formArrayName="operations">
+                            <tr *ngFor="let row of operations.controls; let i=index" [formGroupName]="i">
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="operationDescription"
+                                        placeholder="Enter Operation Description">
+                                </td>
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="workCenter"
+                                        placeholder="Enter Work Center">
+                                </td>
+
+                                <td>
+                                    <select class="form-control form-control-sm" formControlName="controlKey">
+                                        <option value="">Select</option>
+                                        <option value="PM01">PM01</option>
+                                        <option value="PM02">PM02</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <input class="form-control form-control-sm" type="number" formControlName="duration"
+                                        placeholder="Hours">
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm me-1"
+                                        (click)="editMeasurementPointRow(i)">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        (click)="removeOperationRow(i)">Remove</button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <div class="card mt-2" [formGroup]="form">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    F. Material Required
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addMaterialRow()">+ Add Row</button>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Material Number</th>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>UOM</th>
+                                <th>Storage Location</th>
+                                <th style="width:120px;">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody formArrayName="materials">
+                            <tr *ngFor="let row of materials.controls; let i=index" [formGroupName]="i">
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="materialNumber"
+                                        placeholder="Enter Material Number">
+                                </td>
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="description"
+                                        placeholder="Enter Description">
+                                </td>
+
+                                <td>
+                                    <input type="number" class="form-control form-control-sm" formControlName="quantity"
+                                        placeholder="Qty">
+                                </td>
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="uom" placeholder="UOM">
+                                </td>
+
+                                <td>
+                                    <input class="form-control form-control-sm" formControlName="storageLocation"
+                                        placeholder="Storage Location">
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-warning btn-sm me-1"
+                                        (click)="editMeasurementPointRow(i)">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        (click)="removeMaterialRow(i)">Remove</button>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="card mt-2" [formGroup]="form">
+                <div class="card-header">
+                    G. Additional Info
+                </div>
+
+                <div class="card-body" formGroupName="additionalInfo">
+                    <div class="row">
+
+                        <!-- Break Down Indicator -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Break Down Indicator</label>
+                                <input class="form-control form-control-sm" formControlName="breakDownIndicator"
+                                    type="text" placeholder="Enter Break Down Indicator">
+                            </div>
+                        </div>
+
+                        <!-- Damage Code -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Damage Code</label>
+                                <input class="form-control form-control-sm" formControlName="damageCode" type="text"
+                                    placeholder="Enter Damage Code">
+                            </div>
+                        </div>
+
+                        <!-- Cause Code -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Cause Code</label>
+                                <input class="form-control form-control-sm" formControlName="causeCode" type="text"
+                                    placeholder="Enter Cause Code">
+                            </div>
+                        </div>
+
+                        <!-- Long Text -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Long Text</label>
+                                <textarea class="form-control form-control-sm" formControlName="longText"
+                                    placeholder="Enter Long Text" rows="2"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Attachment Updated (File Upload) -->
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Attachment Updated</label>
+                                <input type="file" class="form-control form-control-sm"
+                                    (change)="onFileSelected($event)" />
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+        </form>
+
+    </div>
+</div>

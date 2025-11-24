@@ -14,8 +14,8 @@ import { SimplebarAngularModule } from 'simplebar-angular';
   selector: 'app-rightsidebar',
   templateUrl: './rightsidebar.component.html',
   styleUrls: ['./rightsidebar.component.scss'],
-  standalone:true,
-  imports:[SimplebarAngularModule]
+  standalone: true,
+  imports: [SimplebarAngularModule]
 })
 
 /**
@@ -56,8 +56,22 @@ export class RightsidebarComponent implements OnInit {
     if (this.attribute == 'horizontal') {
       vertical.removeAttribute('checked');
     }
+    this.loadGoogleTranslate()
   }
+  loadGoogleTranslate() {
+    const script = document.createElement('script');
+    script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+    script.async = true;
+    document.body.appendChild(script);
 
+    (window as any).googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,mr,te,ta,gu,bn,kn,ml,pa,ur,or,as,ne,si,sd,ks,sa,doi,mai,mni,bho,grt,ne',
+        layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    };
+  }
 
   /**
    * Hide the sidebar
