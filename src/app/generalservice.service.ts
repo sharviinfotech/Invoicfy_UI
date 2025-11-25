@@ -165,7 +165,7 @@ export class GeneralserviceService {
     return this.http.post(environment.baseUrl + '/invoice/SaveGateEntry', obj);
   }
   updategateentry(obj: any) {
-    return this.http.post(environment.baseUrl + '/invoice/updategateentry', obj);
+    return this.http.post(environment.baseUrl + '/invoice/gateentryupdate', obj);
   }
   fetchgateentry(obj: any) {
     return this.http.post(environment.baseUrl + '/invoice/FetchGetEntryData', obj);

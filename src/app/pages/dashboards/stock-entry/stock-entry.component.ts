@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { GeneralserviceService } from 'src/app/generalservice.service';
 
 @Component({
   selector: 'app-stock-entry',
@@ -10,9 +12,9 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
 })
 export class StockEntryComponent {
- stockForm: FormGroup;
+  stockForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private spinner: NgxSpinnerService, private service: GeneralserviceService,) {
     this.stockForm = this.fb.group({
       items: this.fb.array([this.createItem()])
     });
@@ -23,17 +25,16 @@ export class StockEntryComponent {
     return this.stockForm.get('items') as FormArray;
   }
 
-  // Create new row
   createItem(): FormGroup {
     return this.fb.group({
-      NatureofTransaction: ['', Validators.required],
-      CompanyName: ['', Validators.required],
-      Postingdate: ['', Validators.required],
+      sourceOfStock: ['', Validators.required],
+      companyNameORPlant: ['', Validators.required],
+      postingDate: ['', Validators.required],
       productCode: ['', Validators.required],
       productName: ['', Validators.required],
       materialType: ['', Validators.required],
-      stocktype: ['', Validators.required],
-      quantity: [0, Validators.required],
+      sLock: ['', Validators.required],
+      availableStock: [0, Validators.required],
       value: [0, Validators.required],
       batch: [''],
       uom: ['']
@@ -52,13 +53,22 @@ export class StockEntryComponent {
 
   // Save all data
   saveStockEntry(): void {
+    console.log("data", this.stockForm.value.items)
     if (this.stockForm.valid) {
-      const stockData = this.stockForm.value.items;
-      console.log('Stock Entry Data:', stockData);
+      const payload = this.stockForm.value.items;
+      console.log('Stock Entry Data:', payload);
 
-      // Example: API Call
-      // this.http.post('http://localhost:3000/api/inventory/save', stockData).subscribe(...)
-      alert('Stock data saved successfully!');
+      this.service.SaveInventory(payload).subscribe({
+        next: (res: any) => {
+          this.spinner.hide();
+
+
+        },
+        error: () => {
+          this.spinner.hide();
+
+        }
+      });
     } else {
       alert('Please fill all required fields.');
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -11,7 +10,6 @@ import { GeneralserviceService } from 'src/app/generalservice.service';
   selector: 'app-gate-entry',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-
   templateUrl: './gate-entry.component.html',
   styleUrls: ['./gate-entry.component.css']
 })
@@ -20,8 +18,8 @@ export class GateEntryComponent implements OnInit {
   gateEntryForm!: FormGroup;
   previewImage: any = null;
   gateSearchValue: any = '';
-  generateGatePassNo: any;
-  generateGatePass: any;
+  isUpdateMode: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private service: GeneralserviceService,
@@ -62,9 +60,13 @@ export class GateEntryComponent implements OnInit {
     });
   }
 
+  generateGatePass() {
+    const gatePass = "GP-" + Math.floor(Math.random() * 100000);
+    this.gateEntryForm.patchValue({ GatePassNo: gatePass });
+  }
+
   onImageSelect(event: any) {
     const file = event.target.files[0];
-
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -76,44 +78,40 @@ export class GateEntryComponent implements OnInit {
   }
 
   SaveGateEntry() {
+    if (this.isUpdateMode) {
+      this.toastr.warning("Record already fetched. Click UPDATE.");
+      return;
+    }
 
     if (!this.gateEntryForm.value.GatePassNo) {
       this.generateGatePass();
     }
 
     if (this.gateEntryForm.invalid) {
-      this.toastr.error("Please fill all required fields!", "Validation Error");
+      this.toastr.error("Please fill all required fields!");
       return;
     }
 
-    const payload = { ...this.gateEntryForm.value };
-
     this.spinner.show();
-
-    this.service.SaveGateEntry(payload).subscribe({
+    this.service.SaveGateEntry(this.gateEntryForm.value).subscribe({
       next: () => {
         this.spinner.hide();
         Swal.fire("Success!", "Gate Entry Saved Successfully", "success");
-        this.gateEntryForm.reset();
-        this.previewImage = null;
+        this.resetForm();
       },
       error: () => {
         this.spinner.hide();
-        this.toastr.error("Failed to Save Entry", "Error");
+        this.toastr.error("Failed to Save Entry");
       }
     });
   }
-
-
   GetGateEntry() {
-
     if (!this.gateSearchValue) {
       this.toastr.error("Please enter Gate Entry Number");
       return;
     }
 
     const requestPayload = { gatEntryUniqueId: Number(this.gateSearchValue) };
-
     this.spinner.show();
 
     this.service.fetchgateentry(requestPayload).subscribe({
@@ -121,54 +119,78 @@ export class GateEntryComponent implements OnInit {
         this.spinner.hide();
 
         if (response.status === 200 && response.updatedList) {
-
           const data = response.updatedList;
+          this.isUpdateMode = true;
 
-          // Patch data to form
-          this.gateEntryForm.patchValue({
-            EntryObjectType: data.EntryObjectType,
-            VehicleType: data.VehicleType,
-            VehicleEntrydatetime: data.VehicleEntrydatetime?.slice(0, 16), // convert ISO for datetime-local
-            VehicleNumber: data.VehicleNumber,
-            DriverName: data.DriverName,
-            DriverContactNO: data.DriverContactNO,
-            DriverId: data.DriverId,
-            PO: data.PO,
-            ProductCode: data.ProductCode,
-            ProductName: data.ProductName,
-            Quantity: data.Quantity,
-            Uom: data.Uom,
-            GatePassNo: data.GatePassNo,
-            visitorType: data.visitorType,
-            visitorName: data.visitorName,
-            PurposeofVisit: data.PurposeofVisit,
-            EmployeResponsible: data.EmployeResponsible,
-            IdType: data.IdType,
-            ImageCapturing: data.ImageCapturing,
-            ExitDateTime: data.ExitDateTime ? data.ExitDateTime : '',
-            ItemCode: data.ItemCode,
-            SerialNumber: data.SerialNumber,
-            ResponsiblePerson: data.ResponsiblePerson,
-            ApproverName: data.ApproverName
+          data.DriverContactNO = data.DriverContactNO?.toString() || "";
+          this.previewImage = data.ImageCapturing;
+
+          this.gateEntryForm.patchValue(data);
+
+          // === REMOVE REQUIRED VALIDATION FOR UPDATE MODE ===
+          Object.keys(this.gateEntryForm.controls).forEach(key => {
+            const control = this.gateEntryForm.get(key);
+            control?.clearValidators();
+            control?.updateValueAndValidity({ emitEvent: false });
           });
 
-          this.previewImage = data.ImageCapturing; // show saved image
+          // Refresh form status
+          this.gateEntryForm.markAsDirty();
+          this.gateEntryForm.markAllAsTouched();
+          this.gateEntryForm.updateValueAndValidity({ emitEvent: false });
 
-          Swal.fire("Success", "Gate Entry Fetched Successfully", "success");
+          this.isUpdateMode = true;
 
+          Swal.fire("Success!", "Gate Entry Loaded", "success");
         } else {
-          this.toastr.warning("No record found for this Gate No");
+          this.toastr.warning("No record found!");
         }
       },
       error: () => {
         this.spinner.hide();
-        this.toastr.error("Failed to fetch data", "Error");
+        this.toastr.error("Fetch Failed");
       }
     });
+  }
 
+  UpdateGateEntry() {
+
+    if (!this.isUpdateMode) {
+      this.toastr.warning("Search record first!");
+      return;
+    }
+
+    if (this.gateEntryForm.invalid) {
+      this.toastr.error("Something missing. Please review before update!");
+      return;
+    }
+
+    const payload = {
+      ...this.gateEntryForm.value,
+      gatEntryUniqueId: Number(this.gateSearchValue)
+    };
+
+    this.spinner.show();
+
+    this.service.updategateentry(payload).subscribe({
+      next: () => {
+        this.spinner.hide();
+        Swal.fire("Updated!", "Gate Entry Updated Successfully", "success");
+        this.resetForm();
+        this.isUpdateMode = false;
+      },
+      error: () => {
+        this.spinner.hide();
+        this.toastr.error("Update Failed");
+      }
+    });
   }
 
 
-
+  resetForm() {
+    this.gateEntryForm.reset();
+    this.previewImage = null;
+    this.isUpdateMode = false;
+  }
 
 }

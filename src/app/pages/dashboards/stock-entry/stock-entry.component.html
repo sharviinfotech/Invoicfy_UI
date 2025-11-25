@@ -4,7 +4,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Stock Entry</span>
                 <button type="button" class="btn bn-md btn-raised btnAdd" (click)="addRow()">
-                     + Add Row
+                    + Add Row
                 </button>
             </div>
             <div class="card-body">
@@ -19,8 +19,8 @@
                                 <th>Product Code</th>
                                 <th>Product Name</th>
                                 <th>Material Type</th>
-                                <th>Stock Type</th>
-                                <th>Quantity</th>
+                                <th>S Lock</th>
+                                <th>available Stock</th>
                                 <th>Value</th>
                                 <th>Batch</th>
                                 <th>UOM</th>
@@ -31,22 +31,22 @@
                         <tbody>
                             <tr *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
                                 <td class="text-center">{{ i + 1 }}</td>
-                                <td><input formControlName=" NatureofTransaction" class="form-control form-control-sm"
+                                <td><input formControlName="sourceOfStock" class="form-control form-control-sm"
                                         placeholder="Code" /></td>
-                                <td><input formControlName="CompanyName" class="form-control form-control-sm"
+                                <td><input formControlName="companyNameORPlant" class="form-control form-control-sm"
                                         placeholder="Name" /></td>
-                                <td><input formControlName="Postingdate" class="form-control form-control-sm"
-                                        placeholder="Type" /></td>
+                                <td><input formControlName="postingDate" class="form-control form-control-sm"
+                                        type="datetime-local" placeholder="Type" /></td>
                                 <td><input formControlName="productCode" class="form-control form-control-sm"
                                         placeholder="Code" /></td>
                                 <td><input formControlName="productName" class="form-control form-control-sm"
                                         placeholder="Name" /></td>
                                 <td><input formControlName="materialType" class="form-control form-control-sm"
                                         placeholder="Type" /></td>
-                                <td><input formControlName="stocktype" class="form-control form-control-sm"
+                                <td><input formControlName="sLock" class="form-control form-control-sm"
                                         placeholder="Type" /></td>
-                                <td><input formControlName="quantity" type="number" class="form-control form-control-sm"
-                                        placeholder="Qty" /></td>
+                                <td><input formControlName="availableStock" type="number"
+                                        class="form-control form-control-sm" placeholder="Type" /></td>
                                 <td><input formControlName="value" type="number" class="form-control form-control-sm"
                                         placeholder="Value" /></td>
                                 <td><input formControlName="batch" class="form-control form-control-sm"

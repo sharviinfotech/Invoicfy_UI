@@ -52,7 +52,7 @@ export class ProductManagementComponent implements OnInit {
       batchReq: ['', Validators.required],
       hsnCode: ['', Validators.required],
       uom: ['', Validators.required],
-      slock: ['', Validators.required],
+      sLock: ['', Validators.required],
       image: [''],
       qmReq: ['', Validators.required]
     });
@@ -101,7 +101,7 @@ export class ProductManagementComponent implements OnInit {
       batchReq: product.batchReq,
       hsnCode: product.hsnCode,
       uom: product.uom,
-      slock: product.slock,
+      sLock: product.sLock,
       image: product.image,
       qmReq: product.qmReq
     });
@@ -134,7 +134,7 @@ export class ProductManagementComponent implements OnInit {
       batchReq: this.ProductCreationForm.value.batchReq.toUpperCase(),
       hsnCode: this.ProductCreationForm.value.hsnCode.toUpperCase(),
       uom: this.ProductCreationForm.value.uom,
-      slock: this.ProductCreationForm.value.slock,
+      sLock: this.ProductCreationForm.value.sLock,
       image: this.selectedImageBase64,
       qmReq: this.ProductCreationForm.value.qmReq.toUpperCase()
     };

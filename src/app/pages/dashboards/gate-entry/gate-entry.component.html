@@ -1,6 +1,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Gate Entry Form</strong>
+
         <div class="d-flex align-items-center gap-2">
             <strong>Gate Entry NO</strong>
             <input type="text" [(ngModel)]="gateSearchValue" placeholder="Enter Gate entry no"
@@ -109,9 +110,11 @@
                 </div>
 
                 <div class="col-lg-4">
-                    <label>Image Capture *</label>
+                    <label>Image Capture <span *ngIf="!isUpdateMode">*</span></label>
+
                     <input type="file" accept="image/*" (change)="onImageSelect($event)"
                         class="form-control form-control-sm">
+
                     <img *ngIf="previewImage" [src]="previewImage"
                         style="width:100px;height:100px;border:1px solid #ccc;margin-top:10px;">
                 </div>
@@ -140,11 +143,19 @@
                     <label>Approver Name *</label>
                     <input formControlName="ApproverName" class="form-control form-control-sm" type="text">
                 </div>
+
+            </div>
+            <div class="text-end mt-3">
+                <button class="btn btn-success" type="button" (click)="SaveGateEntry()" *ngIf="!isUpdateMode">
+                    Submit
+                </button>
+
+                <button class="btn btn-warning" type="button" (click)="UpdateGateEntry()" *ngIf="isUpdateMode">
+                    Update
+                </button>
             </div>
 
-            <div class="text-end mt-3">
-                <button class="btn btn-success" type="button" (click)="SaveGateEntry()">Submit</button>
-            </div>
+
         </form>
     </div>
 </div>

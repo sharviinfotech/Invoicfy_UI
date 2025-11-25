@@ -51,7 +51,7 @@ export class InventoryManagementComponent implements OnInit {
       materialType: ['', Validators.required],
       value: ['', Validators.required],
       batch: ['', Validators.required],
-      slock: ['', Validators.required],
+      sLock: ['', Validators.required],
       availableStock: ['', Validators.required],
       uom: ['', Validators.required],
       createdAt: ['', Validators.required],
@@ -97,7 +97,7 @@ export class InventoryManagementComponent implements OnInit {
         productName: '',
         materialType: '',
         uom: '',
-        slock: ''
+        sLock: ''
       });
     } else {
       this.filteredProducts = [];
@@ -113,7 +113,7 @@ export class InventoryManagementComponent implements OnInit {
         productName: selectedProduct.productName,
         materialType: selectedProduct.materialType,
         uom: selectedProduct.uom,
-        slock: selectedProduct.slock
+        sLock: selectedProduct.sLock
       });
     }
   }
@@ -240,9 +240,7 @@ export class InventoryManagementComponent implements OnInit {
     });
   }
 
-  // ============================
-  // DELETE INVENTORY
-  // ============================
+
   delete(data: any) {
     Swal.fire({
       title: 'Are you sure?',
@@ -254,7 +252,7 @@ export class InventoryManagementComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Call API to delete if needed, for now removing locally
+
         this.inventoryList = this.inventoryList.filter(i => i.inventoryUniqueId !== data.inventoryUniqueId);
         Swal.fire({
           title: 'Deleted!',
