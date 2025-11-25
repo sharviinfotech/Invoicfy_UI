@@ -23,6 +23,7 @@ import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-l
 import { WorkorderComponent } from './workorder/workorder.component';
 import { SalesEnquireyComponent } from './sales-enquirey/sales-enquirey.component';
 import { SalesQuotationComponent } from './sales-quotation/sales-quotation.component';
+import { TotalstockinventorylistComponent } from './totalstockinventorylist/totalstockinventorylist.component';
 
 // import { GlobalReviewEditComponent } from './global-review-edit/global-review-edit.component';
 
@@ -34,6 +35,7 @@ import { SalesQuotationComponent } from './sales-quotation/sales-quotation.compo
     WorkorderComponent,
     SalesEnquireyComponent,
     SalesQuotationComponent,
+    // TotalstockinventorylistComponent,
     // ProductManagementComponent,
     // InventoryManagementComponent,
     // StockEntryComponent,

@@ -28,6 +28,7 @@ import { EquipmenttaskListComponent } from './equipmenttask-list/equipmenttask-l
 import { WorkorderComponent } from './workorder/workorder.component';
 import { SalesEnquireyComponent } from './sales-enquirey/sales-enquirey.component';
 import { SalesQuotationComponent } from './sales-quotation/sales-quotation.component';
+import { TotalstockinventorylistComponent } from './totalstockinventorylist/totalstockinventorylist.component';
 
 
 const routes: Routes = [
@@ -118,6 +119,10 @@ const routes: Routes = [
     {
         path: 'funds_recived_against',
         component: FundsRecievedAgainstComponent
+    },
+    {
+        path: 'total_Stock_Inventory',
+        component: TotalstockinventorylistComponent
     },
     // {
     //     path: 'saas',

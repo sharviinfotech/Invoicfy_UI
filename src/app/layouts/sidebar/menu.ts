@@ -93,6 +93,14 @@ export const MENU: MenuItem[] = [
         parentId: 1,
         icon: 'bx bx-archive-in',
     },
+     {
+        id: 17,
+        label: 'Total Stock & Inventory',
+        link: '/total_Stock_Inventory',
+        parentId: 1,
+        icon: 'bx bx-archive-in',
+    },
+    
     {
         id: 10,
         label: 'Gate Entry',

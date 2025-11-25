@@ -181,7 +181,8 @@ export class InventoryManagementComponent implements OnInit {
       availableStock: this.InventoryForm.value.availableStock,
       uom: this.InventoryForm.value.uom,
       createdAt: this.InventoryForm.value.createdAt,
-      updatedAt: this.InventoryForm.value.updatedAt
+      updatedAt: this.InventoryForm.value.updatedAt,
+      partialDelete:""
     };
 
     // Edit mode → update

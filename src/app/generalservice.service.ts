@@ -119,6 +119,11 @@ export class GeneralserviceService {
     return this.http.post(environment.baseUrl + 'invoice/deteleGlobal', obj);
 
   }
+   partialDeteleGlobal(obj) {
+    return this.http.post(environment.baseUrl + 'invoice/partialDeteleGlobal', obj);
+
+  }
+  
   getAllCompanyList() {
     return this.http.get(environment.baseUrl + '/invoice/getAllCompanyList');
   }

@@ -12,7 +12,7 @@ import { InvoicefyGlobalDashboardComponent } from './dashboards/invoicefy-global
 const routes: Routes = [
   // { path: '', redirectTo: 'dashboard' },
   {
-    path: "default",
+    path: "",
     component: InvoicefyGlobalDashboardComponent
   },
   { path: 'dashboard', component: InvoicefyGlobalDashboardComponent },
