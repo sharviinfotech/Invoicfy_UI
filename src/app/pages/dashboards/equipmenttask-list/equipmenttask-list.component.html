@@ -1,12 +1,14 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
-        Equipment Task List
+        Equipment Task List (Coming Soon)
     </div>
 
     <div class="card-body">
-        <form>
 
+        <!-- ✅ IMPORTANT: Bind Form Here -->
+        <form [formGroup]="form">
 
+            <!-- A. BASIC DETAILS -->
             <div class="card mt-2">
                 <div class="card-header">Basic Details</div>
                 <div class="card-body">
@@ -42,6 +44,7 @@
                                     placeholder="Enter Equipment Number">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Equipment Description<span class="text-danger">*</span></label>
@@ -49,6 +52,7 @@
                                     placeholder="Enter Equipment Description">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Functional Location<span class="text-danger">*</span></label>
@@ -56,12 +60,14 @@
                                     placeholder="Enter Functional Location">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Plant<span class="text-danger">*</span></label>
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter plant">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Maintanance planner Group<span class="text-danger">*</span></label>
@@ -69,12 +75,14 @@
                                     placeholder="Enter MaintananceplannerGroup">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Work Center<span class="text-danger">*</span></label>
                                 <input class="form-control form-control-sm" type="text" placeholder="Enter WorkCenter">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Maintanance Strategy<span class="text-danger">*</span></label>
@@ -82,6 +90,7 @@
                                     placeholder="Enter MaintananceStrategy">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Valid From Date<span class="text-danger">*</span></label>
@@ -89,6 +98,7 @@
                                     placeholder="Enter ValidFromDate">
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <label>Status<span class="text-danger">*</span></label>
@@ -96,21 +106,17 @@
                             </div>
                         </div>
 
-
-
-
                     </div>
                 </div>
             </div>
 
-
-            <!-- LOCATION DATA TABLE -->
-            <!-- Operation Details -->
+            <!-- B. OPERATION DETAILS -->
             <div class="card mt-2">
                 <div class="card-header d-flex justify-content-between">
                     Operation Details
                     <button type="button" class="btn btn-primary btn-sm" (click)="addOperationRow()">+ Add Row</button>
                 </div>
+
                 <div class="card-body">
                     <table class="table table-bordered table-sm">
                         <thead>
@@ -128,6 +134,7 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+
                         <tbody formArrayName="operationData">
                             <tr *ngFor="let row of operationData.controls; let i=index" [formGroupName]="i">
                                 <td><input class="form-control form-control-sm" formControlName="operationNo"></td>
@@ -143,20 +150,21 @@
                                 <td><input class="form-control form-control-sm" formControlName="priority"></td>
                                 <td><input class="form-control form-control-sm" formControlName="safetyInstructions">
                                 </td>
-                                <td>
 
+                                <td>
                                     <button type="button" class="btn btn-danger btn-sm"
                                         (click)="removeOperationRow(i)">Remove</button>
                                 </td>
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
 
-
-            <div class="card mt-2" [formGroup]="form">
-                <div class="card-header d-flex justify-content-between align-items-center">
+            <!-- C. MATERIAL LIST -->
+            <div class="card mt-2">
+                <div class="card-header d-flex justify-content-between">
                     Spare Parts / Material List
                     <button type="button" class="btn btn-primary btn-sm" (click)="addMaterialRow()">+ Add Row</button>
                 </div>
@@ -168,47 +176,38 @@
                                 <th>Material Code</th>
                                 <th>Material Description</th>
                                 <th>Quantity</th>
-                                <th>Unit of Measure</th>
+                                <th>Unit</th>
                                 <th>Storage Location</th>
                                 <th>BOM Indicator</th>
                                 <th>Remarks</th>
-                                <th style="width: 120px;">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody formArrayName="materialData">
                             <tr *ngFor="let row of materialData.controls; let i=index" [formGroupName]="i">
-
-                                <td><input class="form-control form-control-sm" formControlName="materialCode"
-                                        placeholder="Material Code"></td>
-                                <td><input class="form-control form-control-sm" formControlName="materialDescription"
-                                        placeholder="Material Description"></td>
-                                <td><input class="form-control form-control-sm" formControlName="quantity"
-                                        placeholder="Quantity"></td>
-                                <td><input class="form-control form-control-sm" formControlName="unitOfMeasure"
-                                        placeholder="Unit of Measure"></td>
-                                <td><input class="form-control form-control-sm" formControlName="storageLocation"
-                                        placeholder="Storage Location"></td>
-                                <td><input class="form-control form-control-sm" formControlName="bomIndicator"
-                                        placeholder="BOM Indicator"></td>
-                                <td><input class="form-control form-control-sm" formControlName="remarks"
-                                        placeholder="Remarks"></td>
+                                <td><input class="form-control form-control-sm" formControlName="materialCode"></td>
+                                <td><input class="form-control form-control-sm" formControlName="materialDescription">
+                                </td>
+                                <td><input class="form-control form-control-sm" formControlName="quantity"></td>
+                                <td><input class="form-control form-control-sm" formControlName="unitOfMeasure"></td>
+                                <td><input class="form-control form-control-sm" formControlName="storageLocation"></td>
+                                <td><input class="form-control form-control-sm" formControlName="bomIndicator"></td>
+                                <td><input class="form-control form-control-sm" formControlName="remarks"></td>
 
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm me-1"
-                                        (click)="editMaterialRow(i)">Edit</button>
-
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                        (click)="removeMaterialRow(i)">Remove</button>
+                                    <button class="btn btn-danger btn-sm" (click)="removeMaterialRow(i)">Remove</button>
                                 </td>
-
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
-            <div class="card mt-2" [formGroup]="form">
-                <div class="card-header d-flex justify-content-between align-items-center">
+
+            <!-- D. TOOLS REQUIRED -->
+            <div class="card mt-2">
+                <div class="card-header d-flex justify-content-between">
                     Tools Required
                     <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
                 </div>
@@ -221,43 +220,33 @@
                                 <th>Tool Description</th>
                                 <th>Quantity Required</th>
                                 <th>Tool Category</th>
-                                <th style="width: 120px;">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody formArrayName="toolData">
                             <tr *ngFor="let row of toolData.controls; let i=index" [formGroupName]="i">
-
-                                <td><input class="form-control form-control-sm" formControlName="toolCode"
-                                        placeholder="Tool Code"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="toolDescription"
-                                        placeholder="Tool Description"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="quantityRequired"
-                                        placeholder="Quantity Required"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="toolCategory"
-                                        placeholder="Tool Category"></td>
+                                <td><input class="form-control form-control-sm" formControlName="toolCode"></td>
+                                <td><input class="form-control form-control-sm" formControlName="toolDescription"></td>
+                                <td><input class="form-control form-control-sm" formControlName="quantityRequired"></td>
+                                <td><input class="form-control form-control-sm" formControlName="toolCategory"></td>
 
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm me-1"
-                                        (click)="editToolRow(i)">Edit</button>
-
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                        (click)="removeToolRow(i)">Remove</button>
+                                    <button class="btn btn-danger btn-sm" (click)="removeToolRow(i)">Remove</button>
                                 </td>
-
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
             </div>
 
-            <div class="card mt-2" [formGroup]="form">
-                <div class="card-header d-flex justify-content-between align-items-center">
+            <!-- E. MEASUREMENT POINTS -->
+            <div class="card mt-2">
+                <div class="card-header d-flex justify-content-between">
                     Measurement Points
-                    <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addMeasurementPointRow()">+ Add
+                        Row</button>
                 </div>
 
                 <div class="card-body">
@@ -265,108 +254,83 @@
                         <thead>
                             <tr>
                                 <th>Measurement Point</th>
-                                <th>Measurement Description</th>
+                                <th>Description</th>
                                 <th>Target Value</th>
-                                <th>Min | Max Range</th>
+                                <th>Min/Max</th>
                                 <th>Unit</th>
                                 <th>Record Required</th>
-                                <th style="width: 120px;">Action</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody formArrayName="measurementPoints">
                             <tr *ngFor="let row of measurementPoints.controls; let i=index" [formGroupName]="i">
-
-                                <td><input class="form-control form-control-sm" formControlName="measurementPoint"
-                                        placeholder="Measurement Point"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="measurementDescription"
-                                        placeholder="Measurement Description"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="targetValue"
-                                        placeholder="Target Value"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="minMaxRange"
-                                        placeholder="Min | Max"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="unit"
-                                        placeholder="Unit"></td>
-
-                                <td><input class="form-control form-control-sm" formControlName="recordRequired"
-                                        placeholder="Yes/No"></td>
+                                <td><input class="form-control form-control-sm" formControlName="measurementPoint"></td>
+                                <td><input class="form-control form-control-sm"
+                                        formControlName="measurementDescription"></td>
+                                <td><input class="form-control form-control-sm" formControlName="targetValue"></td>
+                                <td><input class="form-control form-control-sm" formControlName="minMaxRange"></td>
+                                <td><input class="form-control form-control-sm" formControlName="unit"></td>
+                                <td><input class="form-control form-control-sm" formControlName="recordRequired"></td>
 
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-sm me-1"
-                                        (click)="editMeasurementPointRow(i)">Edit</button>
-
-                                    <button type="button" class="btn btn-danger btn-sm"
+                                    <button class="btn btn-danger btn-sm"
                                         (click)="removeMeasurementPointRow(i)">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+
+            <!-- F. DOCUMENT ATTACHMENTS -->
+            <div class="card mt-2">
+                <div class="card-header d-flex justify-content-between">
+                    Document Attachments
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addDocumentAttachmentRow()">+ Add
+                        Row</button>
+                </div>
+
+                <div class="card-body">
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr>
+                                <th>Attachment Type</th>
+                                <th>Upload File</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody formArrayName="documentAttachments">
+                            <tr *ngFor="let row of documentAttachments.controls; let i=index" [formGroupName]="i">
+
+                                <td><input class="form-control form-control-sm" formControlName="attachmentType"></td>
+
+                                <td>
+                                    <input type="file" class="form-control form-control-sm"
+                                        (change)="onFileSelected($event, i)">
+                                </td>
+
+                                <td><input class="form-control form-control-sm" formControlName="documentDescription">
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        (click)="removeDocumentAttachmentRow(i)">Remove</button>
                                 </td>
 
                             </tr>
                         </tbody>
+
                     </table>
                 </div>
-
-            </div>
-            <div class="card mt-2" [formGroup]="form">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    Document Attachments
-                    <button type="button" class="btn btn-primary btn-sm" (click)="addToolRow()">+ Add Row</button>
-                </div>
             </div>
 
-            <div class="card-body">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Attachment Type</th>
-                            <th>Upload File</th>
-                            <th>Document Description</th>
-                            <th style="width: 120px;">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody formArrayName="measurementPoints">
-                        <tr *ngFor="let row of measurementPoints.controls; let i=index" [formGroupName]="i">
-
-                            <!-- Attachment Type -->
-                            <td>
-                                <input class="form-control form-control-sm" formControlName="attachmentType"
-                                    placeholder="Attachment Type">
-                            </td>
-
-                            <!-- Upload File -->
-                            <td>
-                                <input type="file" class="form-control form-control-sm"
-                                    (change)="onFileSelected($event, i)">
-                            </td>
-
-                            <!-- Document Description -->
-                            <td>
-                                <input class="form-control form-control-sm" formControlName="documentDescription"
-                                    placeholder="Document Description">
-                            </td>
-
-                            <td>
-                                <button type="button" class="btn btn-warning btn-sm me-1"
-                                    (click)="editMeasurementPointRow(i)">Edit</button>
-
-                                <button type="button" class="btn btn-danger btn-sm"
-                                    (click)="removeMeasurementPointRow(i)">Remove</button>
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-
-
-
+            <!-- G. COMPLIANCE -->
             <div class="card mt-2">
-                <div class="card-header">compliance</div>
+                <div class="card-header">Compliance</div>
                 <div class="card-body">
                     <div class="row">
 
@@ -378,51 +342,34 @@
                             </div>
                         </div>
 
-
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>LOTO Required<span class="text-danger">*</span></label>
-                                <input class="form-control form-control-sm" type="datetime-local"
-                                    placeholder="Enter LOTORequired">
+                                <input class="form-control form-control-sm" type="datetime-local">
                             </div>
                         </div>
 
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Work Permit Required<span class="text-danger">*</span></label>
-                                <input class="form-control form-control-sm" type="datetime-local"
-                                    placeholder="Enter WorkPermitRequired ">
+                                <input class="form-control form-control-sm" type="datetime-local">
                             </div>
                         </div>
+
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>Hazard Notes<span class="text-danger">*</span></label>
-                                <input class="form-control form-control-sm" type="datetime-local"
-                                    placeholder="Enter WarantyendDate HazardNotes">
+                                <input class="form-control form-control-sm" type="text">
                             </div>
                         </div>
-
-
-
 
                     </div>
                 </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         </form>
+
+        <!-- SAVE BUTTON -->
         <div class="text-end mt-3">
             <button type="button" class="btn btn-success btn-lg" (click)="saveForm()">
                 💾 Save Task List

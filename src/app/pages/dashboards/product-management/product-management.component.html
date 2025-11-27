@@ -12,73 +12,65 @@
             </div>
 
             <!-- Table Body -->
+            <!-- Table Body -->
             <div class="card-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>S.No</th>
-                            <th>Company / Plant</th>
-                            <th>Product Code</th>
-                            <th>Product Name</th>
-                            <th>Material Type</th>
-                            <th>Purchase Price</th>
-                            <th>COGM</th>
-                            <th>Sales Price</th>
-                            <th>IGST %</th>
-                            <th>SGST %</th>
-                            <th>CGST %</th>
-                            <th>Self Life Days</th>
-                            <th>Batch Req</th>
-                            <th>HSN Code</th>
-                            <th>UOM</th>
-                            <th>S Lock</th>
-                            <th>Image</th>
-                            <th>QM Req</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let product of productList; let i = index">
-                            <td>{{ i+1 }}</td>
-                            <td>{{ product.companyNameORPlant }}</td>
-                            <td>{{ product.productCode }}</td>
-                            <td>{{ product.productName }}</td>
-                            <td>{{ product.materialType }}</td>
-
-                            <td>{{ product.purchasePrice }}</td>
-                            <td>{{ product.cogm }}</td>
-                            <td>{{ product.salesPrice }}</td>
-
-                            <td>{{ product.igstPer }}</td>
-                            <td>{{ product.sgstPer }}</td>
-                            <td>{{ product.cgstPer }}</td>
-
-                            <td>{{ product.selfLifeDays }}</td>
-                            <td>{{ product.batchReq }}</td>
-                            <td>{{ product.hsnCode }}</td>
-                            <td>{{ product.uom }}</td>
-                            <td>{{ product.slock }}</td>
-
-                            <td>
-                                <img *ngIf="product.image" [src]="product.image" width="40" height="40"
-                                    style="border-radius: 4px;">
-                            </td>
-
-                            <td>{{ product.qmReq }}</td>
-
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary"
-                                    (click)="editProduct(product, newcompanyTemplate)">
-                                    Edit
-                                </button>
-
-                                <button class="btn btn-sm btn-danger" (click)="deleteProduct(i)">Delete</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
+                <div class="table-responsive" style="overflow-x: auto; overflow-y: hidden; max-height: auto;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Company / Plant</th>
+                                <th>Product Code</th>
+                                <th>Product Name</th>
+                                <th>Material Type</th>
+                                <th>Purchase Price</th>
+                                <th>COGM</th>
+                                <th>Sales Price</th>
+                                <th>IGST %</th>
+                                <th>SGST %</th>
+                                <th>CGST %</th>
+                                <th>Self Life Days</th>
+                                <th>Batch Req</th>
+                                <th>HSN Code</th>
+                                <th>UOM</th>
+                                <th>S Lock</th>
+                                <th>Image</th>
+                                <th>QM Req</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let product of productList; let i = index">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ product.companyNameORPlant }}</td>
+                                <td>{{ product.productCode }}</td>
+                                <td>{{ product.productName }}</td>
+                                <td>{{ product.materialType }}</td>
+                                <td>{{ product.purchasePrice }}</td>
+                                <td>{{ product.cogm }}</td>
+                                <td>{{ product.salesPrice }}</td>
+                                <td>{{ product.igstPer }}</td>
+                                <td>{{ product.sgstPer }}</td>
+                                <td>{{ product.cgstPer }}</td>
+                                <td>{{ product.selfLifeDays }}</td>
+                                <td>{{ product.batchReq }}</td>
+                                <td>{{ product.hsnCode }}</td>
+                                <td>{{ product.uom }}</td>
+                                <td>{{ product.sLock }}</td>
+                                <td>
+                                    <img *ngIf="product.image" [src]="product.image" width="40" height="40"
+                                        style="border-radius: 4px;">
+                                </td>
+                                <td>{{ product.qmReq }}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-primary"
+                                        (click)="editProduct(product, newcompanyTemplate)">Edit</button>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteProduct(i)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
@@ -87,7 +79,6 @@
 
 <!-- ADD / EDIT PRODUCT MODAL -->
 <ng-template #newcompanyTemplate let-c="close">
-
     <form [formGroup]="ProductCreationForm" (ngSubmit)="savecompanyCreation()">
 
         <div class="modal-header">
@@ -98,132 +89,131 @@
             <div class="row">
 
                 <!-- Company / Plant -->
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label>Company / Plant <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" formControlName="companyNameORPlant"
-                            placeholder="Enter Company / Plant">
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Company / Plant <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="companyNameORPlant"
+                        placeholder="Enter Company / Plant">
                 </div>
 
                 <!-- Product Code -->
-                <div class="col-lg-4">
-                    <label>Product Code <span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Code <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="productCode"
                         placeholder="Enter Product Code">
                 </div>
 
                 <!-- Product Name -->
-                <div class="col-lg-4">
-                    <label>Product Name <span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="productName"
                         placeholder="Enter Product Name">
                 </div>
 
                 <!-- Material Type -->
-                <div class="col-lg-4">
-                    <label>Material Type <span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Material Type <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="materialType"
                         placeholder="Enter Material Type">
                 </div>
 
                 <!-- Purchase Price -->
-                <div class="col-lg-4">
-                    <label>Purchase Price <span class="text-danger">*</span></label>
-                    <input type="number" formControlName="purchasePrice" class="form-control"
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Purchase Price <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" formControlName="purchasePrice"
                         placeholder="Enter Purchase Price">
                 </div>
 
                 <!-- COGM -->
-                <div class="col-lg-4">
-                    <label>COGM</label>
-                    <input type="text" formControlName="cogm" class="form-control" placeholder="Enter COGM">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">COGM</label>
+                    <input type="text" class="form-control" formControlName="cogm" placeholder="Enter COGM">
                 </div>
 
                 <!-- Sales Price -->
-                <div class="col-lg-4">
-                    <label>Sales Price <span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Sales Price <span class="text-danger">*</span></label>
                     <input type="number" class="form-control" formControlName="salesPrice"
                         placeholder="Enter Sales Price">
                 </div>
 
                 <!-- IGST -->
-                <div class="col-lg-4">
-                    <label>IGST %</label>
-                    <input type="number" formControlName="igstPer" class="form-control" placeholder="Enter IGST %">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">IGST %</label>
+                    <input type="number" class="form-control" formControlName="igstPer" placeholder="Enter IGST %">
                 </div>
 
                 <!-- SGST -->
-                <div class="col-lg-4">
-                    <label>SGST %</label>
-                    <input type="number" formControlName="sgstPer" class="form-control" placeholder="Enter SGST %">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">SGST %</label>
+                    <input type="number" class="form-control" formControlName="sgstPer" placeholder="Enter SGST %">
                 </div>
 
                 <!-- CGST -->
-                <div class="col-lg-4">
-                    <label>CGST %</label>
-                    <input type="number" formControlName="cgstPer" class="form-control" placeholder="Enter CGST %">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">CGST %</label>
+                    <input type="number" class="form-control" formControlName="cgstPer" placeholder="Enter CGST %">
                 </div>
 
                 <!-- Self Life Days -->
-                <div class="col-lg-4">
-                    <label>Self Life Days</label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Self Life Days</label>
                     <input type="number" class="form-control" formControlName="selfLifeDays"
                         placeholder="Enter Self Life Days">
                 </div>
 
                 <!-- Batch Required -->
-                <div class="col-lg-4">
-                    <label>Batch Required<span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Batch Required <span class="text-danger">*</span></label>
                     <select class="form-control" formControlName="batchReq">
                         <option value="">Select Batch Required Type</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option>Yes</option>
+                        <option>No</option>
                     </select>
                 </div>
 
-
                 <!-- HSN Code -->
-                <div class="col-lg-4">
-                    <label>HSN Code<span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">HSN Code <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="hsnCode" placeholder="Enter HSN Code">
                 </div>
-                <div class="col-lg-4">
-                    <label>UOM<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="uom" placeholder="Enter uom">
+
+                <!-- UOM -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">UOM <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="uom" placeholder="Enter UOM">
                 </div>
-                <div class="col-lg-4">
-                    <label>S Lock<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" formControlName="sLock" placeholder="Enter sLock">
+
+                <!-- S Lock -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">S Lock <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="sLock" placeholder="Enter S Lock">
                 </div>
 
                 <!-- Image -->
-                <div class="col-lg-4">
-                    <label>Image</label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Image</label>
                     <input type="file" class="form-control" (change)="onImageSelect($event)">
                 </div>
 
                 <!-- QM Required -->
-                <div class="col-lg-4">
-                    <label>QM Required<span class="text-danger">*</span></label>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">QM Required <span class="text-danger">*</span></label>
                     <select class="form-control" formControlName="qmReq">
                         <option value="">Select QM Required Type</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
+                        <option>Yes</option>
+                        <option>No</option>
                     </select>
                 </div>
-
 
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="modal-footer">
             <button type="submit" class="btn btnSave btn-raised">Submit</button>
             <button type="button" class="btn btnClose btn-raised" (click)="c('Close click')">Close</button>
         </div>
 
-
     </form>
+
 
 </ng-template>

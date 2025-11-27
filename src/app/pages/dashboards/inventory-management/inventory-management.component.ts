@@ -30,6 +30,8 @@ export class InventoryManagementComponent implements OnInit {
   productList: any[] = [];
   companyList: any[] = [];
   filteredProducts: any[] = [];
+  selectedPurchasePrice: number = 0;
+
 
 
   constructor(
@@ -62,6 +64,18 @@ export class InventoryManagementComponent implements OnInit {
     this.getInventoryList();
     // ✅ Fetch companies dynamically from Product screen
     this.getCompanyListFromProducts();
+    this.InventoryForm.get('availableStock')?.valueChanges.subscribe(qty => {
+      qty = Number(qty);
+
+      if (qty > 0 && this.selectedPurchasePrice > 0) {
+        const totalValue = qty * this.selectedPurchasePrice;
+        this.InventoryForm.patchValue({ value: totalValue }, { emitEvent: false });
+      } else {
+        this.InventoryForm.patchValue({ value: '' }, { emitEvent: false });
+      }
+    });
+
+
 
   }
 
@@ -89,25 +103,28 @@ export class InventoryManagementComponent implements OnInit {
 
   onCompanyChange(event: any) {
     const selectedCompany = event.target.value;
-    if (selectedCompany) {
-      this.filteredProducts = this.productList.filter(p => p.companyNameORPlant === selectedCompany);
 
-      this.InventoryForm.patchValue({
-        productCode: '',
-        productName: '',
-        materialType: '',
-        uom: '',
-        sLock: ''
-      });
-    } else {
-      this.filteredProducts = [];
-    }
+    this.filteredProducts = this.productList.filter(
+      p => p.companyNameORPlant === selectedCompany
+    );
+
+    this.InventoryForm.patchValue({
+      productCode: '',
+      productName: '',
+      materialType: '',
+      uom: '',
+      sLock: ''
+    });
+    this.resetInventoryValueFields();
   }
+
   onProductSelect(event: any) {
     const selectedProductCode = event.target.value;
     const selectedProduct = this.productList.find(p => p.productCode === selectedProductCode);
     console.log('selected Product:', selectedProduct);
     if (selectedProduct) {
+      this.resetInventoryValueFields();
+      this.selectedPurchasePrice = Number(selectedProduct.purchasePrice);
       this.InventoryForm.patchValue({
         productCode: selectedProduct.productCode,
         productName: selectedProduct.productName,
@@ -119,10 +136,16 @@ export class InventoryManagementComponent implements OnInit {
   }
 
 
+  resetInventoryValueFields() {
+    this.selectedPurchasePrice = 0;
 
-  // ============================
-  // Open Add Inventory Modal
-  // ============================
+    this.InventoryForm.patchValue({
+      availableStock: '',
+      value: ''
+    }, { emitEvent: false });
+  }
+
+
   newCompanyCreation(template: TemplateRef<any>) {
     this.editMode = false;
     this.editingInventoryId = null;
@@ -130,9 +153,7 @@ export class InventoryManagementComponent implements OnInit {
     this.modalService.open(template, { size: 'lg', backdrop: 'static' });
   }
 
-  // ============================
-  // Open Edit Inventory Modal
-  // ============================
+
   openEditModal(data: any, template: TemplateRef<any>) {
     this.editMode = true;
     this.editingInventoryId = data.inventoryUniqueId;
@@ -156,9 +177,6 @@ export class InventoryManagementComponent implements OnInit {
     this.modalService.open(template, { size: 'lg', backdrop: 'static' });
   }
 
-  // ============================
-  // SAVE / UPDATE INVENTORY
-  // ============================
   saveInventory() {
     this.submit = true;
 
@@ -182,7 +200,7 @@ export class InventoryManagementComponent implements OnInit {
       uom: this.InventoryForm.value.uom,
       createdAt: this.InventoryForm.value.createdAt,
       updatedAt: this.InventoryForm.value.updatedAt,
-      partialDelete:""
+      partialDelete: ""
     };
 
     // Edit mode → update
@@ -224,9 +242,7 @@ export class InventoryManagementComponent implements OnInit {
   }
 
 
-  // ============================
-  // LOAD INVENTORY LIST
-  // ============================
+
   getInventoryList() {
     this.spinner.show();
     this.service.getInventoryList().subscribe({

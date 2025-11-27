@@ -204,16 +204,7 @@
 
 
                 <!-- GST No -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Value</label>
-                        <input class="form-control form-control-sm" formControlName="value" type="text"
-                            placeholder="Enter Value">
-                        <div class="text-danger" *ngIf="submit && f['value'].errors">
-                            Value is required.
-                        </div>
-                    </div>
-                </div>
+
 
                 <!-- PAN No -->
                 <div class="col-lg-4 col-md-4 col-sm-4">
@@ -242,10 +233,20 @@
                     <div class="form-group">
                         <label>Available Stock<span class="text-danger">*</span></label>
                         <input class="form-control form-control-sm" formControlName="availableStock" type="text"
-                            placeholder="Enter availableStock">
+                            placeholder="Enter availableStock*purchaseprice">
 
                         <div class="text-danger" *ngIf="submit && f['availableStock'].errors">
                             Available Stock is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="form-group">
+                        <label>Value</label>
+                        <input class="form-control form-control-sm" formControlName="value" type="text"
+                            placeholder="Enter Value">
+                        <div class="text-danger" *ngIf="submit && f['value'].errors">
+                            Value is required.
                         </div>
                     </div>
                 </div>

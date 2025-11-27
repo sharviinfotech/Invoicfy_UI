@@ -31,9 +31,7 @@ export class EquipmenttaskListComponent implements OnInit {
     });
   }
 
-  // -----------------------------------------
-  // A. Operation Details
-  // -----------------------------------------
+  // ---------------- A. OPERATION DETAILS ----------------
   newOperationRow(): FormGroup {
     return this.fb.group({
       operationNo: [''],
@@ -48,17 +46,11 @@ export class EquipmenttaskListComponent implements OnInit {
       safetyInstructions: ['']
     });
   }
-
-  get operationData(): FormArray {
-    return this.form.get('operationData') as FormArray;
-  }
+  get operationData(): FormArray { return this.form.get('operationData') as FormArray; }
   addOperationRow() { this.operationData.push(this.newOperationRow()); }
-  removeOperationRow(index: number) { this.operationData.removeAt(index); }
-  editOperationRow(index: number) { alert("Edit Operation Row: " + index); }
+  removeOperationRow(i: number) { this.operationData.removeAt(i); }
 
-  // -----------------------------------------
-  // B. Material List
-  // -----------------------------------------
+  // ---------------- B. MATERIAL LIST ----------------
   newMaterialRow(): FormGroup {
     return this.fb.group({
       materialCode: [''],
@@ -70,17 +62,11 @@ export class EquipmenttaskListComponent implements OnInit {
       remarks: ['']
     });
   }
-
-  get materialData(): FormArray {
-    return this.form.get('materialData') as FormArray;
-  }
+  get materialData(): FormArray { return this.form.get('materialData') as FormArray; }
   addMaterialRow() { this.materialData.push(this.newMaterialRow()); }
-  removeMaterialRow(index: number) { this.materialData.removeAt(index); }
-  editMaterialRow(index: number) { alert("Edit Material Row: " + index); }
+  removeMaterialRow(i: number) { this.materialData.removeAt(i); }
 
-  // -----------------------------------------
-  // C. Tools Required
-  // -----------------------------------------
+  // ---------------- C. TOOLS REQUIRED ----------------
   newToolRow(): FormGroup {
     return this.fb.group({
       toolCode: [''],
@@ -89,17 +75,11 @@ export class EquipmenttaskListComponent implements OnInit {
       toolCategory: ['']
     });
   }
-
-  get toolData(): FormArray {
-    return this.form.get('toolData') as FormArray;
-  }
+  get toolData(): FormArray { return this.form.get('toolData') as FormArray; }
   addToolRow() { this.toolData.push(this.newToolRow()); }
-  removeToolRow(index: number) { this.toolData.removeAt(index); }
-  editToolRow(index: number) { alert("Edit Tool Row: " + index); }
+  removeToolRow(i: number) { this.toolData.removeAt(i); }
 
-  // -----------------------------------------
-  // D. Measurement Points
-  // -----------------------------------------
+  // ---------------- D. MEASUREMENT POINTS ----------------
   newMeasurementPointRow(): FormGroup {
     return this.fb.group({
       measurementPoint: [''],
@@ -110,17 +90,11 @@ export class EquipmenttaskListComponent implements OnInit {
       recordRequired: ['']
     });
   }
-
-  get measurementPoints(): FormArray {
-    return this.form.get('measurementPoints') as FormArray;
-  }
+  get measurementPoints(): FormArray { return this.form.get('measurementPoints') as FormArray; }
   addMeasurementPointRow() { this.measurementPoints.push(this.newMeasurementPointRow()); }
-  removeMeasurementPointRow(index: number) { this.measurementPoints.removeAt(index); }
-  editMeasurementPointRow(index: number) { alert("Edit Measurement Point Row: " + index); }
+  removeMeasurementPointRow(i: number) { this.measurementPoints.removeAt(i); }
 
-  // -----------------------------------------
-  // E. Document Attachments
-  // -----------------------------------------
+  // ---------------- E. DOCUMENT ATTACHMENTS ----------------
   newDocumentAttachmentRow(): FormGroup {
     return this.fb.group({
       attachmentType: [''],
@@ -129,40 +103,23 @@ export class EquipmenttaskListComponent implements OnInit {
       documentDescription: ['']
     });
   }
-
-  get documentAttachments(): FormArray {
-    return this.form.get('documentAttachments') as FormArray;
-  }
+  get documentAttachments(): FormArray { return this.form.get('documentAttachments') as FormArray; }
   addDocumentAttachmentRow() { this.documentAttachments.push(this.newDocumentAttachmentRow()); }
-  removeDocumentAttachmentRow(index: number) { this.documentAttachments.removeAt(index); }
-  editDocumentAttachmentRow(index: number) { alert("Edit Document Attachment Row: " + index); }
+  removeDocumentAttachmentRow(i: number) { this.documentAttachments.removeAt(i); }
 
-  onFileSelected(event: any, index: number) {
+  onFileSelected(event: any, i: number) {
     const file = event.target.files[0];
     if (file) {
-      this.documentAttachments.at(index).patchValue({
+      this.documentAttachments.at(i).patchValue({
         file: file,
         fileName: file.name
       });
     }
   }
 
-  // -----------------------------------------
-  // SAVE FORM
-  // -----------------------------------------
+  // ---------------- SAVE FORM ----------------
   saveForm() {
-    const formData = new FormData();
-    formData.append('operationData', JSON.stringify(this.operationData.value));
-    formData.append('materialData', JSON.stringify(this.materialData.value));
-    formData.append('toolData', JSON.stringify(this.toolData.value));
-    formData.append('measurementPoints', JSON.stringify(this.measurementPoints.value));
-
-    this.documentAttachments.controls.forEach(row => {
-      if (row.value.file) {
-        formData.append('files', row.value.file);
-      }
-    });
-
-    console.log('Final submitted data:', formData);
+    console.log("Saved Data:", this.form.value);
   }
+
 }
