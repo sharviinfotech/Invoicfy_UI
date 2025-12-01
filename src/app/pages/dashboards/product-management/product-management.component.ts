@@ -17,13 +17,13 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 })
 export class ProductManagementComponent implements OnInit {
 
-  @ViewChild('newcompanyTemplate') newcompanyTemplate!: TemplateRef<any>;
+  @ViewChild('addProductTemplate') addProductTemplate!: TemplateRef<any>;
+  @ViewChild('editProductTemplate') editProductTemplate!: TemplateRef<any>;
 
   ProductCreationForm!: FormGroup;
   selectedImageBase64: string = '';
   productList: any[] = [];
 
-  editMode: boolean = false;
   editingProductId: any = null;
 
   constructor(
@@ -36,7 +36,6 @@ export class ProductManagementComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // Form
     this.ProductCreationForm = this.fb.group({
       companyNameORPlant: ['', Validators.required],
       productCode: ['', Validators.required],
@@ -60,7 +59,7 @@ export class ProductManagementComponent implements OnInit {
     this.getProductList();
   }
 
-  // Get Base64 Image
+  // Image Selection
   onImageSelect(event: any) {
     let file = event.target.files[0];
     const reader = new FileReader();
@@ -71,19 +70,15 @@ export class ProductManagementComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  // Open Modal - Add New
-  newCompanyCreation(templateRef: TemplateRef<any>) {
-    this.editMode = false;
-    this.editingProductId = null;
-    this.selectedImageBase64 = '';
+  // Open Add Product Modal
+  openAddModal() {
     this.ProductCreationForm.reset();
-    this.modalService.open(templateRef, { size: 'lg' });
+    this.selectedImageBase64 = '';
+    this.modalService.open(this.addProductTemplate, { size: 'lg' });
   }
 
-  // Open Modal - Edit Product
-  editProduct(product: any, templateRef: TemplateRef<any>) {
-    this.editMode = true;
-
+  // Open Edit Product Modal
+  openEditModal(product: any) {
     this.editingProductId = product.productMasterUniqueId;
 
     this.ProductCreationForm.patchValue({
@@ -98,71 +93,41 @@ export class ProductManagementComponent implements OnInit {
       sgstPer: product.sgstPer,
       cgstPer: product.cgstPer,
       selfLifeDays: product.selfLifeDays,
-      batchReq: product.batchReq,
+      batchReq: product.batchReq?.trim().toLowerCase() === 'yes' ? 'Yes' : 'No',
       hsnCode: product.hsnCode,
       uom: product.uom,
       sLock: product.sLock,
       image: product.image,
-      qmReq: product.qmReq
+      qmReq: product.qmReq?.trim().toLowerCase() === 'yes' ? 'Yes' : 'No'
     });
 
     this.selectedImageBase64 = product.image;
 
-    this.modalService.open(templateRef, { size: 'lg' });
+    this.modalService.open(this.editProductTemplate, { size: 'lg' });
   }
 
-  // Save + Update
-  savecompanyCreation(modal?: any) {
-
+  // Save Add Product
+  saveAddProduct() {
     if (this.ProductCreationForm.invalid) {
       this.toastr.error("Please fill all required fields");
       return;
     }
 
-    let payload: any = {
+    let payload = {
+      ...this.ProductCreationForm.value,
       companyNameORPlant: this.ProductCreationForm.value.companyNameORPlant.toUpperCase(),
       productCode: this.ProductCreationForm.value.productCode.toUpperCase(),
       productName: this.ProductCreationForm.value.productName.toUpperCase(),
       materialType: this.ProductCreationForm.value.materialType.toUpperCase(),
-      purchasePrice: this.ProductCreationForm.value.purchasePrice,
-      cogm: this.ProductCreationForm.value.cogm,
-      salesPrice: this.ProductCreationForm.value.salesPrice,
-      igstPer: this.ProductCreationForm.value.igstPer,
-      sgstPer: this.ProductCreationForm.value.sgstPer,
-      cgstPer: this.ProductCreationForm.value.cgstPer,
-      selfLifeDays: this.ProductCreationForm.value.selfLifeDays,
       batchReq: this.ProductCreationForm.value.batchReq.toUpperCase(),
       hsnCode: this.ProductCreationForm.value.hsnCode.toUpperCase(),
-      uom: this.ProductCreationForm.value.uom,
-      sLock: this.ProductCreationForm.value.sLock,
       image: this.selectedImageBase64,
       qmReq: this.ProductCreationForm.value.qmReq.toUpperCase()
     };
 
-    // ===== UPDATE CALL =====
-    if (this.editMode) {
-      payload.productMasterUniqueId = this.editingProductId;
-      this.spinner.show();
-
-      this.service.updateExitProductMaster(payload).subscribe({
-        next: (res: any) => {
-          this.spinner.hide();
-          this.toastr.success("Product Updated Successfully");
-          this.modalService.dismissAll();
-          this.getProductList();
-        },
-        error: () => {
-          this.spinner.hide();
-          this.toastr.error("Update Failed");
-        }
-      });
-      return;
-    }
-
-    // ===== SAVE CALL =====
     this.spinner.show();
     this.service.SaveProductMaster(payload).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.spinner.hide();
         this.toastr.success("Product Saved Successfully");
         this.modalService.dismissAll();
@@ -171,6 +136,41 @@ export class ProductManagementComponent implements OnInit {
       error: () => {
         this.spinner.hide();
         this.toastr.error("Error saving product");
+      }
+    });
+  }
+
+  // Save Edit Product
+  saveEditProduct() {
+    if (this.ProductCreationForm.invalid) {
+      this.toastr.error("Please fill all required fields");
+      return;
+    }
+
+    let payload = {
+      ...this.ProductCreationForm.value,
+      companyNameORPlant: this.ProductCreationForm.value.companyNameORPlant.toUpperCase(),
+      productCode: this.ProductCreationForm.value.productCode.toUpperCase(),
+      productName: this.ProductCreationForm.value.productName.toUpperCase(),
+      materialType: this.ProductCreationForm.value.materialType.toUpperCase(),
+      batchReq: this.ProductCreationForm.value.batchReq.toUpperCase(),
+      hsnCode: this.ProductCreationForm.value.hsnCode.toUpperCase(),
+      image: this.selectedImageBase64,
+      qmReq: this.ProductCreationForm.value.qmReq.toUpperCase(),
+      productMasterUniqueId: this.editingProductId
+    };
+
+    this.spinner.show();
+    this.service.updateExitProductMaster(payload).subscribe({
+      next: () => {
+        this.spinner.hide();
+        this.toastr.success("Product Updated Successfully");
+        this.modalService.dismissAll();
+        this.getProductList();
+      },
+      error: () => {
+        this.spinner.hide();
+        this.toastr.error("Update Failed");
       }
     });
   }
@@ -189,6 +189,8 @@ export class ProductManagementComponent implements OnInit {
       }
     });
   }
+
+  // Delete Product
   deleteProduct(index: number): void {
     Swal.fire({
       title: 'Are you sure?',
@@ -199,24 +201,16 @@ export class ProductManagementComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
-
       if (result.isConfirmed) {
-
-        this.productList.splice(index, 1); // remove row from array
-
+        this.productList.splice(index, 1);
         Swal.fire({
           title: 'Deleted!',
           text: "Product removed successfully",
           icon: 'success',
           timer: 2000
         });
-
       }
-
     });
   }
-
-
-
 
 }

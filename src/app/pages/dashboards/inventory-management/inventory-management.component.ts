@@ -16,23 +16,26 @@ import Swal from 'sweetalert2';
   imports: [CommonModule, ReactiveFormsModule, FormsModule, NgxSpinnerModule],
 })
 export class InventoryManagementComponent implements OnInit {
+  @ViewChild('addInventoryTemplate') addInventoryTemplate!: TemplateRef<any>;
+  @ViewChild('editInventoryTemplate') editInventoryTemplate!: TemplateRef<any>;
 
-  @ViewChild('newcompanyTemplate') newcompanyTemplate!: TemplateRef<any>;
+  addInventoryForm!: FormGroup;
+  editInventoryForm!: FormGroup;
 
-  InventoryForm!: FormGroup;
   inventoryList: any[] = [];
-
-  editMode: boolean = false;
-  editingInventoryId: any = null;
-
-  loginData: any;
-  submit: boolean = false;
   productList: any[] = [];
   companyList: any[] = [];
-  filteredProducts: any[] = [];
-  selectedPurchasePrice: number = 0;
 
+  filteredProductsForAdd: any[] = [];
+  filteredProductsForEdit: any[] = [];
 
+  selectedPurchasePriceForAdd: number = 0;
+  selectedPurchasePriceForEdit: number = 0;
+
+  editingInventoryId: any = null;
+  loginData: any;
+  submitAdd: boolean = false;
+  submitEdit: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -43,206 +46,225 @@ export class InventoryManagementComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initForms();
+    this.loginData = this.service.getLoginResponse();
+    this.getInventoryList();
+    this.getCompanyListFromProducts();
+    this.setupValueCalculation();
+  }
 
-    this.InventoryForm = this.fb.group({
+  initForms() {
+    this.addInventoryForm = this.fb.group({
       sourceOfStock: ['', Validators.required],
       companyNameORPlant: ['', Validators.required],
       postingDate: ['', Validators.required],
       productCode: ['', Validators.required],
       productName: ['', Validators.required],
       materialType: ['', Validators.required],
-      value: ['', Validators.required],
+      value: [''],
       batch: ['', Validators.required],
       sLock: ['', Validators.required],
       availableStock: ['', Validators.required],
-      uom: ['', Validators.required],
-      createdAt: ['', Validators.required],
-      updatedAt: ['', Validators.required]
+      uom: [''],
+      createdAt: [''],
+      updatedAt: [''],
     });
 
-    this.loginData = this.service.getLoginResponse();
-    this.getInventoryList();
-    // ✅ Fetch companies dynamically from Product screen
-    this.getCompanyListFromProducts();
-    this.InventoryForm.get('availableStock')?.valueChanges.subscribe(qty => {
-      qty = Number(qty);
+    this.editInventoryForm = this.fb.group({
+      sourceOfStock: ['', Validators.required],
+      companyNameORPlant: ['', Validators.required],
+      postingDate: ['', Validators.required],
+      productCode: ['', Validators.required],
+      productName: ['', Validators.required],
+      materialType: ['', Validators.required],
+      value: [''],
+      batch: ['', Validators.required],
+      sLock: ['', Validators.required],
+      availableStock: ['', Validators.required],
+      uom: [''],
+      createdAt: [''],
+      updatedAt: [''],
+    });
+  }
 
-      if (qty > 0 && this.selectedPurchasePrice > 0) {
-        const totalValue = qty * this.selectedPurchasePrice;
-        this.InventoryForm.patchValue({ value: totalValue }, { emitEvent: false });
+  setupValueCalculation() {
+    // Add form auto-calc
+    this.addInventoryForm.get('availableStock')?.valueChanges.subscribe(qty => {
+      qty = Number(qty);
+      if (qty > 0 && this.selectedPurchasePriceForAdd > 0) {
+        this.addInventoryForm.patchValue({ value: qty * this.selectedPurchasePriceForAdd }, { emitEvent: false });
       } else {
-        this.InventoryForm.patchValue({ value: '' }, { emitEvent: false });
+        this.addInventoryForm.patchValue({ value: '' }, { emitEvent: false });
       }
     });
 
-
-
+    // Edit form auto-calc
+    this.editInventoryForm.get('availableStock')?.valueChanges.subscribe(qty => {
+      qty = Number(qty);
+      if (qty > 0 && this.selectedPurchasePriceForEdit > 0) {
+        this.editInventoryForm.patchValue({ value: qty * this.selectedPurchasePriceForEdit }, { emitEvent: false });
+      } else {
+        this.editInventoryForm.patchValue({ value: '' }, { emitEvent: false });
+      }
+    });
   }
 
-  get f() {
-    return this.InventoryForm.controls;
-  }
   getCompanyListFromProducts() {
     this.service.getproductList().subscribe({
       next: (res: any) => {
         this.productList = res.data || [];
-        const allProducts = res.data || [];
-        // Extract unique company names
-        this.companyList = [...new Set(allProducts.map(p => p.companyNameORPlant))];
-        console.log('Company List from Products:', this.companyList);
+        this.companyList = [...new Set(this.productList.map(p => p.companyNameORPlant))];
       },
-      error: () => {
-        this.toastr.error("Failed to load company list from products");
-      }
+      error: () => this.toastr.error('Failed to load company list'),
     });
   }
 
+  // ADD MODAL
+  openAddModal() {
+    this.submitAdd = false;
+    this.addInventoryForm.reset();
+    this.filteredProductsForAdd = [];
+    this.selectedPurchasePriceForAdd = 0;
+    this.modalService.open(this.addInventoryTemplate, { size: 'lg', backdrop: 'static' });
+  }
 
-
-
-
-  onCompanyChange(event: any) {
+  onAddCompanyChange(event: any) {
     const selectedCompany = event.target.value;
-
-    this.filteredProducts = this.productList.filter(
-      p => p.companyNameORPlant === selectedCompany
-    );
-
-    this.InventoryForm.patchValue({
+    this.filteredProductsForAdd = this.productList.filter(p => p.companyNameORPlant === selectedCompany);
+    this.addInventoryForm.patchValue({
       productCode: '',
       productName: '',
       materialType: '',
       uom: '',
-      sLock: ''
+      sLock: '',
     });
-    this.resetInventoryValueFields();
+    this.selectedPurchasePriceForAdd = 0;
   }
 
-  onProductSelect(event: any) {
-    const selectedProductCode = event.target.value;
-    const selectedProduct = this.productList.find(p => p.productCode === selectedProductCode);
-    console.log('selected Product:', selectedProduct);
+  onAddProductSelect(event: any) {
+    const selectedCode = event.target.value;
+    const selectedProduct = this.filteredProductsForAdd.find(p => p.productCode === selectedCode);
     if (selectedProduct) {
-      this.resetInventoryValueFields();
-      this.selectedPurchasePrice = Number(selectedProduct.purchasePrice);
-      this.InventoryForm.patchValue({
+      this.selectedPurchasePriceForAdd = Number(selectedProduct.purchasePrice);
+      this.addInventoryForm.patchValue({
         productCode: selectedProduct.productCode,
         productName: selectedProduct.productName,
         materialType: selectedProduct.materialType,
         uom: selectedProduct.uom,
-        sLock: selectedProduct.sLock
+        sLock: selectedProduct.sLock,
       });
     }
   }
 
-
-  resetInventoryValueFields() {
-    this.selectedPurchasePrice = 0;
-
-    this.InventoryForm.patchValue({
-      availableStock: '',
-      value: ''
-    }, { emitEvent: false });
-  }
-
-
-  newCompanyCreation(template: TemplateRef<any>) {
-    this.editMode = false;
-    this.editingInventoryId = null;
-    this.InventoryForm.reset();
-    this.modalService.open(template, { size: 'lg', backdrop: 'static' });
-  }
-
-
-  openEditModal(data: any, template: TemplateRef<any>) {
-    this.editMode = true;
-    this.editingInventoryId = data.inventoryUniqueId;
-
-    this.InventoryForm.patchValue({
-      sourceOfStock: data.sourceOfStock,
-      companyNameORPlant: data.companyNameORPlant,
-      postingDate: data.postingDate,
-      productCode: data.productCode,
-      productName: data.productName,
-      materialType: data.materialType,
-      value: data.value,
-      batch: data.batch,
-      sLock: data.sLock,
-      availableStock: data.availableStock,
-      uom: data.uom,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt
-    });
-
-    this.modalService.open(template, { size: 'lg', backdrop: 'static' });
-  }
-
-  saveInventory() {
-    this.submit = true;
-
-    if (this.InventoryForm.invalid) {
-      this.toastr.error("Please fill all required fields");
+  saveAddInventory() {
+    this.submitAdd = true;
+    if (this.addInventoryForm.invalid) {
+      this.toastr.error('Please fill all required fields');
       return;
     }
 
-    // Explicit payload
-    const payload = {
-      sourceOfStock: this.InventoryForm.value.sourceOfStock,
-      companyNameORPlant: this.InventoryForm.value.companyNameORPlant,
-      postingDate: this.InventoryForm.value.postingDate,
-      productCode: this.InventoryForm.value.productCode,
-      productName: this.InventoryForm.value.productName,
-      materialType: this.InventoryForm.value.materialType,
-      value: this.InventoryForm.value.value,
-      batch: this.InventoryForm.value.batch,
-      sLock: this.InventoryForm.value.sLock,
-      availableStock: this.InventoryForm.value.availableStock,
-      uom: this.InventoryForm.value.uom,
-      createdAt: this.InventoryForm.value.createdAt,
-      updatedAt: this.InventoryForm.value.updatedAt,
-      partialDelete: ""
-    };
-
-    // Edit mode → update
-    if (this.editMode && this.editingInventoryId) {
-      payload['inventoryUniqueId'] = this.editingInventoryId;
-      this.spinner.show();
-
-      this.service.updateExitInventory(payload).subscribe({
-        next: (res: any) => {
-          this.spinner.hide();
-          this.toastr.success("Inventory Updated Successfully");
-          this.modalService.dismissAll();
-          this.getInventoryList();
-          this.editMode = false;
-          this.editingInventoryId = null;
-        },
-        error: () => {
-          this.spinner.hide();
-          this.toastr.error("Error updating inventory");
-        }
-      });
-      return;
-    }
-
-    // Save new inventory
+    const payload = { ...this.addInventoryForm.value };
     this.spinner.show();
     this.service.SaveInventory(payload).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.spinner.hide();
-        this.toastr.success("Inventory Saved Successfully");
+        this.toastr.success('Inventory Saved Successfully');
         this.modalService.dismissAll();
         this.getInventoryList();
+        this.submitAdd = false;
       },
       error: () => {
         this.spinner.hide();
-        this.toastr.error("Error saving inventory");
-      }
+        this.toastr.error('Error saving inventory');
+      },
     });
   }
 
+  // EDIT MODAL
+  openEditModal(data: any) {
+    this.submitEdit = false;
+    this.editingInventoryId = data.inventoryUniqueId;
+    this.filteredProductsForEdit = this.productList.filter(p => p.companyNameORPlant === data.companyNameORPlant);
 
+    this.editInventoryForm.patchValue({
+      sourceOfStock: data.sourceOfStock,
+      companyNameORPlant: data.companyNameORPlant,
+      postingDate: this.formatDateForInput(data.postingDate),
+      productCode: data.productCode,
+      productName: data.productName,
+      materialType: data.materialType,
+      batch: data.batch,
+      sLock: data.sLock,
+      availableStock: Number(data.availableStock),
+      value: Number(data.value),
+      uom: data.uom,
+      createdAt: this.formatDateForInput(data.createdAt),
+      updatedAt: this.formatDateForInput(data.updatedAt),
+    });
 
+    this.selectedPurchasePriceForEdit = Number(this.productList.find(p => p.productCode === data.productCode)?.purchasePrice) || 0;
+
+    this.modalService.open(this.editInventoryTemplate, { size: 'lg', backdrop: 'static' });
+  }
+
+  onEditCompanyChange(event: any) {
+    const selectedCompany = event.target.value;
+    this.filteredProductsForEdit = this.productList.filter(p => p.companyNameORPlant === selectedCompany);
+    this.editInventoryForm.patchValue({
+      productCode: '',
+      productName: '',
+      materialType: '',
+      uom: '',
+      sLock: '',
+    });
+    this.selectedPurchasePriceForEdit = 0;
+  }
+
+  onEditProductSelect(event: any) {
+    const selectedCode = event.target.value;
+    const selectedProduct = this.filteredProductsForEdit.find(p => p.productCode === selectedCode);
+    if (selectedProduct) {
+      this.selectedPurchasePriceForEdit = Number(selectedProduct.purchasePrice);
+      this.editInventoryForm.patchValue({
+        productCode: selectedProduct.productCode,
+        productName: selectedProduct.productName,
+        materialType: selectedProduct.materialType,
+        uom: selectedProduct.uom,
+        sLock: selectedProduct.sLock,
+      });
+    }
+  }
+
+  saveEditInventory() {
+    this.submitEdit = true;
+    if (this.editInventoryForm.invalid) {
+      this.toastr.error('Please fill all required fields');
+      return;
+    }
+
+    const payload = {
+      ...this.editInventoryForm.value,
+      inventoryUniqueId: this.editingInventoryId,
+    };
+
+    this.spinner.show();
+    this.service.updateExitInventory(payload).subscribe({
+      next: () => {
+        this.spinner.hide();
+        this.toastr.success('Inventory Updated Successfully');
+        this.modalService.dismissAll();
+        this.getInventoryList();
+        this.submitEdit = false;
+        this.editingInventoryId = null;
+      },
+      error: () => {
+        this.spinner.hide();
+        this.toastr.error('Error updating inventory');
+      },
+    });
+  }
+
+  // COMMON METHODS
   getInventoryList() {
     this.spinner.show();
     this.service.getInventoryList().subscribe({
@@ -252,33 +274,36 @@ export class InventoryManagementComponent implements OnInit {
       },
       error: () => {
         this.spinner.hide();
-        this.toastr.error("Failed to load inventory");
-      }
+        this.toastr.error('Failed to load inventory');
+      },
     });
   }
 
-
-  delete(data: any) {
+  deleteInventory(data: any) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "Do you want to delete this inventory?",
+      text: 'Do you want to delete this inventory?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
+      confirmButtonText: 'Yes, delete it!',
+    }).then(result => {
       if (result.isConfirmed) {
-
         this.inventoryList = this.inventoryList.filter(i => i.inventoryUniqueId !== data.inventoryUniqueId);
-        Swal.fire({
-          title: 'Deleted!',
-          text: "Inventory removed successfully",
-          icon: 'success',
-          timer: 2000
-        });
+        Swal.fire({ title: 'Deleted!', text: 'Inventory removed successfully', icon: 'success', timer: 2000 });
       }
     });
   }
 
+  formatDateForInput(date: any): string {
+    if (!date) return '';
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = ('0' + (d.getMonth() + 1)).slice(-2);
+    const day = ('0' + d.getDate()).slice(-2);
+    const hours = ('0' + d.getHours()).slice(-2);
+    const minutes = ('0' + d.getMinutes()).slice(-2);
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 }

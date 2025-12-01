@@ -1,310 +1,216 @@
-<div class="">
-    <form>
-
-        <div class="card">
-
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <span>Inventory Management</span>
-                <button type="button" class="btn btn-raised btn-md btnAdd"
-                    (click)="newCompanyCreation(newcompanyTemplate)">
-                    + Add Stock
-                </button>
-            </div>
-            <div class="card-body">
-
-
-                <div class="table-responsive tableFixHead">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-nowrap">Source of Stock</th>
-                                <th class="text-nowrap">Company Name | Plant</th>
-                                <th class="text-nowrap">Posting Date</th>
-                                <th class="text-nowrap">Product Code</th>
-                                <th class="text-nowrap">Product Name</th>
-                                <th class="text-nowrap">Material Type</th>
-                                <th class="text-nowrap">Value</th>
-                                <th class="text-nowrap">Batch</th>
-                                <th class="text-nowrap">S Lock</th>
-                                <th class="text-nowrap">Available Stock</th>
-                                <th class="text-nowrap">UOM</th>
-                                <th class="text-nowrap">Created At</th>
-                                <th class="text-nowrap">Updated At</th>
-                                <th *ngIf="loginData?.data.userActivity != 'MD'" class="text-nowrap">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let data of inventoryList">
-                                <td>{{ data.sourceOfStock }}</td>
-                                <td>{{ data.companyNameORPlant }}</td>
-                                <td>{{ data.postingDate | date:'dd-MM-yyyy HH:mm' }}</td>
-                                <td>{{ data.productCode }}</td>
-                                <td>{{ data.productName }}</td>
-                                <td>{{ data.materialType }}</td>
-                                <td>{{ data.value }}</td>
-                                <td>{{ data.batch }}</td>
-                                <td>{{ data.sLock }}</td>
-                                <td>{{ data.availableStock }}</td>
-                                <td>{{ data.uom }}</td>
-                                <td>{{ data.createdAt | date:'dd-MM-yyyy HH:mm' }}</td>
-                                <td>{{ data.updatedAt | date:'dd-MM-yyyy HH:mm' }}</td>
-                                <td *ngIf="loginData?.data.userActivity != 'MD'" class="text-center">
-                                    <i class="edit-btn fa fa-edit me-2"
-                                        (click)="openEditModal(data, newcompanyTemplate)"></i>
-
-                                    <i class="delete-btn bx bx-trash" (click)="delete(data)"></i>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-            </div>
-
+<div class="card">
+    <!-- HEADER -->
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Inventory Management</span>
+        <div>
+            <button type="button" class="btn btn-raised btn-md btnAdd me-2" (click)="openAddModal()">
+                + Add Stock
+            </button>
         </div>
+    </div>
 
-
-    </form>
-
+    <!-- TABLE -->
+    <div class="card-body">
+        <div class="table-responsive tableFixHead">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Source of Stock</th>
+                        <th>Company Name | Plant</th>
+                        <th>Posting Date</th>
+                        <th>Product Code</th>
+                        <th>Product Name</th>
+                        <th>Material Type</th>
+                        <th>Value</th>
+                        <th>Batch</th>
+                        <th>S Lock</th>
+                        <th>Available Stock</th>
+                        <th>UOM</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                        <th *ngIf="loginData?.data.userActivity != 'MD'">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of inventoryList">
+                        <td>{{ data.sourceOfStock }}</td>
+                        <td>{{ data.companyNameORPlant }}</td>
+                        <td>{{ data.postingDate | date:'dd-MM-yyyy HH:mm' }}</td>
+                        <td>{{ data.productCode }}</td>
+                        <td>{{ data.productName }}</td>
+                        <td>{{ data.materialType }}</td>
+                        <td>{{ data.value }}</td>
+                        <td>{{ data.batch }}</td>
+                        <td>{{ data.sLock }}</td>
+                        <td>{{ data.availableStock }}</td>
+                        <td>{{ data.uom }}</td>
+                        <td>{{ data.createdAt | date:'dd-MM-yyyy HH:mm' }}</td>
+                        <td>{{ data.updatedAt | date:'dd-MM-yyyy HH:mm' }}</td>
+                        <td *ngIf="loginData?.data.userActivity != 'MD'" class="text-center">
+                            <i class="edit-btn fa fa-edit me-2" (click)="openEditModal(data)"></i>
+                            <i class="delete-btn bx bx-trash" (click)="deleteInventory(data)"></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<ng-template #newcompanyTemplate let-c="close">
-    <div class="modal-header">
-        Stock Posting
-    </div>
-    <div class="modal-body">
-        <form [formGroup]="InventoryForm">
+<!-- ADD INVENTORY MODAL -->
+<ng-template #addInventoryTemplate let-c="close">
+    <form [formGroup]="addInventoryForm">
+        <div class="modal-header">
+            <h5>Add Stock</h5>
+        </div>
+        <div class="modal-body">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Source of Stock<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="sourceOfStock" type="text"
-                            placeholder="Enter source of stock">
-                        <div class="text-danger" *ngIf="submit && f['sourceOfStock'].errors">
-                            source of stock is required.
-                        </div>
-                    </div>
+                <!-- other fields -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="sourceOfStock">
                 </div>
-                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-
-                    <div class="form-group">
-                        <label>Company Name|Plant<span class="text-danger">*</span></label>
-                        <select class="form-control form-control-sm" formControlName="productCode"
-                            (change)="onProductChange($event)">
-                            <option value="">-- Select Product --</option>
-                            <option *ngFor="let item of productList" [value]="item.productCode">
-                                {{ item.productCode }} - {{ item.productName }}
-                            </option>
-                        </select>
-                        <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
-                            Company Name is required.
-                        </div>
-                    </div>
-                </div> -->
-                <!-- Company Name / Plant -->
-                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label>Company Name | Plant <span class="text-danger">*</span></label>
-                    <select class="form-control form-control-sm" formControlName="companyNameORPlant">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Company Name | Plant <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="companyNameORPlant"
+                        (change)="onAddCompanyChange($event)">
                         <option value="">-- Select Company --</option>
                         <option *ngFor="let company of companyList" [value]="company">{{ company }}</option>
                     </select>
-
-                    <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
-                        Company Name is required.
-                    </div>
-                </div> -->
-                <!-- Company Name / Plant -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label>Company Name | Plant <span class="text-danger">*</span></label>
-                    <select class="form-control form-control-sm" formControlName="companyNameORPlant"
-                        (change)="onCompanyChange($event)">
-                        <option value="">-- Select Company --</option>
-                        <option *ngFor="let company of companyList" [value]="company">{{ company }}</option>
-                    </select>
-                    <div class="text-danger" *ngIf="submit && f['companyNameORPlant'].errors">
-                        Company Name is required.
-                    </div>
                 </div>
-
-
-
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Posting Date<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="postingDate" type="datetime-local"
-                            placeholder="Enter posting date">
-                        <div class="text-danger" *ngIf="submit && f['postingDate'].errors">
-                            Posting Date is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Posting Date <span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="postingDate">
                 </div>
-
-                <!-- Address -->
-                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Product code<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="productCode" type="text"
-                            placeholder="Enter product code">
-                        <div class="text-danger" *ngIf="submit && f['productCode'].errors">
-                            Product code is required.
-                        </div>
-                    </div>
-                </div> -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label>Product Code <span class="text-danger">*</span></label>
-                    <select class="form-control form-control-sm" formControlName="productCode"
-                        (change)="onProductSelect($event)">
+                <!-- Product info -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Code <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="productCode" (change)="onAddProductSelect($event)">
                         <option value="">-- Select Product --</option>
-                        <option *ngFor="let product of filteredProducts" [value]="product.productCode">
-                            {{ product.productCode }}
-                        </option>
+                        <option *ngFor="let product of filteredProductsForAdd" [value]="product.productCode">{{
+                            product.productCode }}</option>
                     </select>
-                    <div class="text-danger" *ngIf="submit && f['productCode'].errors">
-                        Product code is required.
-                    </div>
                 </div>
-
-                <!-- City -->
-                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Product Name<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="productName" type="text"
-                            placeholder="Enter Product Name">
-                        <div class="text-danger" *ngIf="submit && f['productName'].errors">
-                            Product Name is required.
-                        </div>
-                    </div>
-                </div> -->
-                <!-- Product Name (auto-filled, readonly) -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label>Product Name <span class="text-danger">*</span></label>
-                    <input class="form-control form-control-sm" formControlName="productName" type="text" readonly>
-                    <div class="text-danger" *ngIf="submit && f['productName'].errors">
-                        Product Name is required.
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="productName" readonly>
                 </div>
-
-
-
-
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Material Type<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="materialType" type="text"
-                            placeholder="Enter materialType">
-                        <div class="text-danger" *ngIf="submit && f['materialType'].errors">
-                            Material Type is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Material Type <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="materialType" readonly>
                 </div>
-
-
-
-
-                <!-- GST No -->
-
-
-                <!-- PAN No -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Batch<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="batch" type="text"
-                            placeholder="Enter batch">
-                        <div class="text-danger" *ngIf="submit && f['batch'].errors">
-                            Batch is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Batch <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="batch">
                 </div>
-                <!-- email Id -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>S Lock<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="sLock" type="text"
-                            placeholder="Enter s Lock">
-                        <div class="text-danger" *ngIf="submit && f['sLock'].errors">
-                            S Lock is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">S Lock <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="sLock" readonly>
                 </div>
-                <!-- contact -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Available Stock<span class="text-danger">*</span></label>
-                        <input class="form-control form-control-sm" formControlName="availableStock" type="text"
-                            placeholder="Enter availableStock*purchaseprice">
-
-                        <div class="text-danger" *ngIf="submit && f['availableStock'].errors">
-                            Available Stock is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Available Stock <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" formControlName="availableStock">
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Value</label>
-                        <input class="form-control form-control-sm" formControlName="value" type="text"
-                            placeholder="Enter Value">
-                        <div class="text-danger" *ngIf="submit && f['value'].errors">
-                            Value is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Value</label>
+                    <input type="number" class="form-control" formControlName="value" readonly>
                 </div>
-
-                <!-- <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>UOM</label>
-                        <input class="form-control form-control-sm" formControlName="uom" type="text"
-                            placeholder="Enter uom">
-                        <div class="text-danger" *ngIf="submit && f['uom'].errors">
-                            UOM is required.
-                        </div>
-                    </div>
-                </div> -->
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>UOM</label>
-                        <input class="form-control form-control-sm" formControlName="uom" type="text" placeholder="UOM"
-                            readonly>
-                        <div class="text-danger" *ngIf="submit && f['uom'].errors">
-                            UOM is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">UOM</label>
+                    <input type="text" class="form-control" formControlName="uom" readonly>
                 </div>
-
-
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>Created At</label>
-                        <input class="form-control form-control-sm" formControlName="createdAt" type="datetime-local"
-                            placeholder="Enter createdAt">
-                        <div class="text-danger" *ngIf="submit && f['createdAt'].errors">
-                            Created At is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">created At<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="createdAt">
                 </div>
-
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <div class="form-group">
-                        <label>updated At</label>
-                        <input class="form-control form-control-sm" formControlName="updatedAt" type="datetime-local"
-                            placeholder="Enter updatedAt ">
-                        <div class="text-danger" *ngIf="submit && f['updatedAt'].errors">
-                            updated At is required.
-                        </div>
-                    </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">updated At<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="updatedAt">
                 </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="saveAddInventory()">Submit</button>
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
+</ng-template>
 
 
-
-
+<!-- EDIT INVENTORY MODAL -->
+<ng-template #editInventoryTemplate let-c="close">
+    <form [formGroup]="editInventoryForm">
+        <div class="modal-header">
+            <h5>Edit Stock</h5>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="sourceOfStock">
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Company Name | Plant <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="companyNameORPlant"
+                        (change)="onEditCompanyChange($event)">
+                        <option value="">-- Select Company --</option>
+                        <option *ngFor="let company of companyList" [value]="company">{{ company }}</option>
+                    </select>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Posting Date <span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="postingDate">
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Code <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="productCode" (change)="onEditProductSelect($event)">
+                        <option value="">-- Select Product --</option>
+                        <option *ngFor="let product of filteredProductsForEdit" [value]="product.productCode">{{
+                            product.productCode }}</option>
+                    </select>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Product Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="productName" readonly>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Material Type <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="materialType" readonly>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Batch <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="batch">
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">S Lock <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="sLock" readonly>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Available Stock <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" formControlName="availableStock">
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Value</label>
+                    <input type="number" class="form-control" formControlName="value" readonly>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">UOM</label>
+                    <input type="text" class="form-control" formControlName="uom" readonly>
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">created At<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="createdAt">
+                </div>
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">updated At<span class="text-danger">*</span></label>
+                    <input type="datetime-local" class="form-control" formControlName="updatedAt">
+                </div>
 
             </div>
-        </form>
-    </div>
-
-    <div class="modal-footer">
-        <button type="button" class="btn btnSave btn-raised" (click)="saveInventory()">Submit</button>
-        <button type="button" class="btn btnClose btn-raised" (click)="c('Close click')">Close</button>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="saveEditInventory()">Update</button>
+            <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+        </div>
+    </form>
 </ng-template>

@@ -1,1 +1,273 @@
-<p>sales-quotation works!</p>
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        Sales Quotation (Coming Soon)
+    </div>
+
+    <div class="card-body">
+
+
+        <form [formGroup]="quotationForm">
+
+            <div class="card mt-2">
+                <div class="card-header">
+                    <strong>Quotation Header</strong>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-12">
+                            <h6 class="mt-2 text-primary">General Information</h6>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Quote No</label>
+                            <input type="text" class="form-control form-control-sm" placeholder="Auto Generated"
+                                disabled>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Revision No</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Quote Date</label>
+                            <input type="date" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Quote Status</label>
+                            <select class="form-control form-control-sm">
+                                <option>Draft</option>
+                                <option>Submitted</option>
+                                <option>Approved</option>
+                                <option>Rejected</option>
+                                <option>Won</option>
+                                <option>Lost</option>
+                            </select>
+                        </div>
+
+                        <!-- Customer Information -->
+                        <div class="col-12 mt-3">
+                            <h6 class="text-primary">Customer Information</h6>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Customer Name</label>
+                            <input type="text" class="form-control form-control-sm"
+                                placeholder="Search / Select Customer">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Customer Code</label>
+                            <input type="text" class="form-control form-control-sm" placeholder="Auto">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Contact Person</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Contact Email</label>
+                            <input type="email" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Contact Phone</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Billing Address</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Shipping Address</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <!-- Commercial Terms -->
+                        <div class="col-12 mt-3">
+                            <h6 class="text-primary">Commercial Terms</h6>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Currency</label>
+                            <input type="text" class="form-control form-control-sm" placeholder="INR / USD / EUR">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Exchange Rate</label>
+                            <input type="number" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Payment Terms</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Incoterms</label>
+                            <input type="text" class="form-control form-control-sm" placeholder="FOB / CIF / EXW">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Delivery Period</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Price Book</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Shipment Mode</label>
+                            <select class="form-control form-control-sm">
+                                <option>Air</option>
+                                <option>Sea</option>
+                                <option>Road</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Customer Reference No</label>
+                            <input type="text" class="form-control form-control-sm">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- B. ITEM DETAILS -->
+            <div class="card mt-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    C. Item Details
+                    <button type="button" class="btn btn-sm btn-primary" (click)="addItem()">+ Add Item</button>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Line No</th>
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>Description</th>
+                                    <th>UOM</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price</th>
+                                    <th>Disc %</th>
+                                    <th>Disc Amt</th>
+                                    <th>Net Price</th>
+                                    <th>Tax Type</th>
+                                    <th>Tax %</th>
+                                    <th>Tax Amt</th>
+                                    <th>Line Total</th>
+                                    <th>Src</th>
+                                    <th>Override</th>
+                                    <th>Delivery Date</th>
+                                    <th>Warranty</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody formArrayName="items">
+                                <tr *ngFor="let row of items.controls; let i = index" [formGroupName]="i">
+
+                                    <td>{{ i + 1 }}</td>
+
+                                    <td><input type="text" formControlName="productCode"
+                                            class="form-control form-control-sm"></td>
+
+                                    <td><input type="text" formControlName="productName"
+                                            class="form-control form-control-sm"></td>
+
+                                    <td><input type="text" formControlName="description"
+                                            class="form-control form-control-sm"></td>
+
+                                    <td><input type="text" formControlName="uom" class="form-control form-control-sm">
+                                    </td>
+
+                                    <td><input type="number" formControlName="quantity"
+                                            class="form-control form-control-sm" (input)="calculateRow(i)"></td>
+
+                                    <td><input type="number" formControlName="unitPrice"
+                                            class="form-control form-control-sm" (input)="calculateRow(i)"></td>
+
+                                    <td><input type="number" formControlName="discountPercent"
+                                            class="form-control form-control-sm" (input)="calculateRow(i)"></td>
+
+                                    <td><input type="number" formControlName="discountAmount"
+                                            class="form-control form-control-sm" readonly></td>
+
+                                    <td><input type="number" formControlName="netUnitPrice"
+                                            class="form-control form-control-sm" readonly></td>
+
+                                    <td>
+                                        <select formControlName="taxType" class="form-control form-control-sm">
+                                            <option>CGST+SGST</option>
+                                            <option>IGST</option>
+                                            <option>VAT</option>
+                                        </select>
+                                    </td>
+
+                                    <td><input type="number" formControlName="taxPercent"
+                                            class="form-control form-control-sm" (input)="calculateRow(i)"></td>
+
+                                    <td><input type="number" formControlName="taxAmount"
+                                            class="form-control form-control-sm" readonly></td>
+
+                                    <td><input type="number" formControlName="lineTotal"
+                                            class="form-control form-control-sm" readonly></td>
+
+                                    <td>
+                                        <select formControlName="priceSource" class="form-control form-control-sm">
+                                            <option>Price Book</option>
+                                            <option>Manual</option>
+                                        </select>
+                                    </td>
+
+                                    <td>
+                                        <select formControlName="overrideAllowed" class="form-control form-control-sm">
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                        </select>
+                                    </td>
+
+                                    <td><input type="date" formControlName="deliveryDate"
+                                            class="form-control form-control-sm"></td>
+
+                                    <td><input type="text" formControlName="warranty"
+                                            class="form-control form-control-sm"></td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                            (click)="removeItem(i)">X</button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="text-end mt-3">
+                <button type="submit" class="btn btn-success btn-md px-4">Submit</button>
+            </div>
+
+        </form>
+
+
+    </div>
+
+
+
+
+</div>
