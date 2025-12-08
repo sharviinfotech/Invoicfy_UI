@@ -25,6 +25,8 @@ export class ProductManagementComponent implements OnInit {
   productList: any[] = [];
 
   editingProductId: any = null;
+  companyList: any[] = [];
+
 
   constructor(
     private modalService: NgbModal,
@@ -55,19 +57,53 @@ export class ProductManagementComponent implements OnInit {
       image: [''],
       qmReq: ['', Validators.required]
     });
-
+    this.getCompanyList();
     this.getProductList();
   }
 
   // Image Selection
   onImageSelect(event: any) {
     let file = event.target.files[0];
+
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = () => {
       this.selectedImageBase64 = reader.result as string;
       this.ProductCreationForm.patchValue({ image: this.selectedImageBase64 });
     };
+
     reader.readAsDataURL(file);
+  }
+
+
+
+  // getCompanyList() {
+  //   this.service.getAllCompanyList().subscribe({
+  //     next: (res: any) => {
+  //       this.companyList = res.data || [];
+  //     },
+  //     error: (err) => {
+  //       this.toastr.error("Failed to load company list");
+  //     }
+  //   });
+  // }
+
+  getCompanyList() {
+    this.service.getAllCompanyList().subscribe({
+      next: (res: any) => {
+        const list = res.data || [];
+
+        // 🔥 Remove duplicate company names
+        this.companyList = list.filter(
+          (item, index, self) =>
+            index === self.findIndex(t => t.companyName === item.companyName)
+        );
+      },
+      error: () => {
+        this.toastr.error("Failed to load company list");
+      }
+    });
   }
 
   // Open Add Product Modal
@@ -191,7 +227,7 @@ export class ProductManagementComponent implements OnInit {
   }
 
   // Delete Product
-  deleteProduct(index: number): void {
+  deleteProduct(item: any): void {
     Swal.fire({
       title: 'Are you sure?',
       text: "Do you want to delete this product?",
@@ -201,16 +237,46 @@ export class ProductManagementComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
+
       if (result.isConfirmed) {
-        this.productList.splice(index, 1);
-        Swal.fire({
-          title: 'Deleted!',
-          text: "Product removed successfully",
-          icon: 'success',
-          timer: 2000
-        });
+
+        const deletePayload = {
+          globalId: item.productMasterUniqueId,
+          screenName: "product"
+        };
+
+        console.log("Delete payload:", deletePayload);
+        this.spinner.show();
+
+        this.service.deteleGlobal(deletePayload).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            console.log("deleteGlobal response:", res);
+
+            if (res.status === 200) {
+
+              Swal.fire({
+                title: 'Deleted!',
+                text: res.message,
+                icon: 'success',
+                timer: 2000
+              });
+
+              // Refresh product list
+              this.getProductList();
+            } else {
+              this.toastr.error(res.message);
+            }
+          },
+          (error: any) => {
+            this.spinner.hide();
+            console.error("Error deleting product:", error);
+            this.toastr.error("Failed to delete product");
+          }
+        );
       }
     });
   }
+
 
 }

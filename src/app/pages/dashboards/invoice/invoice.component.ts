@@ -17,6 +17,9 @@ interface TaxItem {
   amount: number;
 }
 interface ChargeItem {
+  id?: number;
+  selectedObjId?: any,
+  selectedObj?: any,
   description: string;
   HSN_SAC: string;
   quantity: number;
@@ -94,11 +97,24 @@ export class InvoiceComponent implements OnInit {
   filteredChargesByPo: any;
   manualMode = true;
   patchedCount = 0;
+  productList: any[] = [];
+  serviceList: any[] = [];
+  currentDropdownList: any[] = [];
+  productLoaded = false;
+  serviceLoaded = false;
+  companyImageUpload: any;
+
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
 
   }
+  trackByFn(index: number, item: any) {
+    return item.id;
+  }
+
+
+
   selectInvoiceType(type) {
     this.resetAll()
     this.submited = false
@@ -215,6 +231,8 @@ export class InvoiceComponent implements OnInit {
   }
   onCompanySelectChange(selectedCompany: any | string | null) {
     console.log("selectedCompany", selectedCompany)
+    this.companyImageUpload = selectedCompany.companyImageUpload
+
     if (selectedCompany) {
       if (typeof selectedCompany === 'object' && '_id' in selectedCompany) {
         console.log("Existing Company Selected:", selectedCompany);
@@ -293,6 +311,170 @@ export class InvoiceComponent implements OnInit {
 
 
 
+
+  getProductList() {
+    this.spinner.show();
+    this.service.getproductList().subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        this.productList = res.data || [];
+      },
+      error: () => this.spinner.hide()
+    });
+  }
+  getServiceList() {
+    this.spinner.show();
+    this.service.getAllCharges().subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        this.serviceList = res.data || [];
+      },
+      error: () => this.spinner.hide()
+    });
+  }
+
+  mapProductsToChargeItems() {
+    return this.productList.map(p => ({
+      selectedObjId: null,
+      description: p.productName,
+      HSN_SAC: p.hsnCode || '',
+      quantity: 1,
+      UOM: p.uom,
+      rate: p.salesPrice,
+      amount: p.rate || 0
+    }));
+  }
+
+  mapServicesToChargeItems() {
+    return this.serviceList.map(s => ({
+      selectedObjId: null,
+      description: s.servicesName,   // ✅ REQUIRED
+      HSN_SAC: s.HSN_SAC,
+      quantity: 1,
+      UOM: s.UOM || 'Job',
+      rate: s.rate || 0,
+      amount: s.rate || 0
+    }));
+  }
+
+  onInvoiceTypeChange(type: string) {
+    console.log(" Invoice Type Changed To:", type);
+
+    // Wait for API data
+    if ((type === 'only product' && this.productList.length === 0) ||
+      (type === 'only service' && this.serviceList.length === 0) ||
+      (type === 'service come product' && (this.productList.length === 0 || this.serviceList.length === 0))) {
+
+      setTimeout(() => this.onInvoiceTypeChange(type), 200);
+      console.log(" Waiting for API data... Retrying in 200ms");
+      return;
+    }
+
+
+    // Build dropdown list only
+    if (type === 'only product') {
+      console.log(" Building dropdown from PRODUCT LIST");
+      this.currentDropdownList = this.productList.map(p => ({
+        id: p.id,
+        name: p.productName,
+        HSN_SAC: p.hsnCode,
+        UOM: p.uom,
+        rate: p.salesPrice,
+      }));
+      console.log(" Product Dropdown →", this.currentDropdownList);
+    }
+
+    else if (type === 'only service') {
+      console.log(" Building dropdown from SERVICE LIST");
+      this.currentDropdownList = this.serviceList.map(s => ({
+        id: s.id,
+        name: s.servicesName,
+        HSN_SAC: s.HSN_SAC,
+        UOM: s.UOM || 'Job',
+        rate: s.rate || 0
+      }));
+    }
+
+
+    else if (type === 'service come product') {
+      console.log("Combining SERVICE + PRODUCT");
+      this.currentDropdownList = [
+        ...this.productList.map(p => ({
+          id: p.id,
+          name: p.productName,
+          HSN_SAC: p.hsnCode,
+          UOM: p.uom,
+          rate: p.salesPrice,
+        })),
+        ...this.serviceList.map(s => ({
+          id: s.id,
+          name: s.servicesName,
+          HSN_SAC: s.HSN_SAC,
+          UOM: s.UOM || 'Job',
+          rate: s.rate || 0
+
+        }))
+      ];
+    }
+
+    // Reset table to SINGLE EMPTY ROW  
+    // this.chargeItems = [{
+    //   id: Date.now() + Math.random(),
+    //   selectedObj: null,
+    //   description: '',
+    //   HSN_SAC: '',
+    //   quantity: 1,
+    //   UOM: '',
+    //   rate: 0,
+    //   amount: 0
+    // }];
+    // Always reset table when invoice type changes
+    this.chargeItems = [{
+      id: Date.now() + Math.random(),
+      selectedObjId: null,
+      description: '',
+      HSN_SAC: '',
+      quantity: 1,
+      UOM: '',
+      rate: 0,
+      amount: 0
+    }];
+
+
+
+
+    this.patchedCount = 1;
+    this.manualMode = false;
+    this.calculateTotals();
+  }
+
+
+
+  onItemSelected(item: any, selected: any) {
+    if (!selected) return;
+
+    // `selected` can be either the selected object (when ng-select returns object)
+    // or the selected id (when bindValue is used). Normalize to the object.
+    let selectedObj: any = null;
+    if (typeof selected === 'object') {
+      selectedObj = selected;
+    } else {
+      selectedObj = this.currentDropdownList.find(x => x.id === selected) || null;
+    }
+
+    if (!selectedObj) return;
+    console.log("selectedObj", selectedObj);
+    item.productName = selectedObj.name;
+    item.description = selectedObj.name || '';
+    item.HSN_SAC = selectedObj.HSN_SAC || '';
+    item.UOM = selectedObj.UOM || '';
+    item.rate = selectedObj.rate || 0;
+    item.quantity = item.quantity || 1;
+
+    item.amount = (parseFloat(item.rate) || 0) * (parseFloat(item.quantity) || 1);
+
+    this.calculateTotals();
+  }
 
 
 
@@ -378,6 +560,7 @@ export class InvoiceComponent implements OnInit {
 
       ProformaGstNumber: ['', Validators.required],
       ProformaPoNumber: [''],
+      ProformaInvoiceType: [''],
       companyState: [''],
       ProformaTypeOfServices: [''],
       ProformaBankName: ['', Validators.required],
@@ -468,6 +651,7 @@ export class InvoiceComponent implements OnInit {
     }
 
     this.chargeItems = matched.map(c => ({
+      selectedObjId: null,
       description: c.servicesName,
       HSN_SAC: c.HSN_SAC,
       UOM: c.UOM,
@@ -507,6 +691,9 @@ export class InvoiceComponent implements OnInit {
 
     this.logoUrl = this.imageService.getBase64FlightLogo();
     this.InvoiceLogo = this.imageService.getBase64WorldLogo();
+
+    this.getProductList();
+    this.getServiceList();
 
 
   }
@@ -786,7 +973,7 @@ export class InvoiceComponent implements OnInit {
 
   // Method to select and show an invoice
   selectInvoice(invoice: any) {
-   console.log("invoice", invoice)
+    console.log("invoice", invoice)
     if (invoice.proformaCardHeaderId == "PQ") {
       this.reSubmitInvoice = false
       this.invoiceItem = null
@@ -947,7 +1134,7 @@ export class InvoiceComponent implements OnInit {
 
       }
     } else if (invoice.proformaCardHeaderId == "OnlyTAX") {
-       console.log("invoice", invoice)
+      console.log("invoice", invoice)
       Swal.fire({
         text: 'Do you want to Edit the Invoice?',
         icon: 'info',
@@ -1002,6 +1189,7 @@ export class InvoiceComponent implements OnInit {
       ProformaGstNo: this.selectedInvoice.header.ProformaGstNo,
       ProformaPanNO: this.selectedInvoice.header.ProformaPanNO,
       ProformaPoNumber: this.selectedInvoice.header.ProformaPoNumber,
+      ProformaInvoiceType: this.selectedInvoice.header.ProformaPoNumber,
       // ProformaInvoiceNumber: this.selectedInvoice.invoiceUniqueNumber,
       ProformaInvoiceDate: this.selectedInvoice.header.ProformaInvoiceDate,
       ProformaPan: this.selectedInvoice.header.ProformaPan,
@@ -1082,6 +1270,7 @@ export class InvoiceComponent implements OnInit {
       ProformaGstNo: this.selectedInvoice.header.ProformaGstNo,
       ProformaPanNO: this.selectedInvoice.header.ProformaPanNO,
       ProformaPoNumber: this.selectedInvoice.header.ProformaPoNumber,
+      ProformaInvoiceType: this.selectedInvoice.header.ProformaInvoiceType,
       ProformaInvoiceNumber: this.selectedInvoice.invoiceUniqueNumber,
       ProformaInvoiceDate: this.selectedInvoice.header.ProformaInvoiceDate,
       ProformaPan: this.selectedInvoice.header.ProformaPan,
@@ -1150,6 +1339,7 @@ export class InvoiceComponent implements OnInit {
       ProformaGstNo: "",
       ProformaPanNO: "",
       ProformaPoNumber: "",
+      ProformaInvoiceType: "",
       ProformaInvoiceNumber: "",
       ProformaInvoiceDate: "",
       ProformaPan: "",
@@ -1191,7 +1381,7 @@ export class InvoiceComponent implements OnInit {
   }
   setTab(tabName: string) {
     this.spinner.show()
-  this.activeTab = ''
+    this.activeTab = ''
     if (tabName == 'AllInvoice' || tabName == 'NewInvoice') {
       this.activeTab = tabName;
       this.invoiceItem = null
@@ -1261,6 +1451,8 @@ export class InvoiceComponent implements OnInit {
   // }
   addChargeItem(): void {
     this.chargeItems.push({
+      id: Date.now() + Math.random(),
+      selectedObjId: null,
       description: '',
       HSN_SAC: '',
       quantity: 1,
@@ -1269,6 +1461,7 @@ export class InvoiceComponent implements OnInit {
       amount: 0
     });
   }
+
 
   updateChargeItem(index: number, field: string, value: any) {
     if (this.chargeItems.length > index) {
@@ -1705,6 +1898,7 @@ export class InvoiceComponent implements OnInit {
         "invoiceHeader": null,
         "invoiceImage": null,
         "ProformaCustomerName": customerNameObj,
+        "companyImageUpload": this.companyImageUpload,
         "ProformaCompanyName": companyNameObj,
         "ProformaAddress": this.newInvoiceCreation.value.ProformaAddress,
         "ProformaCity": this.newInvoiceCreation.value.ProformaCity,
@@ -1714,6 +1908,7 @@ export class InvoiceComponent implements OnInit {
         "ProformaGstNo": this.newInvoiceCreation.value.ProformaGstNo,
         "ProformaPanNO": this.newInvoiceCreation.value.ProformaPanNO,
         "ProformaPoNumber": this.newInvoiceCreation.value.ProformaPoNumber,
+        "ProformaInvoiceType": this.newInvoiceCreation.value.ProformaInvoiceType,
         // "ProformaInvoiceNumber": this.newInvoiceCreation.value.ProformaInvoiceNumber,
         "ProformaInvoiceDate": invoiceDate,
         "ProformaPan": this.newInvoiceCreation.value.ProformaPan,
@@ -1875,6 +2070,7 @@ export class InvoiceComponent implements OnInit {
           "ProformaGstNo": this.newInvoiceCreation.value.ProformaGstNo,
           "ProformaPanNO": this.newInvoiceCreation.value.ProformaPanNO,
           "ProformaPoNumber": this.newInvoiceCreation.value.ProformaPoNumber,
+          "ProformaInvoiceType": this.newInvoiceCreation.value.ProformaInvoiceType,
           "ProformaInvoiceNumber": this.newInvoiceCreation.value.ProformaInvoiceNumber,
           "ProformaInvoiceDate": invoiceDate,
           "ProformaPan": this.newInvoiceCreation.value.ProformaPan,

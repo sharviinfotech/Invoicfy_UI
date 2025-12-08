@@ -30,6 +30,7 @@ export class TotalstockinventorylistComponent {
     this.getInventoryList();
 
   }
+
   getInventoryList() {
     this.spinner.show();
     this.inventoryList = []
@@ -78,7 +79,7 @@ export class TotalstockinventorylistComponent {
               timer: 5000
             }).then(() => {
               this.modalService.dismissAll();
-              this.getInventoryList() 
+              this.getInventoryList()
             });
 
           } else {

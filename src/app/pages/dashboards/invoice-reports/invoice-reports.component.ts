@@ -36,6 +36,7 @@ interface InvoiceHeader {
   state_Code: any;
   ProformaPoNumber: string;
   ProformaCompanyName: any;
+  companyImageUpload: any;
   ProformacompanyName: any;
   detailsCardAddress: any;
   ProformaBranch: any;
@@ -1212,8 +1213,10 @@ font-family: Arial, sans-serif;
     </div>
     <div class="right-text" style="font-family: 'Times New Roman', serif; font-size: 18px; font-weight: 700; text-transform: uppercase; text-align: center; flex-grow: 1;">
         <p style="margin: 0; color: #2a2a2a;">
-             Sharvi infotech Pvt Ltd <br>
-           Way to Digital Transformation
+        ${invoiceItem.header.ProformaCompanyName}<br>
+       ${invoiceItem.header.detailsCardAddress},${invoiceItem.header.companyState}
+          
+
         </p>
     </div>
     <div class="logo left-logo">
@@ -1304,7 +1307,7 @@ font-family: Arial, sans-serif;
             <tbody>
            <tr>
             <td>1</td>
-            <td class="bold">SERVICE NAME</td>
+            <td class="bold">SERVICE|PRODUCT</td>
             <td class="text-right"></td>
           </tr>
               ${invoiceItem.serviceList.map((charge, index) => `
@@ -2161,12 +2164,36 @@ font-family: Arial, sans-serif;
 
   FinalTax_21_29_03_2025(invoiceItem: InvoiceItem) {
 
-    this.leftlogo = this.imageService.sharvileftlogo();
+    // this.leftlogo = this.imageService.sharvileftlogo();
     // this.logoUrl = this.imageService.getBase64FlightWorldmapLogo();
     // this.logoUrl = this.imageService.getBase64FlightNewLogo();
     // this.InvoiceLogo = this.imageService.getBase64FlightNewLogo();
     this.rightLogo = this.imageService.sharviQRCODE();
     // this.signature = this.imageService.getBase64Signature();
+
+    if (invoiceItem.header.companyImageUpload) {
+      let base64 = invoiceItem.header.companyImageUpload.trim();
+
+      // Remove "data:image/...;base64," part if present
+      const commaIndex = base64.indexOf(",");
+      if (commaIndex !== -1) {
+        base64 = base64.substring(commaIndex + 1);
+      }
+
+      // Now detect file type correctly
+      if (base64.startsWith('/9j/')) {
+        this.leftlogo = `data:image/jpeg;base64,${base64}`;
+      } else if (base64.startsWith('iVBOR')) {
+        this.leftlogo = `data:image/png;base64,${base64}`;
+      } else if (base64.startsWith('JVBER')) {
+        this.leftlogo = `data:application/pdf;base64,${base64}`;
+      } else {
+        this.leftlogo = this.imageService.sharvileftlogo();
+      }
+    } else {
+      this.leftlogo = this.imageService.sharvileftlogo();
+    }
+
     if (invoiceItem.DSC_UploadFile) {
       const base64 = invoiceItem.DSC_UploadFile.trim();
 
@@ -2183,8 +2210,8 @@ font-family: Arial, sans-serif;
     } else {
       this.signature = '';
     }
-    this.background1 = this.imageService.SharviBackgroundLightBlue();
-    this.background2 = this.imageService.SharviBackgroundLight();
+    // this.background1 = this.imageService.SharviBackgroundLightBlue();
+    // this.background2 = this.imageService.SharviBackgroundLight();
     const placeOfSupply = invoiceItem.header.customerplaceOfSupply;
     // Example: "KARNATAKA - 29"
 
@@ -2661,10 +2688,10 @@ font-family: Arial, sans-serif;
     <div class="right-text" style="font-weight: 600; text-transform: uppercase; text-align: center; flex-grow: 1;">
 <div style="margin: 0; color: #2a2a2a;">
   <strong style="font-size: 25px; font-family: 'Calibri';">
-    Sharvi Infotech Pvt Ltd
+      ${invoiceItem.header.ProformaCompanyName}
   </strong><br>
   <span style="font-size: 13px;">
-    Way to Digital Transformation
+   ${invoiceItem.header.detailsCardAddress},${invoiceItem.header.companyState}
   </span>
 </div>
     </div>
@@ -2789,7 +2816,7 @@ font-family: Arial, sans-serif;
             <tbody>
            <tr>
             <td style="padding-top: 15px;">1</td>
-            <td  style="font-weight:bold;  padding-top: 15px;">SERVICE NAME</td>
+            <td  style="font-weight:bold;  padding-top: 15px;">SERVICE|PRODUCT</td>
             <td class="text-right"></td>
           </tr>
               ${invoiceItem.serviceList.map((charge, index) => `

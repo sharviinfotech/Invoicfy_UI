@@ -31,14 +31,40 @@
                         <tbody>
                             <tr *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
                                 <td class="text-center">{{ i + 1 }}</td>
-                                <td><input formControlName="sourceOfStock" class="form-control form-control-sm"
-                                        placeholder="Code" /></td>
-                                <td><input formControlName="companyNameORPlant" class="form-control form-control-sm"
-                                        placeholder="Name" /></td>
+                                <!-- <td><input formControlName="sourceOfStock" class="form-control form-control-sm"
+                                        placeholder="Code" /></td> -->
+                                <td>
+                                    <select formControlName="sourceOfStock" class="form-control form-control-sm">
+                                        <option value="">Select Source</option>
+                                        <option value="initial stock">Initial Stock</option>
+                                        <option value="from production">From Production</option>
+                                        <option value="from po">From PO</option>
+                                    </select>
+                                </td>
+
+                                <!-- <td><input formControlName="companyNameORPlant" class="form-control form-control-sm"
+                                        placeholder="Name" /></td> -->
+                                <td>
+                                    <select class="form-control form-control-sm" formControlName="companyNameORPlant"
+                                        (change)="onCompanySelect(i)">
+                                        <option value="">Select Company</option>
+                                        <option *ngFor="let p of productList" [value]="p.companyNameORPlant">
+                                            {{ p.companyNameORPlant }}
+                                        </option>
+                                    </select>
+                                </td>
+
                                 <td><input formControlName="postingDate" class="form-control form-control-sm"
                                         type="datetime-local" placeholder="Type" /></td>
-                                <td><input formControlName="productCode" class="form-control form-control-sm"
-                                        placeholder="Code" /></td>
+                                <!-- <td><input formControlName="productCode" class="form-control form-control-sm"
+                                        placeholder="Code" /></td> -->
+                                <td><select class="form-control" (change)="onProductSelect(i, $event)">
+                                        <option value="">Select Product</option>
+                                        <ng-container *ngFor="let p of items.at(i)['filteredProducts']">
+                                            <option [value]="p.productCode">{{ p.productName }}</option>
+                                        </ng-container>
+                                    </select>
+                                </td>
                                 <td><input formControlName="productName" class="form-control form-control-sm"
                                         placeholder="Name" /></td>
                                 <td><input formControlName="materialType" class="form-control form-control-sm"

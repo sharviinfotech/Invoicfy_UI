@@ -66,10 +66,20 @@
         <div class="modal-body">
             <div class="row">
                 <!-- other fields -->
-                <div class="col-lg-4 mb-3">
+                <!-- <div class="col-lg-4 mb-3">
                     <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="sourceOfStock">
+                </div> -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="sourceOfStock">
+                        <option value="">Select Source</option>
+                        <option value="initial stock">Initial Stock</option>
+                        <option value="from production">From Production</option>
+                        <option value="from po">From PO</option>
+                    </select>
                 </div>
+
                 <div class="col-lg-4 mb-3">
                     <label class="form-label">Company Name | Plant <span class="text-danger">*</span></label>
                     <select class="form-control" formControlName="companyNameORPlant"
@@ -100,7 +110,7 @@
                     <input type="text" class="form-control" formControlName="materialType" readonly>
                 </div>
                 <div class="col-lg-4 mb-3">
-                    <label class="form-label">Batch <span class="text-danger">*</span></label>
+                    <label class="form-label">Batch</label>
                     <input type="text" class="form-control" formControlName="batch">
                 </div>
                 <div class="col-lg-4 mb-3">
@@ -145,10 +155,20 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-lg-4 mb-3">
+                <!-- <div class="col-lg-4 mb-3">
                     <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" formControlName="sourceOfStock">
+                </div> -->
+                <div class="col-lg-4 mb-3">
+                    <label class="form-label">Source of Stock <span class="text-danger">*</span></label>
+                    <select class="form-control" formControlName="sourceOfStock">
+                        <option value="">Select Source</option>
+                        <option value="initial stock">Initial Stock</option>
+                        <option value="from production">From Production</option>
+                        <option value="from po">From PO</option>
+                    </select>
                 </div>
+
                 <div class="col-lg-4 mb-3">
                     <label class="form-label">Company Name | Plant <span class="text-danger">*</span></label>
                     <select class="form-control" formControlName="companyNameORPlant"

@@ -60,7 +60,10 @@
                         <td>{{ product.qmReq }}</td>
                         <td class="text-center">
                             <button class="btn btn-sm btn-primary" (click)="openEditModal(product)">Edit</button>
-                            <button class="btn btn-sm btn-danger" (click)="deleteProduct(i)">Delete</button>
+                            <button class="btn btn-danger btn-sm" (click)="deleteProduct(product)">
+                                Delete
+                            </button>
+
                         </td>
                     </tr>
                 </tbody>
@@ -79,9 +82,19 @@
         <div class="modal-body">
             <!-- Include same form fields as before -->
             <div class="row">
-                <div class="col-lg-4 mb-3">
+                <!-- <div class="col-lg-4 mb-3">
                     <label>Company / Plant *</label>
                     <input type="text" class="form-control" formControlName="companyNameORPlant">
+                </div> -->
+                <div class="col-lg-4 mb-3">
+                    <label>Company / Plant *</label>
+                    <select class="form-control" formControlName="companyNameORPlant">
+                        <option value="">Select</option>
+                        <option *ngFor="let c of companyList" [value]="c.companyName">
+                            {{ c.companyName }}
+                        </option>
+                    </select>
+
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Product Code *</label>
@@ -89,7 +102,8 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Product Name *</label>
-                    <input type="text" class="form-control" formControlName="productName">
+                    <!-- <input type="text" class="form-control" formControlName="productName"> -->
+                    <input type="text" class="form-control" formControlName="productName" (blur)="checkDuplicate()">
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Material Type *</label>
@@ -173,9 +187,18 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-lg-4 mb-3">
+                <!-- <div class="col-lg-4 mb-3">
                     <label>Company / Plant *</label>
                     <input type="text" class="form-control" formControlName="companyNameORPlant">
+                </div> -->
+                <div class="col-lg-4 mb-3">
+                    <label>Company / Plant *</label>
+                    <select class="form-control" formControlName="companyNameORPlant">
+                        <option value="">Select</option>
+                        <option *ngFor="let c of companyList" [value]="c.companyName">
+                            {{ c.companyName }}
+                        </option>
+                    </select>
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Product Code *</label>
@@ -183,7 +206,8 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Product Name *</label>
-                    <input type="text" class="form-control" formControlName="productName">
+                    <!-- <input type="text" class="form-control" formControlName="productName"> -->
+                    <input type="text" class="form-control" formControlName="productName" (blur)="checkDuplicate()">
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Material Type *</label>
@@ -239,7 +263,9 @@
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>Image</label>
-                    <input type="file" class="form-control" (change)="onImageSelect($event)">
+                    <!-- <input type="file" class="form-control" (change)="onImageSelect($event)"> -->
+                    <input type="file" accept="image/*" (change)="onImageSelect($event)">
+
                 </div>
                 <div class="col-lg-4 mb-3">
                     <label>QM Required *</label>

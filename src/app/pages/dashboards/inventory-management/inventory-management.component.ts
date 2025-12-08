@@ -153,6 +153,13 @@ export class InventoryManagementComponent implements OnInit {
         uom: selectedProduct.uom,
         sLock: selectedProduct.sLock,
       });
+      if (selectedProduct.batchReq?.toLowerCase() === 'yes') {
+        this.addInventoryForm.get('batch')?.enable();
+      } else {
+        this.addInventoryForm.get('batch')?.disable();
+        this.addInventoryForm.patchValue({ batch: '' });
+      }
+
     }
   }
 
@@ -217,6 +224,7 @@ export class InventoryManagementComponent implements OnInit {
       uom: '',
       sLock: '',
     });
+
     this.selectedPurchasePriceForEdit = 0;
   }
 
@@ -232,6 +240,13 @@ export class InventoryManagementComponent implements OnInit {
         uom: selectedProduct.uom,
         sLock: selectedProduct.sLock,
       });
+      // ✅ Batch required logic here
+      if (selectedProduct.batchReq?.toLowerCase() === 'yes') {
+        this.editInventoryForm.get('batch')?.enable();
+      } else {
+        this.editInventoryForm.get('batch')?.disable();
+        this.editInventoryForm.patchValue({ batch: '' });
+      }
     }
   }
 

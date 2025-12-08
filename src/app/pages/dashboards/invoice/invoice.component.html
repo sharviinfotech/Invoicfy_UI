@@ -22,7 +22,7 @@
       <!-- New Invoice Button with Dropdown -->
       <div class="dropdown" style="display: inline-block; position: relative;">
         <button class="btn btn-md btn-raised btnAdd" (click)="toggleDropdown()">
-          + New Invoice 
+          + New Invoice
         </button>
 
         <!-- Dropdown Menu -->
@@ -49,7 +49,7 @@
   <div *ngIf="activeTab == 'AllInvoice'">
     <!-- Static Data Table -->
     <div class="card mb-4">
-      <div class="card-header" >
+      <div class="card-header">
         All Invoices
       </div>
       <div class="card-body">
@@ -62,7 +62,7 @@
                 <th class="text-nowrap">Customer Name</th>
                 <!-- <th class="text-nowrap">Type Of Service</th> -->
                 <th class="text-nowrap">City</th>
-                <th class="text-nowrap">Due Days</th>
+                <!-- <th class="text-nowrap">Due Days</th> -->
                 <th class="text-nowrap">Invoice Type</th>
                 <th class="text-nowrap">Total Amount</th>
               </tr>
@@ -80,7 +80,7 @@
                 <td>{{ invoice.header.ProformaCustomerName }}</td>
                 <!-- <td>{{ invoice.header.ProformaTypeOfServices }}</td> -->
                 <td>{{ invoice.header.ProformaCity }}</td>
-                <td></td>
+                <!-- <td></td> -->
                 <td>{{ invoice.proformaCardHeaderId }}</td>
                 <td>{{ invoice.grandTotal | number: '1.2-2'}}</td>
 
@@ -133,8 +133,8 @@
 
         </div>
         <div class="card mt-2">
-           <div class="card-header" >
-            Sharvi Group Details
+          <div class="card-header">
+            Supplier Details
           </div>
           <div class="card-body"
             style="background-color: #f9f9f9; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
@@ -525,6 +525,25 @@
 
                 </div>
               </div>
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label>Invoice Type</label>
+
+                  <select class="form-control" formControlName="ProformaInvoiceType"
+                    (change)="onInvoiceTypeChange($event.target.value)">
+
+
+
+                    <option value="">Select Invoice Type</option>
+                    <option value="only service">Only Service</option>
+                    <option value="only product">Only Product</option>
+                    <option value="service come product">Service Come Product</option>
+
+                  </select>
+
+                </div>
+              </div>
+
 
 
             </div>
@@ -566,7 +585,7 @@
             <tbody>
               <tr>
                 <td>1</td>
-                <td class="bold">Service Name</td>
+                <td class="bold">Service Name|Product Name</td>
                 <td class="text-right">
                   <!-- No input for units here -->
                 </td>
@@ -575,8 +594,10 @@
                 </td>
                 <td></td>
               </tr>
-              <tr *ngFor="let item of chargeItems; let i = index" class="hover-row" (mouseenter)="hoveredIndex = i"
-                (mouseleave)="hoveredIndex = -1">
+              <!-- <tr *ngFor="let item of chargeItems; let i = index" class="hover-row" (mouseenter)="hoveredIndex = i"
+                (mouseleave)="hoveredIndex = -1"> -->
+              <tr *ngFor="let item of chargeItems; let i = index; trackBy: trackByFn" class="hover-row"
+                (mouseenter)="hoveredIndex = i" (mouseleave)="hoveredIndex = -1">
                 <td>
                   {{i + 1}}
                   <i *ngIf="hoveredIndex === i && i !== 0" (click)="deleteChargeItem(i)" class="delete-btn bx bx-trash"
@@ -598,18 +619,61 @@
 
                 <!-- ✅ Service Name -->
 
-                <td>
+                <!-- <td>
+
                   <ng-container *ngIf="!manualMode && i < patchedCount; else manualDesc">
                     {{ item.description }}
                   </ng-container>
                   <ng-template #manualDesc>
                     <input type="text" [(ngModel)]="item.description" class="form-control" />
                   </ng-template>
+                </td> -->
+                <!-- 
+                <td>
+                  <ng-select [items]="currentDropdownList" bindLabel="name" [bindValue]="null" placeholder="Select Item"
+                    [(ngModel)]="item.selectedObj" (change)="onItemSelected(item, $event)"
+                    [ngModelOptions]="{standalone: true}">
+                  </ng-select>
+                </td> -->
+                <!-- <td>
+                  <ng-select [items]="currentDropdownList" bindLabel="name" [(ngModel)]="item.selectedObj"
+                    (change)="onItemSelected(item, $event)" [ngModelOptions]="{standalone: true}">
+                  </ng-select>
+
+                </td> -->
+                <!-- <td>
+                  <ng-select [items]="currentDropdownList" bindLabel="name" [bindValue]="null"
+                    [(ngModel)]="item.selectedObj" (change)="onItemSelected(item, $event)"
+                    [ngModelOptions]="{standalone: true}">
+                  </ng-select>
+                </td> -->
+                <!-- <td>
+                  <ng-select [items]="currentDropdownList" bindLabel="name"
+                    [(ngModel)]="item.selectedObj" (change)="onItemSelected(item, $event)"
+                    [ngModelOptions]="{standalone: true}" placeholder="Select Item">
+                  </ng-select>
+                </td> -->
+                <td>
+                  <ng-select [items]="currentDropdownList" bindLabel="name" bindValue="id"
+                    [(ngModel)]="item.selectedObjId" (change)="onItemSelected(item, $event)"
+                    [ngModelOptions]="{standalone: true}" placeholder="Select Item">
+                  </ng-select>
                 </td>
+
+
+
+
+
+
+
+
+
+
+
                 <!-- ✅ HSN -->
                 <!-- <td>{{ item.HSN_SAC }}</td> -->
                 <td>
-                  <ng-container *ngIf="!manualMode && i < patchedCount; else manualHSN">
+                  <ng-container *ngIf="item.HSN_SAC; else manualHSN">
                     {{ item.HSN_SAC }}
                   </ng-container>
                   <ng-template #manualHSN>
@@ -628,7 +692,7 @@
 
                 <!-- <td>{{ item.UOM }}</td> -->
                 <td>
-                  <ng-container *ngIf="!manualMode && i < patchedCount; else manualUOM">
+                  <ng-container *ngIf="item.UOM; else manualUOM">
                     {{ item.UOM }}
                   </ng-container>
                   <ng-template #manualUOM>
@@ -705,7 +769,7 @@
           </div>
         </div>
       </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
+      <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
         <button class="btn btn-md btn-raised btnSave" (click)="CreateInvoice()">Create Invoice</button>
         <button class="btn btn-md btn-raised btnReset" (click)="resetForm()">Reset</button>
       </div>
@@ -1266,13 +1330,13 @@
             </div>
           </div>
         </div>
-          <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
-        <button class="btn btn-md btn-raised btnSave" (click)="UpdateInvoice()">Update</button>
-        <button class="btn btn-md btn-raised btnReset" (click)="resetForm()">Reset</button>
-      </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 text-right mb-4" style="text-align: end;">
+          <button class="btn btn-md btn-raised btnSave" (click)="UpdateInvoice()">Update</button>
+          <button class="btn btn-md btn-raised btnReset" (click)="resetForm()">Reset</button>
+        </div>
       </div>
 
-    
+
 
 
     </form>
