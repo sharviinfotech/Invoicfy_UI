@@ -677,7 +677,7 @@
                     {{ item.HSN_SAC }}
                   </ng-container>
                   <ng-template #manualHSN>
-                    <input type="text" [(ngModel)]="item.HSN_SAC" class="form-control" />
+                    <input type="text" [(ngModel)]="item.HSN_SAC"  [ngModelOptions]="{standalone: true}" class="form-control" />
                   </ng-template>
                 </td>
                 <!-- 
@@ -696,7 +696,7 @@
                     {{ item.UOM }}
                   </ng-container>
                   <ng-template #manualUOM>
-                    <input type="text" [(ngModel)]="item.UOM" class="form-control" />
+                    <input type="text" [(ngModel)]="item.UOM" [ngModelOptions]="{standalone: true}" class="form-control" />
                   </ng-template>
                 </td>
                 <!-- <td class="text-right">

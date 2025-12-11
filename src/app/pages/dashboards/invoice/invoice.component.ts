@@ -26,6 +26,8 @@ interface ChargeItem {
   UOM: string;
   rate: number;
   amount: number;
+  availableStock: number;
+  purchasePrice: number
 }
 interface Customer {
   placeOfSupply: any;
@@ -341,7 +343,9 @@ export class InvoiceComponent implements OnInit {
       quantity: 1,
       UOM: p.uom,
       rate: p.salesPrice,
-      amount: p.rate || 0
+      amount: p.rate || 0,
+      availableStock: 0,
+      purchasePrice: p.purchasePrice
     }));
   }
 
@@ -373,21 +377,22 @@ export class InvoiceComponent implements OnInit {
 
     // Build dropdown list only
     if (type === 'only product') {
-      console.log(" Building dropdown from PRODUCT LIST");
+      console.log(" Building dropdown from PRODUCT LIST", this.productList);
       this.currentDropdownList = this.productList.map(p => ({
-        id: p.id,
+        id: p.productMasterUniqueId,
         name: p.productName,
         HSN_SAC: p.hsnCode,
         UOM: p.uom,
         rate: p.salesPrice,
+        purchasePrice: Number(p.purchasePrice),
       }));
       console.log(" Product Dropdown →", this.currentDropdownList);
     }
 
     else if (type === 'only service') {
-      console.log(" Building dropdown from SERVICE LIST");
+      console.log(" Building dropdown from SERVICE LIST", this.serviceList);
       this.currentDropdownList = this.serviceList.map(s => ({
-        id: s.id,
+        id: s.chargesUniqueId,
         name: s.servicesName,
         HSN_SAC: s.HSN_SAC,
         UOM: s.UOM || 'Job',
@@ -400,14 +405,15 @@ export class InvoiceComponent implements OnInit {
       console.log("Combining SERVICE + PRODUCT");
       this.currentDropdownList = [
         ...this.productList.map(p => ({
-          id: p.id,
+          id: p.productMasterUniqueId,
           name: p.productName,
           HSN_SAC: p.hsnCode,
           UOM: p.uom,
           rate: p.salesPrice,
+          purchasePrice: Number(p.purchasePrice),
         })),
         ...this.serviceList.map(s => ({
-          id: s.id,
+          id: s.chargesUniqueId,
           name: s.servicesName,
           HSN_SAC: s.HSN_SAC,
           UOM: s.UOM || 'Job',
@@ -416,6 +422,7 @@ export class InvoiceComponent implements OnInit {
         }))
       ];
     }
+    console.log("on invoice type change this.currentDropdownList", this.currentDropdownList)
 
     // Reset table to SINGLE EMPTY ROW  
     // this.chargeItems = [{
@@ -430,19 +437,17 @@ export class InvoiceComponent implements OnInit {
     // }];
     // Always reset table when invoice type changes
     this.chargeItems = [{
-      id: Date.now() + Math.random(),
+      id: 0,
       selectedObjId: null,
       description: '',
       HSN_SAC: '',
       quantity: 1,
       UOM: '',
       rate: 0,
-      amount: 0
+      amount: 0,
+      availableStock: 0,
+      purchasePrice: 0
     }];
-
-
-
-
     this.patchedCount = 1;
     this.manualMode = false;
     this.calculateTotals();
@@ -472,8 +477,9 @@ export class InvoiceComponent implements OnInit {
     item.quantity = item.quantity || 1;
 
     item.amount = (parseFloat(item.rate) || 0) * (parseFloat(item.quantity) || 1);
-
+    item.purchasePrice = selectedObj.purchasePrice
     this.calculateTotals();
+    console.log("chargeItems", this.chargeItems)
   }
 
 
@@ -649,7 +655,7 @@ export class InvoiceComponent implements OnInit {
       this.calculateTotals();
       return;
     }
-
+    console.log('matched', matched)
     this.chargeItems = matched.map(c => ({
       selectedObjId: null,
       description: c.servicesName,
@@ -658,6 +664,8 @@ export class InvoiceComponent implements OnInit {
       quantity: 1,
       rate: 0,
       amount: 0,
+      availableStock: 0,
+      purchasePrice: 0
     }));
 
     this.patchedCount = this.chargeItems.length;
@@ -1451,14 +1459,16 @@ export class InvoiceComponent implements OnInit {
   // }
   addChargeItem(): void {
     this.chargeItems.push({
-      id: Date.now() + Math.random(),
+      id: 0,
       selectedObjId: null,
       description: '',
       HSN_SAC: '',
       quantity: 1,
       UOM: '',
       rate: 0,
-      amount: 0
+      amount: 0,
+      availableStock: 0,
+      purchasePrice: 0
     });
   }
 
@@ -1792,7 +1802,7 @@ export class InvoiceComponent implements OnInit {
   //     }
   //   }
   CreateInvoice(): void {
-    console.log('Form validity:', this.newInvoiceCreation.valid);
+    console.log('Form validity:', this.newInvoiceCreation.valid, this.chargeItems);
 
     // Mark all fields as touched to show validation errors
     this.newInvoiceCreation.markAllAsTouched();
@@ -1950,7 +1960,6 @@ export class InvoiceComponent implements OnInit {
     };
 
     console.log('Invoice payload:', payload);
-
     // Show loading spinner
     this.spinner.show();
 
@@ -1996,9 +2005,14 @@ export class InvoiceComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         console.error('Error creating invoice:', error);
+
+        // Safely extract backend message
+        let backendMessage = error 
+          
+
         Swal.fire({
           title: 'Error!',
-          text: error.message || 'An error occurred while creating invoice',
+          text: backendMessage,
           icon: 'error',
           confirmButtonText: 'OK'
         });
